@@ -100,13 +100,14 @@ export const LandingPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="stage" id="stage" ref={stageRef}>
-      <div className="crop">
-        <span className="a" />
-        <span className="b" />
-        <span className="c" />
-        <span className="d" />
-      </div>
+    <div className="entry-page">
+      <div className="stage" id="stage" ref={stageRef}>
+        <div className="crop">
+          <span className="a" />
+          <span className="b" />
+          <span className="c" />
+          <span className="d" />
+        </div>
 
       <header>
         <span className="secure">
@@ -244,13 +245,14 @@ export const LandingPage: React.FC = () => {
         </ul>
       </main>
 
-      <footer>
-        <em>Every trace leaves a mark in time.</em>
-        <span>Trace, preserve, reconstruct.</span>
-        <span id="clock" ref={clockRef}>
-          --:--:-- UTC
-        </span>
-      </footer>
+        <footer>
+          <em>Every trace leaves a mark in time.</em>
+          <span>Trace, preserve, reconstruct.</span>
+          <span id="clock" ref={clockRef}>
+            --:--:-- UTC
+          </span>
+        </footer>
+      </div>
     </div>
   );
 };

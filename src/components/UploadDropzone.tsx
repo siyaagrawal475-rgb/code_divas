@@ -101,10 +101,10 @@ export const UploadDropzone: React.FC<UploadDropzoneProps> = ({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`p-8 border border-dashed rounded-[2px] text-center cursor-pointer transition-all duration-150 select-none relative ${
+        className={`p-8 border border-dashed rounded-[2px] text-center cursor-pointer transition-colors select-none relative ${
           isDragOver
-            ? 'border-[#45E08A] bg-[#121A16] shadow-[0_0_16px_rgba(69,224,138,0.2)]'
-            : 'border-[#1F2B25] bg-[#070908] hover:border-[#2E3E36] hover:bg-[#0A0E0C]'
+            ? 'border-[var(--green)] bg-[#121A16]'
+            : 'border-[var(--hair)] bg-[var(--bg)] hover:border-[var(--muted)]'
         }`}
       >
         <input
@@ -117,56 +117,50 @@ export const UploadDropzone: React.FC<UploadDropzoneProps> = ({
         />
 
         <div className="flex flex-col items-center justify-center gap-2.5">
-          <div className="w-9 h-9 rounded-[2px] bg-[#0D1210] border border-[#1F2B25] flex items-center justify-center text-[#45E08A]">
-            <UploadCloud size={18} strokeWidth={1.5} />
+          <div className="w-10 h-10 bg-[var(--panel)] border border-[var(--hair)] flex items-center justify-center text-[var(--green)]">
+            <UploadCloud size={20} strokeWidth={1.5} />
           </div>
 
           <div>
-            <div className="font-mono text-xs font-semibold text-[#E8F0EB]">
-              SELECT OR DRAG EVIDENCE PAYLOADS
+            <div className="text-[14px] font-medium text-[var(--text)]">
+              Drop files here or click to browse
             </div>
-            <p className="font-mono text-[10.5px] text-[#7F8D85] mt-0.5">
-              PNG, JPG, MP4, PDF, TXT, JSON, HAR (up to 50MB per payload)
+            <p className="text-[12px] text-[var(--muted)] mt-1">
+              Images, videos, PDFs, screenshots, or logs
             </p>
-          </div>
-
-          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-[2px] bg-[#0D1210] border border-[#1F2B25] text-[9.5px] font-mono text-[#7F8D85]">
-            <span className="w-1 h-1 rounded-full bg-[#45E08A] gem-glow-sm" />
-            <span>NIST SHA-256 CLIENT-SIDE DIGEST ACTIVE</span>
           </div>
         </div>
       </div>
 
       {/* File List Below */}
       {files.length > 0 && (
-        <div className="space-y-2 font-mono">
-          <div className="flex items-center justify-between text-xs px-1">
-            <span className="label-tracked">INGESTION QUEUE ({files.length})</span>
-            <span className="text-[10px] text-[#7F8D85]">LOCALLY COMPUTED</span>
+        <div className="space-y-2">
+          <div className="text-[13px] text-[var(--muted)]">
+            Preserved files ({files.length})
           </div>
 
-          <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+          <div className="space-y-2">
             {files.map((file) => (
               <div
                 key={file.id}
-                className="p-2.5 rounded-[2px] bg-[#0D1210] border border-[#1F2B25] flex items-center justify-between gap-3 text-xs"
+                className="p-3 bg-[var(--panel)] border border-[var(--hair)] flex items-center justify-between gap-3 text-[13px]"
               >
-                <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                  <div className="w-6 h-6 rounded-[2px] bg-[#070908] border border-[#1F2B25] flex items-center justify-center text-[#45E08A] shrink-0">
-                    <File size={13} strokeWidth={1.5} />
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div className="w-7 h-7 bg-[var(--bg)] border border-[var(--hair)] flex items-center justify-center text-[var(--green)] shrink-0">
+                    <File size={14} strokeWidth={1.5} />
                   </div>
 
                   <div className="min-w-0 flex-1">
-                    <div className="font-mono text-xs text-[#E8F0EB] truncate font-semibold">
+                    <div className="text-[13px] text-[var(--text)] font-medium truncate">
                       {file.name}
                     </div>
-                    <div className="text-[10px] text-[#7F8D85] flex items-center gap-2 font-mono">
-                      <span className="tabular-nums">{formatSize(file.size)}</span>
+                    <div className="text-[11px] text-[var(--muted)] flex items-center gap-2 font-mono">
+                      <span>{formatSize(file.size)}</span>
                       {file.hash && (
                         <>
                           <span>·</span>
-                          <span className="text-[#45E08A]">
-                            {file.hash.substring(0, 10)}...{file.hash.substring(file.hash.length - 6)}
+                          <span className="text-[var(--soft)]">
+                            {file.hash.substring(0, 12)}...
                           </span>
                         </>
                       )}
@@ -175,17 +169,17 @@ export const UploadDropzone: React.FC<UploadDropzoneProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-[10px] text-[#45E08A] flex items-center gap-1 font-mono">
-                    <CheckCircle2 size={12} strokeWidth={1.5} />
-                    <span className="hidden sm:inline">SEALED</span>
+                  <span className="text-[11px] text-[var(--green)] flex items-center gap-1">
+                    <CheckCircle2 size={13} strokeWidth={1.5} />
+                    <span>Hashed</span>
                   </span>
 
                   <button
                     onClick={(e) => handleRemove(file.id, e)}
-                    className="p-1 text-[#7F8D85] hover:text-[#FF5C67] hover:bg-[#181112] rounded-[2px] transition-colors cursor-pointer"
-                    title="Remove payload"
+                    className="p-1 text-[var(--muted)] hover:text-[#FF5C67] transition-colors cursor-pointer"
+                    title="Remove file"
                   >
-                    <Trash2 size={13} strokeWidth={1.5} />
+                    <Trash2 size={14} strokeWidth={1.5} />
                   </button>
                 </div>
               </div>

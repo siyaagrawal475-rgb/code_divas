@@ -1,0 +1,341 @@
+/* Styles for Screens 2–6 (App Shell & Prototype Screens) */
+
+:root {
+  --bg: #080A09;
+  --panel: #0D1210;
+  --hair: #1F2B25;
+  --text: #E8F0EB;
+  --muted: #8B9890;
+  --green: #45E08A;
+  --soft: #9AFFC4;
+  --deep: #0E3B27;
+  --gold: #C9A24B;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 15px/1.6 "Hanken Grotesk", system-ui, sans-serif;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* App Grid Layout */
+.app {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  min-height: 100vh;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  position: relative;
+}
+
+/* 72px Left Rail */
+.rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border-right: 1px solid var(--hair);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  z-index: 30;
+  user-select: none;
+}
+
+.rail-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 2px;
+  transition: transform .18s;
+  cursor: pointer;
+}
+.rail-logo:hover {
+  transform: scale(1.05);
+}
+
+.rail-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.rail-item {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  text-decoration: none;
+  position: relative;
+  transition: color .18s, background .18s;
+}
+.rail-item:hover {
+  color: var(--text);
+}
+.rail-item.active {
+  color: var(--green);
+}
+.rail-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--green);
+}
+
+.rail-tooltip {
+  position: absolute;
+  left: 76px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border: 1px solid var(--hair);
+  border-radius: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s;
+  z-index: 50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.rail-item-wrapper:hover .rail-tooltip {
+  opacity: 1;
+}
+
+/* Content Area */
+.content {
+  min-width: 0;
+  padding: 0 48px 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 0 20px;
+  border-bottom: 1px solid var(--hair);
+  margin-bottom: 40px;
+}
+
+.topbar-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.topbar-title {
+  margin: 0;
+  font: 300 40px/1.1 'Fraunces', serif;
+  letter-spacing: .01em;
+  color: var(--text);
+}
+
+.topbar-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.topbar-clock {
+  font: 500 13px "JetBrains Mono", monospace;
+  color: var(--soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* App Typography Classes */
+.heading-1 {
+  font: 300 40px/1.1 'Fraunces', serif;
+  letter-spacing: .01em;
+  color: var(--text);
+  margin: 0;
+}
+
+.heading-2 {
+  font: 400 24px/1.2 'Fraunces', serif;
+  color: var(--text);
+  margin: 0;
+}
+
+.body-text {
+  font: 400 15px/1.6 "Hanken Grotesk", sans-serif;
+  color: var(--text);
+}
+
+.muted-text {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.mono-text {
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* App Buttons */
+.app-btn {
+  font: 600 15px/1 "Hanken Grotesk", sans-serif;
+  background: var(--green);
+  color: #04130B;
+  border: 0;
+  border-radius: 2px;
+  padding: 13px 22px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background .18s, transform .18s;
+  box-shadow: 0 0 10px rgba(69, 224, 138, 0.2);
+}
+.app-btn:hover {
+  background: var(--soft);
+}
+.app-btn:active {
+  transform: translateY(1px);
+}
+.app-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.app-btn-secondary {
+  font: 500 14px/1 "Hanken Grotesk", sans-serif;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--hair);
+  border-radius: 2px;
+  padding: 12px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: border-color .18s, color .18s, background .18s;
+}
+.app-btn-secondary:hover {
+  border-color: var(--muted);
+  background: var(--panel);
+}
+
+.app-link {
+  font: 500 14px "Hanken Grotesk", sans-serif;
+  color: var(--muted);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color .18s;
+}
+.app-link:hover {
+  color: var(--text);
+}
+
+/* Underline inputs for wizard */
+.input-underline {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--hair);
+  border-radius: 0;
+  padding: 10px 0;
+  color: var(--text);
+  font: 400 15px "Hanken Grotesk", sans-serif;
+  transition: border-color .18s;
+}
+.input-underline:focus {
+  outline: none;
+  border-bottom-color: var(--green);
+}
+.input-underline::placeholder {
+  color: #4A5650;
+}
+
+.input-underline-mono {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+}
+
+/* Responsive breakpoint for mobile (390px / 768px) */
+@media (max-width: 768px) {
+  .app {
+    grid-template-columns: 1fr;
+    padding-bottom: 64px;
+  }
+  .rail {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    height: 56px;
+    width: 100%;
+    flex-direction: row;
+    border-right: none;
+    border-top: 1px solid var(--hair);
+    padding: 0 16px;
+    z-index: 50;
+  }
+  .rail-nav {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .rail-logo {
+    display: none;
+  }
+  .rail-item.active::before {
+    top: auto;
+    bottom: 0;
+    left: 8px;
+    right: 8px;
+    height: 2px;
+    width: auto;
+  }
+  .content {
+    padding: 0 20px 48px;
+  }
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 0 16px;
+    margin-bottom: 28px;
+  }
+}
