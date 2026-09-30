@@ -7,7 +7,7 @@ export interface TimeSigilProps {
   className?: string;
 }
 
-// Predefined 7 geometric glyphs from the reference
+// Predefined 7 geometric glyphs
 const GLYPH_PATHS = [
   <React.Fragment key="g0"><path d="M0 -7V7M-4 0H4" /></React.Fragment>,
   <React.Fragment key="g1"><path d="M0 -7L6 5H-6Z" /></React.Fragment>,
@@ -15,7 +15,7 @@ const GLYPH_PATHS = [
   <React.Fragment key="g3"><path d="M-5 -6V6M5 -6V6M-5 0H5" /></React.Fragment>,
   <React.Fragment key="g4"><path d="M-6 4A6 6 0 0 1 6 4M0 -7v6" /></React.Fragment>,
   <React.Fragment key="g5"><path d="M-6 -6L6 6M6 -6L-6 6" /></React.Fragment>,
-  <React.Fragment key="g6"><circle r="1.6" fill="#9AFFC4" /><path d="M-6 0H-3M3 0H6M0 -6V-3M0 3V6" /></React.Fragment>,
+  <React.Fragment key="g6"><circle r="1.6" fill="var(--accent-text)" /><path d="M-6 0H-3M3 0H6M0 -6V-3M0 3V6" /></React.Fragment>,
 ];
 
 export const TimeSigil: React.FC<TimeSigilProps> = ({
@@ -124,15 +124,15 @@ export const TimeSigil: React.FC<TimeSigilProps> = ({
       >
         <defs>
           <radialGradient id="sigil-core" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#9AFFC4" />
-            <stop offset="100%" stopColor="#1f8f52" />
+            <stop offset="0%" stopColor="var(--accent-text)" />
+            <stop offset="100%" stopColor="var(--accent)" />
           </radialGradient>
         </defs>
 
         {/* Outer Gold Ticks and Outer Ring */}
         <g className="layer" style={{ '--d': '.45s' } as React.CSSProperties}>
-          <g stroke="#C9A24B">{ticks}</g>
-          <circle cx="300" cy="300" r="291" stroke="#C9A24B" strokeOpacity="0.5" />
+          <g stroke="var(--gold)">{ticks}</g>
+          <circle cx="300" cy="300" r="291" stroke="var(--gold)" strokeOpacity="0.5" />
         </g>
 
         {/* Layer 2: Rotating Glyphs and Bezel */}
@@ -144,9 +144,9 @@ export const TimeSigil: React.FC<TimeSigilProps> = ({
               transformOrigin: '300px 300px',
             } as React.CSSProperties}
           >
-            <circle cx="300" cy="300" r="276" stroke="#C9A24B" strokeOpacity="0.3" />
-            <circle cx="300" cy="300" r="248" stroke="#45E08A" strokeOpacity="0.25" />
-            <g stroke="#9AFFC4" strokeOpacity="0.75" strokeLinecap="round">
+            <circle cx="300" cy="300" r="276" stroke="var(--gold)" strokeOpacity="0.3" />
+            <circle cx="300" cy="300" r="248" stroke="var(--accent-text)" strokeOpacity="0.35" />
+            <g stroke="var(--accent-text)" strokeOpacity="0.85" strokeLinecap="round">
               {glyphs}
             </g>
           </g>
@@ -165,9 +165,9 @@ export const TimeSigil: React.FC<TimeSigilProps> = ({
               cx="300"
               cy="300"
               r="222"
-              stroke="#45E08A"
+              stroke="var(--accent)"
               strokeWidth="2.5"
-              strokeOpacity="0.7"
+              strokeOpacity="0.75"
               strokeDasharray="210 70"
               pathLength="1400"
             />
@@ -175,14 +175,14 @@ export const TimeSigil: React.FC<TimeSigilProps> = ({
               cx="300"
               cy="300"
               r="204"
-              stroke="#45E08A"
-              strokeOpacity="0.3"
+              stroke="var(--accent-text)"
+              strokeOpacity="0.4"
               strokeDasharray="2 9"
             />
           </g>
         </g>
 
-        {/* Layer 4: Intersecting Mystic Triangles (Hexagram) */}
+        {/* Layer 4: Intersecting Triangles */}
         <g className="layer" style={{ '--d': '.9s' } as React.CSSProperties}>
           <g
             className="spin"
@@ -191,15 +191,15 @@ export const TimeSigil: React.FC<TimeSigilProps> = ({
               transformOrigin: '300px 300px',
             } as React.CSSProperties}
           >
-            <path d="M300 138 L440 381 H160 Z" stroke="#45E08A" strokeOpacity="0.4" />
-            <path d="M300 462 L160 219 H440 Z" stroke="#C9A24B" strokeOpacity="0.35" />
+            <path d="M300 138 L440 381 H160 Z" stroke="var(--accent-text)" strokeOpacity="0.4" />
+            <path d="M300 462 L160 219 H440 Z" stroke="var(--gold)" strokeOpacity="0.35" />
           </g>
         </g>
 
         {/* Layer 5: Inner Dial & Clock Hands */}
         <g className="layer" style={{ '--d': '1s' } as React.CSSProperties}>
-          <circle cx="300" cy="300" r="112" stroke="#45E08A" strokeOpacity="0.5" />
-          <g stroke="#45E08A" strokeOpacity="0.6">
+          <circle cx="300" cy="300" r="112" stroke="var(--accent-text)" strokeOpacity="0.5" />
+          <g stroke="var(--accent-text)" strokeOpacity="0.6">
             {dialTicks}
           </g>
 
@@ -211,7 +211,7 @@ export const TimeSigil: React.FC<TimeSigilProps> = ({
                 y1="300"
                 x2="300"
                 y2="236"
-                stroke="#E8F0EB"
+                stroke="var(--text)"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 style={{
@@ -228,7 +228,7 @@ export const TimeSigil: React.FC<TimeSigilProps> = ({
                 y1="300"
                 x2="300"
                 y2="208"
-                stroke="#9AFFC4"
+                stroke="var(--accent-text)"
                 strokeWidth="1.6"
                 strokeLinecap="round"
                 style={{
@@ -245,7 +245,7 @@ export const TimeSigil: React.FC<TimeSigilProps> = ({
                 y1="322"
                 x2="300"
                 y2="196"
-                stroke="#C9A24B"
+                stroke="var(--gold)"
                 strokeWidth="1"
                 style={{
                   transformOrigin: '300px 300px',
@@ -262,12 +262,12 @@ export const TimeSigil: React.FC<TimeSigilProps> = ({
         {/* Layer 6: Central Glowing Faceted Time Stone Gem */}
         <g className="layer" style={{ '--d': '.15s' } as React.CSSProperties}>
           <g className="gem" style={{ transformOrigin: '300px 300px' }}>
-            <polygon points="300,300 300,268 327.7,284" fill="#45E08A" />
-            <polygon points="300,300 327.7,284 327.7,316" fill="#2fb96d" />
-            <polygon points="300,300 327.7,316 300,332" fill="#1f8f52" />
-            <polygon points="300,300 300,332 272.3,316" fill="#45E08A" />
-            <polygon points="300,300 272.3,316 272.3,284" fill="#7cf0b0" />
-            <polygon points="300,300 272.3,284 300,268" fill="#9AFFC4" />
+            <polygon points="300,300 300,268 327.7,284" fill="#45E08A" stroke="var(--accent-text)" strokeWidth="0.5" />
+            <polygon points="300,300 327.7,284 327.7,316" fill="#2FB96D" stroke="var(--accent-text)" strokeWidth="0.5" />
+            <polygon points="300,300 327.7,316 300,332" fill="#1F8F52" stroke="var(--accent-text)" strokeWidth="0.5" />
+            <polygon points="300,300 300,332 272.3,316" fill="#45E08A" stroke="var(--accent-text)" strokeWidth="0.5" />
+            <polygon points="300,300 272.3,316 272.3,284" fill="#7CF0B0" stroke="var(--accent-text)" strokeWidth="0.5" />
+            <polygon points="300,300 272.3,284 300,268" fill="#9AFFC4" stroke="var(--accent-text)" strokeWidth="0.5" />
           </g>
         </g>
       </svg>

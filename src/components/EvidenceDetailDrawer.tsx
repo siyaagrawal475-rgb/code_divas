@@ -19,11 +19,11 @@ export const EvidenceDetailDrawer: React.FC<EvidenceDetailDrawerProps> = ({ item
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/70 select-none">
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/60 select-none">
       {/* Clickable Backdrop */}
       <div className="flex-1" onClick={onClose} />
 
-      {/* Right Relic Detail Panel */}
+      {/* Right Detail Panel */}
       <div className="w-[390px] max-w-full h-full bg-[var(--panel)] border-l border-[var(--hair)] shadow-2xl flex flex-col justify-between overflow-y-auto z-10">
         {/* Top Header */}
         <div className="p-6 border-b border-[var(--hair)] flex items-center justify-between">
@@ -31,13 +31,14 @@ export const EvidenceDetailDrawer: React.FC<EvidenceDetailDrawerProps> = ({ item
             <span className="font-mono text-[14px] font-semibold text-[var(--text)]">
               EV-{item.evidenceNumber}
             </span>
-            <span className="inline-flex items-center gap-1 text-[12px] text-[var(--soft)] bg-[#0A1410] border border-[var(--hair)] px-2 py-0.5">
-              <ShieldCheck size={12} className="text-[var(--green)]" />
+            <span className="inline-flex items-center gap-1 text-[12px] text-[var(--accent-text)] bg-[var(--raised)] border border-[var(--hair)] px-2 py-0.5">
+              <ShieldCheck size={12} />
               <span>Time locked</span>
             </span>
           </div>
 
           <button
+            type="button"
             onClick={onClose}
             aria-label="Close panel"
             className="p-1.5 text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer"
@@ -74,18 +75,19 @@ export const EvidenceDetailDrawer: React.FC<EvidenceDetailDrawerProps> = ({ item
             <div>
               <div className="flex items-center justify-between text-[var(--muted)] mb-1">
                 <span>NIST SHA-256 hash</span>
-                <span className="text-[11px] text-[var(--green)]">FIPS 180-4</span>
+                <span className="text-[11px] text-[var(--accent-text)]">FIPS 180-4</span>
               </div>
               <div className="p-2.5 bg-[var(--bg)] border border-[var(--hair)] flex items-start justify-between gap-2">
-                <code className="font-mono text-[11px] text-[var(--green)] break-all leading-relaxed">
+                <code className="font-mono text-[11px] text-[var(--accent-text)] break-all leading-relaxed">
                   {item.sha256}
                 </code>
                 <button
+                  type="button"
                   onClick={copyFullHash}
-                  className="shrink-0 p-1 text-[var(--muted)] hover:text-[var(--green)] transition-colors cursor-pointer"
+                  className="shrink-0 p-1 text-[var(--muted)] hover:text-[var(--accent-text)] transition-colors cursor-pointer"
                   title="Copy hash"
                 >
-                  {copied ? <Check size={14} className="text-[var(--green)]" /> : <Copy size={14} />}
+                  {copied ? <Check size={14} className="text-[var(--accent-text)]" /> : <Copy size={14} />}
                 </button>
               </div>
             </div>
@@ -101,7 +103,7 @@ export const EvidenceDetailDrawer: React.FC<EvidenceDetailDrawerProps> = ({ item
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-[var(--muted)]">Integrity status</span>
-                <span className="text-[var(--soft)]">Verified / Unaltered</span>
+                <span className="text-[var(--accent-text)]">Verified / Unaltered</span>
               </div>
             </div>
           </div>

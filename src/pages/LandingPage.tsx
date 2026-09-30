@@ -1,8 +1,9 @@
 // Screen 1: Entry / Landing
-// Memorable element: The Eye of Agamotto Time Sigil with real-time clock synchronization and animated layer unfolding.
+// Memorable element: The Eye of Agamotto Time Sigil with real-time clock synchronization.
 
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export const LandingPage: React.FC = () => {
   const stageRef = useRef<HTMLDivElement>(null);
@@ -42,7 +43,7 @@ export const LandingPage: React.FC = () => {
       '<path d="M-5-6V6M5-6V6M-5 0H5"/>',
       '<path d="M-6 4A6 6 0 0 1 6 4M0-7v6"/>',
       '<path d="M-6-6L6 6M6-6L-6 6"/>',
-      '<circle r="1.6" fill="#9AFFC4"/><path d="M-6 0H-3M3 0H6M0-6V-3M0 3V6"/>',
+      '<circle r="1.6" fill="var(--accent-text)"/><path d="M-6 0H-3M3 0H6M0-6V-3M0 3V6"/>',
     ];
     let g = '';
     for (let i = 0; i < 28; i++) {
@@ -109,147 +110,162 @@ export const LandingPage: React.FC = () => {
           <span className="d" />
         </div>
 
-      <header>
-        <span className="secure">
-          <i />
-          Secure session
-        </span>
-      </header>
+        <header>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <span className="secure">
+              <i />
+              Secure session
+            </span>
+            <ThemeToggle />
+          </div>
+        </header>
 
-      <div className="sigil" aria-hidden="true">
-        <svg viewBox="0 0 600 600" fill="none">
-          <defs>
-            <radialGradient id="core" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#9AFFC4" />
-              <stop offset="100%" stopColor="#1f8f52" />
-            </radialGradient>
-          </defs>
-          <g className="layer" style={{ '--d': '.45s' } as React.CSSProperties}>
-            <g id="ticks" ref={ticksRef} stroke="#C9A24B" />
-            <circle cx="300" cy="300" r="291" stroke="#C9A24B" strokeOpacity="0.5" />
-          </g>
-          <g className="layer" style={{ '--d': '.6s' } as React.CSSProperties}>
-            <g className="spin" style={{ '--t': '140s' } as React.CSSProperties}>
-              <circle cx="300" cy="300" r="276" stroke="#C9A24B" strokeOpacity="0.3" />
-              <circle cx="300" cy="300" r="248" stroke="#45E08A" strokeOpacity="0.25" />
-              <g id="glyphs" ref={glyphsRef} stroke="#9AFFC4" strokeOpacity="0.75" strokeLinecap="round" />
+        <div className="sigil" aria-hidden="true">
+          <svg viewBox="0 0 600 600" fill="none">
+            <defs>
+              <radialGradient id="gem-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="var(--accent-text)" />
+                <stop offset="100%" stopColor="var(--accent)" />
+              </radialGradient>
+            </defs>
+
+            <g className="layer" style={{ '--d': '.45s' } as React.CSSProperties}>
+              <g id="ticks" ref={ticksRef} stroke="var(--gold)" />
+              <circle cx="300" cy="300" r="291" stroke="var(--gold)" strokeOpacity="0.5" />
             </g>
-          </g>
-          <g className="layer" style={{ '--d': '.75s' } as React.CSSProperties}>
-            <g className="spin rev" style={{ '--t': '80s' } as React.CSSProperties}>
-              <circle
-                cx="300"
-                cy="300"
-                r="222"
-                stroke="#45E08A"
+
+            <g className="layer" style={{ '--d': '.6s' } as React.CSSProperties}>
+              <g className="spin" style={{ '--t': '140s' } as React.CSSProperties}>
+                <circle cx="300" cy="300" r="276" stroke="var(--gold)" strokeOpacity="0.3" />
+                <circle cx="300" cy="300" r="248" stroke="var(--accent-text)" strokeOpacity="0.35" />
+                <g id="glyphs" ref={glyphsRef} stroke="var(--accent-text)" strokeOpacity="0.85" strokeLinecap="round" />
+              </g>
+            </g>
+
+            <g className="layer" style={{ '--d': '.75s' } as React.CSSProperties}>
+              <g className="spin rev" style={{ '--t': '80s' } as React.CSSProperties}>
+                <circle
+                  cx="300"
+                  cy="300"
+                  r="222"
+                  stroke="var(--accent)"
+                  strokeWidth="2.5"
+                  strokeOpacity="0.75"
+                  strokeDasharray="210 70"
+                  pathLength="1400"
+                />
+                <circle
+                  cx="300"
+                  cy="300"
+                  r="204"
+                  stroke="var(--accent-text)"
+                  strokeOpacity="0.4"
+                  strokeDasharray="2 9"
+                />
+              </g>
+            </g>
+
+            <g className="layer" style={{ '--d': '.9s' } as React.CSSProperties}>
+              <g className="spin" style={{ '--t': '200s' } as React.CSSProperties}>
+                <path d="M300 138 L440 381 H160 Z" stroke="var(--accent-text)" strokeOpacity="0.4" />
+                <path d="M300 462 L160 219 H440 Z" stroke="var(--gold)" strokeOpacity="0.35" />
+              </g>
+            </g>
+
+            <g className="layer" style={{ '--d': '1s' } as React.CSSProperties}>
+              <circle cx="300" cy="300" r="112" stroke="var(--accent-text)" strokeOpacity="0.5" />
+              <g id="dial" ref={dialRef} stroke="var(--accent-text)" strokeOpacity="0.6" />
+              <line
+                id="h-h"
+                ref={hHRef}
+                className="hand"
+                x1="300"
+                y1="300"
+                x2="300"
+                y2="236"
+                stroke="var(--text)"
                 strokeWidth="2.5"
-                strokeOpacity="0.7"
-                strokeDasharray="210 70"
-                pathLength="1400"
+                strokeLinecap="round"
               />
-              <circle
-                cx="300"
-                cy="300"
-                r="204"
-                stroke="#45E08A"
-                strokeOpacity="0.3"
-                strokeDasharray="2 9"
+              <line
+                id="h-m"
+                ref={hMRef}
+                className="hand"
+                x1="300"
+                y1="300"
+                x2="300"
+                y2="208"
+                stroke="var(--accent-text)"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+              <line
+                id="h-s"
+                ref={hSRef}
+                className="hand"
+                x1="300"
+                y1="322"
+                x2="300"
+                y2="196"
+                stroke="var(--gold)"
+                strokeWidth="1"
               />
             </g>
-          </g>
-          <g className="layer" style={{ '--d': '.9s' } as React.CSSProperties}>
-            <g className="spin" style={{ '--t': '200s' } as React.CSSProperties}>
-              <path d="M300 138 L440 381 H160 Z" stroke="#45E08A" strokeOpacity="0.4" />
-              <path d="M300 462 L160 219 H440 Z" stroke="#C9A24B" strokeOpacity="0.35" />
-            </g>
-          </g>
-          <g className="layer" style={{ '--d': '1s' } as React.CSSProperties}>
-            <circle cx="300" cy="300" r="112" stroke="#45E08A" strokeOpacity="0.5" />
-            <g id="dial" ref={dialRef} stroke="#45E08A" strokeOpacity="0.6" />
-            <line
-              className="hand"
-              id="hH"
-              ref={hHRef}
-              x1="300"
-              y1="300"
-              x2="300"
-              y2="236"
-              stroke="#E8F0EB"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            />
-            <line
-              className="hand"
-              id="hM"
-              ref={hMRef}
-              x1="300"
-              y1="300"
-              x2="300"
-              y2="208"
-              stroke="#9AFFC4"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-            <line
-              className="hand"
-              id="hS"
-              ref={hSRef}
-              x1="300"
-              y1="322"
-              x2="300"
-              y2="196"
-              stroke="#C9A24B"
-              strokeWidth="1"
-            />
-          </g>
-          <g className="layer" style={{ '--d': '.15s' } as React.CSSProperties}>
-            <g className="gem">
-              <polygon points="300,300 300,268 327.7,284" fill="#45E08A" />
-              <polygon points="300,300 327.7,284 327.7,316" fill="#2fb96d" />
-              <polygon points="300,300 327.7,316 300,332" fill="#1f8f52" />
-              <polygon points="300,300 300,332 272.3,316" fill="#45E08A" />
-              <polygon points="300,300 272.3,316 272.3,284" fill="#7cf0b0" />
-              <polygon points="300,300 272.3,284 300,268" fill="#9AFFC4" />
-            </g>
-          </g>
-        </svg>
-      </div>
 
-      <main>
-        <h1 className="i-word">HERTRACE</h1>
-        <p className="quote i-rest">Time preserves the truth.</p>
-        <p className="lede i-rest">
-          Found a fake profile, a manipulated photo or a threatening message? Preserve it here before it disappears, and build a record that holds up.
-        </p>
-        <div className="actions i-rest">
-          <Link className="btn" to="/incident/new">
-            Create incident
-          </Link>
-          <Link className="link" to="/archive">
-            Open evidence archive
-          </Link>
+            <g className="layer" style={{ '--d': '.15s' } as React.CSSProperties}>
+              <g className="gem">
+                <polygon points="300,300 300,268 327.7,284" fill="#45E08A" stroke="var(--accent-text)" strokeWidth="0.5" />
+                <polygon points="300,300 327.7,284 327.7,316" fill="#2FB96D" stroke="var(--accent-text)" strokeWidth="0.5" />
+                <polygon points="300,300 327.7,316 300,332" fill="#1F8F52" stroke="var(--accent-text)" strokeWidth="0.5" />
+                <polygon points="300,300 300,332 272.3,316" fill="#45E08A" stroke="var(--accent-text)" strokeWidth="0.5" />
+                <polygon points="300,300 272.3,316 272.3,284" fill="#7CF0B0" stroke="var(--accent-text)" strokeWidth="0.5" />
+                <polygon points="300,300 272.3,284 300,268" fill="#9AFFC4" stroke="var(--accent-text)" strokeWidth="0.5" />
+              </g>
+            </g>
+          </svg>
         </div>
-        <ul className="facts i-rest">
-          <li>
-            <b>Sealed with SHA-256</b>
-            Any change to a file shows.
-          </li>
-          <li>
-            <b>Stamped in UTC</b>
-            Every action has a time.
-          </li>
-          <li>
-            <b>Originals untouched</b>
-            Nothing is edited or resized.
-          </li>
-        </ul>
-      </main>
+
+        <main>
+          <div className="i-word">
+            <h1>HERTRACE</h1>
+          </div>
+          <div className="i-rest">
+            <p className="quote">“Bound in time, proven beyond doubt.”</p>
+            <p className="lede">
+              Preserve digital evidence of online impersonation, non-consensual
+              imagery and deepfakes. Every artifact is sealed with a
+              cryptographic timestamp the moment you find it.
+            </p>
+            <div className="actions">
+              <Link to="/incident/new" className="btn">
+                Preserve an incident
+              </Link>
+              <Link to="/chronicle" className="link">
+                Open active chronicle
+              </Link>
+            </div>
+            <ul className="facts">
+              <li>
+                <b>Zero platform reliance</b>
+                Preserved locally even if original posts are deleted.
+              </li>
+              <li>
+                <b>Cryptographic seal</b>
+                SHA-256 digests anchored with UTC timestamps.
+              </li>
+              <li>
+                <b>Attestation reports</b>
+                Structured records formatted for legal and trust teams.
+              </li>
+            </ul>
+          </div>
+        </main>
 
         <footer>
-          <em>Every trace leaves a mark in time.</em>
-          <span>Trace, preserve, reconstruct.</span>
+          <span>Eye of Agamotto Forensic Engine · v0.9.4</span>
+          <em>Time is the ultimate witness.</em>
           <span id="clock" ref={clockRef}>
-            --:--:-- UTC
+            00:00:00 UTC
           </span>
         </footer>
       </div>

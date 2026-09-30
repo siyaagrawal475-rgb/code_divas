@@ -3,6 +3,7 @@ import { Outlet, NavLink, useLocation, Link } from 'react-router-dom';
 import { TimeSigil } from './TimeSigil';
 import { LiveClock } from './LiveClock';
 import { Toast } from './Toast';
+import { ThemeToggle } from './ThemeToggle';
 import { useIncidents } from '../context/IncidentContext';
 
 export const AppLayout: React.FC = () => {
@@ -47,7 +48,7 @@ export const AppLayout: React.FC = () => {
     }
     return {
       title: 'HERTRACE',
-      subtitle: 'Digital evidence intelligence.',
+      subtitle: 'Digital evidence preservation.',
     };
   };
 
@@ -135,28 +136,34 @@ export const AppLayout: React.FC = () => {
           </nav>
         </div>
 
-        {/* Bottom Settings Button */}
-        <div className="rail-item-wrapper" style={{ position: 'relative', width: '100%' }}>
-          <button
-            onClick={() => setIsSettingsOpen(true)}
-            className="rail-item"
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-            aria-label="Settings"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-            </svg>
-          </button>
-          <div className="rail-tooltip">
-            Settings
+        {/* Bottom Actions: Theme Toggle + Settings */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', width: '100%' }}>
+          <div className="rail-item-wrapper" style={{ position: 'relative' }}>
+            <ThemeToggle />
+          </div>
+
+          <div className="rail-item-wrapper" style={{ position: 'relative', width: '100%' }}>
+            <button
+              onClick={() => setIsSettingsOpen(true)}
+              className="rail-item"
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+              aria-label="Settings"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              </svg>
+            </button>
+            <div className="rail-tooltip">
+              Settings
+            </div>
           </div>
         </div>
       </aside>
 
       {/* Main Content Area */}
       <main className="content">
-        {/* Topbar: Title/subtitle on left, Secure session + live UTC clock on right */}
+        {/* Topbar */}
         <header className="topbar">
           <div className="topbar-left">
             <h1 className="topbar-title">{headerInfo.title}</h1>
@@ -178,8 +185,8 @@ export const AppLayout: React.FC = () => {
 
       {/* Settings Modal */}
       {isSettingsOpen && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 60, background: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-          <div style={{ width: '100%', maxWidth: '440px', background: 'var(--panel)', border: '1px solid var(--hair)', borderRadius: '2px', padding: '24px' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 60, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+          <div style={{ width: '100%', maxWidth: '440px', backgroundColor: 'var(--panel)', border: '1px solid var(--hair)', borderRadius: '2px', padding: '24px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid var(--hair)', marginBottom: '16px' }}>
               <h3 style={{ margin: 0, font: "300 20px 'Fraunces', serif", color: 'var(--text)' }}>Settings</h3>
               <button onClick={() => setIsSettingsOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '13px' }}>
@@ -189,15 +196,15 @@ export const AppLayout: React.FC = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: 'var(--muted)', fontFamily: '"JetBrains Mono", monospace' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--hair)' }}>
                 <span>Cryptographic engine</span>
-                <span style={{ color: 'var(--green)' }}>WebCrypto SHA-256</span>
+                <span style={{ color: 'var(--accent-text)' }}>WebCrypto SHA-256</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--hair)' }}>
                 <span>Local storage isolation</span>
-                <span style={{ color: 'var(--green)' }}>Active</span>
+                <span style={{ color: 'var(--accent-text)' }}>Active</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Clock synchronization</span>
-                <span style={{ color: 'var(--soft)' }}>UTC</span>
+                <span style={{ color: 'var(--accent-text)' }}>UTC</span>
               </div>
             </div>
           </div>

@@ -118,7 +118,7 @@ NIST FIPS 180-4 CRYPTOGRAPHIC VERIFICATION · BOUND IN TIME
             className="app-btn"
           >
             <FileCheck size={14} />
-            <span>{isSealed ? 'Re-attest report' : 'Generate & seal'}</span>
+            <span>{isSealed ? 'Re-attest report' : 'Generate PDF'}</span>
           </button>
         </div>
       </div>
@@ -134,7 +134,7 @@ NIST FIPS 180-4 CRYPTOGRAPHIC VERIFICATION · BOUND IN TIME
             </p>
           </div>
 
-          {/* Vertical Timeline with Central Green Thread */}
+          {/* Vertical Timeline with Central Thread */}
           <div className="relative pl-6 space-y-8">
             {/* Central continuous hairline thread */}
             <div className="absolute left-[7px] top-3 bottom-6 w-[1px] bg-[var(--hair)]" />
@@ -143,12 +143,12 @@ NIST FIPS 180-4 CRYPTOGRAPHIC VERIFICATION · BOUND IN TIME
               return (
                 <div key={item.id} className="relative space-y-1">
                   {/* Timeline Tick Node */}
-                  <div className="absolute -left-[23px] top-1 w-3.5 h-3.5 rounded-full bg-[var(--bg)] border border-[var(--green)] flex items-center justify-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--green)]" />
+                  <div className="absolute -left-[23px] top-1 w-3.5 h-3.5 rounded-full bg-[var(--bg)] border border-[var(--accent-text)] flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-text)]" />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[12px] text-[var(--green)]">
+                    <span className="font-mono text-[12px] text-[var(--accent-text)]">
                       {item.time}
                     </span>
                     <span className="text-[11px] text-[var(--muted)]">
@@ -167,13 +167,13 @@ NIST FIPS 180-4 CRYPTOGRAPHIC VERIFICATION · BOUND IN TIME
               );
             })}
 
-            {/* Concluding Full Green Gem Seal */}
+            {/* Concluding Full Gem Seal */}
             <div className="relative pt-4 flex items-center gap-3">
               <div className="absolute -left-[26px] top-5">
                 <TimeSigil size={20} state="locked" showClock={false} />
               </div>
               <div className="pl-2">
-                <div className="text-[14px] font-medium text-[var(--soft)]">
+                <div className="text-[14px] font-medium text-[var(--accent-text)]">
                   Cryptographically sealed
                 </div>
                 <div className="text-[12px] text-[var(--muted)]">
@@ -192,17 +192,17 @@ NIST FIPS 180-4 CRYPTOGRAPHIC VERIFICATION · BOUND IN TIME
               <TimeSigil size={64} state="scanning" showClock={false} />
               <div className="space-y-2">
                 <h3 className="heading-2">Attesting forensic packet</h3>
-                <p className="font-mono text-[13px] text-[var(--soft)]">
+                <p className="font-mono text-[13px] text-[var(--accent-text)]">
                   {stages[generationStage - 1]}...
                 </p>
               </div>
             </div>
           ) : (
-            <div className="bg-[#0D1210] border border-[var(--hair)] p-8 space-y-8 relative">
+            <div className="report-paper space-y-8 relative">
               {/* Formal Report Header */}
               <div className="border-b border-[var(--hair)] pb-6 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="space-y-1">
-                  <div className="font-mono text-[11px] text-[var(--green)] tracking-wider">
+                  <div className="font-mono text-[11px] text-[var(--accent-text)] tracking-wider">
                     HERTRACE FORENSIC INCIDENT ATTESTATION
                   </div>
                   <h1 className="font-display text-2xl font-normal text-[var(--text)]">
@@ -215,7 +215,7 @@ NIST FIPS 180-4 CRYPTOGRAPHIC VERIFICATION · BOUND IN TIME
 
                 <div className="text-left sm:text-right font-mono text-[12px] text-[var(--muted)]">
                   <div>Preserved: {incident.createdAt || incident.discoveredAt}</div>
-                  <div className="text-[var(--soft)] mt-1">NIST FIPS 180-4</div>
+                  <div className="text-[var(--accent-text)] mt-1">NIST FIPS 180-4</div>
                 </div>
               </div>
 
@@ -231,7 +231,7 @@ NIST FIPS 180-4 CRYPTOGRAPHIC VERIFICATION · BOUND IN TIME
                 </div>
                 <div>
                   <span className="text-[var(--muted)] block">Integrity status</span>
-                  <span className="text-[var(--green)]">Time Locked</span>
+                  <span className="text-[var(--accent-text)]">Time Locked</span>
                 </div>
               </div>
 
@@ -246,7 +246,7 @@ NIST FIPS 180-4 CRYPTOGRAPHIC VERIFICATION · BOUND IN TIME
                     <div key={ev.id} className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[13px]">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-[12px] text-[var(--green)]">
+                          <span className="font-mono text-[12px] text-[var(--accent-text)]">
                             EV-{ev.evidenceNumber}
                           </span>
                           <span className="font-medium text-[var(--text)]">{ev.name}</span>
@@ -278,7 +278,7 @@ NIST FIPS 180-4 CRYPTOGRAPHIC VERIFICATION · BOUND IN TIME
                 <div className="flex items-center gap-3">
                   <TimeSigil size={24} state="locked" showClock={false} />
                   <div className="text-[12px]">
-                    <div className="font-medium text-[var(--text)]">HERTRACE Digital Evidence Vault</div>
+                    <div className="font-medium text-[var(--text)]">HERTRACE Evidence Vault</div>
                     <div className="text-[var(--muted)] font-mono text-[11px]">SHA-256 Validated · Bound in Time</div>
                   </div>
                 </div>

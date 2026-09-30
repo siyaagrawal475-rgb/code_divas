@@ -93,6 +93,11 @@ export const UploadDropzone: React.FC<UploadDropzoneProps> = ({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   };
 
+  const formatHashShort = (hash: string) => {
+    if (hash.length <= 12) return hash;
+    return `${hash.substring(0, 8)}…${hash.substring(hash.length - 4)}`;
+  };
+
   return (
     <div className="space-y-4">
       {/* Drop Zone Box */}
@@ -103,7 +108,7 @@ export const UploadDropzone: React.FC<UploadDropzoneProps> = ({
         onDrop={handleDrop}
         className={`p-8 border border-dashed rounded-[2px] text-center cursor-pointer transition-colors select-none relative ${
           isDragOver
-            ? 'border-[var(--green)] bg-[#121A16]'
+            ? 'border-[var(--accent-text)] bg-[var(--raised)]'
             : 'border-[var(--hair)] bg-[var(--bg)] hover:border-[var(--muted)]'
         }`}
       >
@@ -117,7 +122,7 @@ export const UploadDropzone: React.FC<UploadDropzoneProps> = ({
         />
 
         <div className="flex flex-col items-center justify-center gap-2.5">
-          <div className="w-10 h-10 bg-[var(--panel)] border border-[var(--hair)] flex items-center justify-center text-[var(--green)]">
+          <div className="w-10 h-10 bg-[var(--panel)] border border-[var(--hair)] flex items-center justify-center text-[var(--accent-text)]">
             <UploadCloud size={20} strokeWidth={1.5} />
           </div>
 
@@ -146,7 +151,7 @@ export const UploadDropzone: React.FC<UploadDropzoneProps> = ({
                 className="p-3 bg-[var(--panel)] border border-[var(--hair)] flex items-center justify-between gap-3 text-[13px]"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className="w-7 h-7 bg-[var(--bg)] border border-[var(--hair)] flex items-center justify-center text-[var(--green)] shrink-0">
+                  <div className="w-7 h-7 bg-[var(--bg)] border border-[var(--hair)] flex items-center justify-center text-[var(--accent-text)] shrink-0">
                     <File size={14} strokeWidth={1.5} />
                   </div>
 
@@ -159,8 +164,8 @@ export const UploadDropzone: React.FC<UploadDropzoneProps> = ({
                       {file.hash && (
                         <>
                           <span>·</span>
-                          <span className="text-[var(--soft)]">
-                            {file.hash.substring(0, 12)}...
+                          <span className="text-[var(--accent-text)]">
+                            {formatHashShort(file.hash)}
                           </span>
                         </>
                       )}
@@ -169,14 +174,15 @@ export const UploadDropzone: React.FC<UploadDropzoneProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-[11px] text-[var(--green)] flex items-center gap-1">
+                  <span className="text-[11px] text-[var(--accent-text)] flex items-center gap-1">
                     <CheckCircle2 size={13} strokeWidth={1.5} />
                     <span>Hashed</span>
                   </span>
 
                   <button
+                    type="button"
                     onClick={(e) => handleRemove(file.id, e)}
-                    className="p-1 text-[var(--muted)] hover:text-[#FF5C67] transition-colors cursor-pointer"
+                    className="p-1 text-[var(--muted)] hover:text-[var(--danger)] transition-colors cursor-pointer"
                     title="Remove file"
                   >
                     <Trash2 size={14} strokeWidth={1.5} />

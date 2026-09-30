@@ -1,39 +1,54 @@
 import React from 'react';
-import { AlertCircle, AlertTriangle, Info, X } from 'lucide-react';
+import { AlertCircle, AlertTriangle, Info, X, Check } from 'lucide-react';
 import { useIncidents } from '../context/IncidentContext';
-import { SealIcon } from './CustomIcons';
 
 export const Toast: React.FC = () => {
   const { toastMessage, showToast } = useIncidents();
 
   if (!toastMessage) return null;
 
-  const icons = {
-    success: <SealIcon size={15} strokeWidth={1.5} className="text-[#45E08A]" />,
-    warn: <AlertTriangle size={15} strokeWidth={1.5} className="text-[#F5B942]" />,
-    danger: <AlertCircle size={15} strokeWidth={1.5} className="text-[#FF5C67]" />,
-    info: <Info size={15} strokeWidth={1.5} className="text-[#7F8D85]" />,
+  const getToastColors = (type: string) => {
+    switch (type) {
+      case 'success':
+        return {
+          icon: <Check size={14} className="text-[var(--accent-text)]" />,
+          border: 'var(--accent-text)',
+        };
+      case 'warn':
+        return {
+          icon: <AlertTriangle size={14} className="text-[var(--warn)]" />,
+          border: 'var(--warn)',
+        };
+      case 'danger':
+        return {
+          icon: <AlertCircle size={14} className="text-[var(--danger)]" />,
+          border: 'var(--danger)',
+        };
+      default:
+        return {
+          icon: <Info size={14} className="text-[var(--muted)]" />,
+          border: 'var(--hair)',
+        };
+    }
   };
 
-  const borders = {
-    success: 'border-[#0E3B27] bg-[#0A1410] text-[#45E08A]',
-    warn: 'border-[#4A3B18] bg-[#14120C] text-[#F5B942]',
-    danger: 'border-[#421D22] bg-[#181112] text-[#FF5C67]',
-    info: 'border-[#1F2B25] bg-[#0D1210] text-[#7F8D85]',
-  };
+  const styleConfig = getToastColors(toastMessage.type);
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 animate-in fade-in slide-in-from-bottom-3 duration-200">
+    <div className="fixed bottom-5 right-5 z-50">
       <div
-        className={`flex items-center gap-3 px-4 py-2.5 rounded-[2px] border shadow-2xl ${borders[toastMessage.type]} select-none min-w-[280px] max-w-md font-mono clip-tag-tr`}
+        className="flex items-center gap-3 px-4 py-3 bg-[var(--panel)] border shadow-xl select-none min-w-[280px] max-w-md text-[13px]"
+        style={{ borderColor: styleConfig.border, borderRadius: '2px' }}
       >
-        <span className="shrink-0">{icons[toastMessage.type]}</span>
-        <span className="text-xs text-[#E8F0EB] font-medium flex-1">{toastMessage.text}</span>
+        <span className="shrink-0">{styleConfig.icon}</span>
+        <span className="text-[var(--text)] font-medium flex-1">{toastMessage.text}</span>
         <button
+          type="button"
           onClick={() => showToast('', 'info')}
-          className="text-[#7F8D85] hover:text-[#E8F0EB] cursor-pointer p-0.5"
+          className="text-[var(--muted)] hover:text-[var(--text)] cursor-pointer p-0.5"
+          aria-label="Close notification"
         >
-          <X size={13} />
+          <X size={14} />
         </button>
       </div>
     </div>

@@ -1,22 +1,54 @@
-/* Styles for Screens 2–6 (App Shell & Prototype Screens) */
+/* Styles for Screens 2–6 (App Shell & Forensics Workspace) */
 
 :root {
   --bg: #080A09;
   --panel: #0D1210;
+  --raised: #121A16;
   --hair: #1F2B25;
   --text: #E8F0EB;
   --muted: #8B9890;
-  --green: #45E08A;
-  --soft: #9AFFC4;
-  --deep: #0E3B27;
+  --accent: #45E08A;
+  --accent-text: #9AFFC4;
+  --accent-ink: #04130B;
   --gold: #C9A24B;
+  --warn: #F5B942;
+  --danger: #FF5C67;
+  --grain-blend: screen;
+  --grain-opacity: 0.06;
+
+  /* Aliases for backwards compatibility */
+  --green: var(--accent);
+  --soft: var(--accent-text);
+  --deep: #0E3B27;
+}
+
+[data-theme="light"] {
+  --bg: #F2F5F2;
+  --panel: #FFFFFF;
+  --raised: #E9EEEA;
+  --hair: #D3DBD5;
+  --text: #0E1A13;
+  --muted: #56645C;
+  --accent: #45E08A;
+  --accent-text: #0B7A42;
+  --accent-ink: #04130B;
+  --gold: #8A6A1E;
+  --warn: #B7791F;
+  --danger: #C2303B;
+  --grain-blend: multiply;
+  --grain-opacity: 0.05;
+
+  /* Aliases for backwards compatibility */
+  --green: var(--accent);
+  --soft: var(--accent-text);
+  --deep: #0E3B27;
 }
 
 html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
   font: 400 15px/1.6 "Hanken Grotesk", system-ui, sans-serif;
   box-sizing: border-box;
@@ -24,6 +56,40 @@ html, body, #root {
 
 *, *::before, *::after {
   box-sizing: inherit;
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease, fill 200ms ease, stroke 200ms ease;
+}
+
+/* Accessible focus visible ring */
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+}
+
+/* Themed text selection */
+::selection {
+  background: rgba(69, 224, 138, 0.25);
+  color: inherit;
+}
+
+[data-theme="light"] ::selection {
+  background: rgba(11, 122, 66, 0.2);
+  color: inherit;
+}
+
+/* Thin themed scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--hair);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }
 
 /* App Grid Layout */
@@ -32,7 +98,7 @@ html, body, #root {
   grid-template-columns: 72px 1fr;
   min-height: 100vh;
   height: 100%;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
   position: relative;
 }
@@ -43,7 +109,7 @@ html, body, #root {
   top: 0;
   height: 100vh;
   border-right: 1px solid var(--hair);
-  background: var(--bg);
+  background-color: var(--bg);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -59,11 +125,7 @@ html, body, #root {
   justify-content: center;
   padding: 4px;
   border-radius: 2px;
-  transition: transform .18s;
   cursor: pointer;
-}
-.rail-logo:hover {
-  transform: scale(1.05);
 }
 
 .rail-nav {
@@ -82,13 +144,12 @@ html, body, #root {
   color: var(--muted);
   text-decoration: none;
   position: relative;
-  transition: color .18s, background .18s;
 }
 .rail-item:hover {
   color: var(--text);
 }
 .rail-item.active {
-  color: var(--green);
+  color: var(--accent-text);
 }
 .rail-item.active::before {
   content: "";
@@ -97,7 +158,7 @@ html, body, #root {
   top: 8px;
   bottom: 8px;
   width: 2px;
-  background: var(--green);
+  background-color: var(--accent-text);
 }
 
 .rail-tooltip {
@@ -105,7 +166,7 @@ html, body, #root {
   left: 76px;
   top: 50%;
   transform: translateY(-50%);
-  background: var(--panel);
+  background-color: var(--panel);
   color: var(--text);
   font-size: 12px;
   font-weight: 500;
@@ -115,9 +176,9 @@ html, body, #root {
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transition: opacity .18s;
+  transition: opacity 160ms ease;
   z-index: 50;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 .rail-item-wrapper:hover .rail-tooltip {
   opacity: 1;
@@ -174,11 +235,33 @@ html, body, #root {
 
 .topbar-clock {
   font: 500 13px "JetBrains Mono", monospace;
-  color: var(--soft);
+  color: var(--accent-text);
   font-variant-numeric: tabular-nums;
 }
 
-/* App Typography Classes */
+/* Secure session indicator */
+.secure {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.secure i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent);
+}
+:root:not([data-theme="light"]) .secure i {
+  box-shadow: 0 0 8px var(--accent);
+}
+[data-theme="light"] .secure i {
+  background-color: var(--accent-text);
+  outline: 1px solid var(--accent-text);
+}
+
+/* Typography Classes */
 .heading-1 {
   font: 300 40px/1.1 'Fraunces', serif;
   letter-spacing: .01em;
@@ -209,8 +292,8 @@ html, body, #root {
 /* App Buttons */
 .app-btn {
   font: 600 15px/1 "Hanken Grotesk", sans-serif;
-  background: var(--green);
-  color: #04130B;
+  background-color: var(--accent);
+  color: var(--accent-ink);
   border: 0;
   border-radius: 2px;
   padding: 13px 22px;
@@ -220,14 +303,10 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: background .18s, transform .18s;
-  box-shadow: 0 0 10px rgba(69, 224, 138, 0.2);
+  transition: opacity 160ms;
 }
 .app-btn:hover {
-  background: var(--soft);
-}
-.app-btn:active {
-  transform: translateY(1px);
+  opacity: 0.9;
 }
 .app-btn:disabled {
   opacity: 0.5;
@@ -236,7 +315,7 @@ html, body, #root {
 
 .app-btn-secondary {
   font: 500 14px/1 "Hanken Grotesk", sans-serif;
-  background: transparent;
+  background-color: transparent;
   color: var(--text);
   border: 1px solid var(--hair);
   border-radius: 2px;
@@ -247,11 +326,10 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: border-color .18s, color .18s, background .18s;
 }
 .app-btn-secondary:hover {
   border-color: var(--muted);
-  background: var(--panel);
+  background-color: var(--panel);
 }
 
 .app-link {
@@ -262,35 +340,55 @@ html, body, #root {
   background: none;
   border: none;
   padding: 0;
-  transition: color .18s;
 }
 .app-link:hover {
-  color: var(--text);
+  color: var(--accent-text);
+  text-decoration: underline;
 }
 
 /* Underline inputs for wizard */
 .input-underline {
   width: 100%;
-  background: transparent;
+  background-color: transparent;
   border: none;
   border-bottom: 1px solid var(--hair);
   border-radius: 0;
   padding: 10px 0;
   color: var(--text);
   font: 400 15px "Hanken Grotesk", sans-serif;
-  transition: border-color .18s;
 }
 .input-underline:focus {
   outline: none;
-  border-bottom-color: var(--green);
+  border-bottom-color: var(--accent-text);
 }
 .input-underline::placeholder {
-  color: #4A5650;
+  color: var(--muted);
+  opacity: 0.7;
 }
 
 .input-underline-mono {
   font-family: "JetBrains Mono", monospace;
   font-size: 14px;
+}
+
+/* Paper Sheet for /report */
+.report-paper {
+  background-color: var(--panel);
+  border: 1px solid var(--hair);
+  padding: 32px;
+}
+[data-theme="light"] .report-paper {
+  background-color: #FFFFFF;
+  border: 1px solid var(--hair);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+
+/* Skeleton Loading Line */
+.skeleton-line {
+  background-color: var(--hair);
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0.6;
 }
 
 /* Responsive breakpoint for mobile (390px / 768px) */
@@ -320,6 +418,10 @@ html, body, #root {
   .rail-logo {
     display: none;
   }
+  .rail-item {
+    min-height: 44px;
+    min-width: 44px;
+  }
   .rail-item.active::before {
     top: auto;
     bottom: 0;
@@ -337,5 +439,12 @@ html, body, #root {
     gap: 14px;
     padding: 20px 0 16px;
     margin-bottom: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
   }
 }

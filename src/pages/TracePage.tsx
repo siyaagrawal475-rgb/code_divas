@@ -40,10 +40,10 @@ export const TracePage: React.FC = () => {
   }, [incident, id, setActiveIncidentId]);
 
   const allNodes: ExtendedGraphNode[] = [
-    { id: 'node-account', label: 'Impersonator account', type: 'source', time: '14:22 UTC', detail: 'Fake profile registered with similar display name.' },
-    { id: 'node-url', label: 'Direct message link', type: 'event', time: '14:25 UTC', detail: 'Phishing domain sent via direct message.' },
-    { id: 'node-media', label: 'Modified profile image', type: 'media', time: '14:28 UTC', detail: 'Cropped portrait extracted from victim archive.' },
-    { id: 'node-evidence', label: 'Cryptographic hash seal', type: 'evidence', time: '14:30 UTC', detail: 'NIST SHA-256 evidence payload generated.' },
+    { id: 'node-account', label: 'Impersonator account', type: 'source', time: '22:21 UTC', detail: 'Fake profile registered with similar display name.' },
+    { id: 'node-url', label: 'Direct message link', type: 'event', time: '22:27 UTC', detail: 'Phishing domain sent via direct message.' },
+    { id: 'node-media', label: 'Modified profile image', type: 'media', time: '22:31 UTC', detail: 'Cropped portrait extracted from victim archive.' },
+    { id: 'node-evidence', label: 'Cryptographic hash seal', type: 'evidence', time: '22:35 UTC', detail: 'NIST SHA-256 evidence payload generated.' },
   ];
 
   const allEdges = incident?.graphEdges || [
@@ -80,15 +80,18 @@ export const TracePage: React.FC = () => {
   const getNodeIcon = (type: string) => {
     switch (type) {
       case 'source':
-        return <User size={16} className="text-[var(--green)]" />;
+        return <User size={16} className="text-[var(--accent-text)]" />;
       case 'event':
-        return <Globe size={16} className="text-[var(--green)]" />;
+        return <Globe size={16} className="text-[var(--accent-text)]" />;
       case 'media':
-        return <ImageIcon size={16} className="text-[var(--green)]" />;
+        return <ImageIcon size={16} className="text-[var(--accent-text)]" />;
       default:
-        return <FileCheck size={16} className="text-[var(--green)]" />;
+        return <FileCheck size={16} className="text-[var(--accent-text)]" />;
     }
   };
+
+  const isHigh = incident.riskLevel === 'HIGH';
+  const isMed = incident.riskLevel === 'MEDIUM';
 
   return (
     <div className="space-y-8">
@@ -125,22 +128,27 @@ export const TracePage: React.FC = () => {
             </div>
 
             <div>
-              <span className="text-[var(--muted)] block">Risk severity</span>
+              <span className="text-[var(--muted)] block">Severity</span>
               <div className="flex items-center gap-2 mt-1">
                 <span
-                  className={`w-2 h-2 rounded-[1px] ${
-                    incident.riskLevel === 'HIGH' ? 'bg-[#FF5C67]' : 'bg-[#F5B942]'
-                  }`}
+                  className="w-2 h-2 rounded-[1px] shrink-0"
+                  style={{
+                    backgroundColor: isHigh
+                      ? 'var(--danger)'
+                      : isMed
+                      ? 'var(--warn)'
+                      : 'var(--accent-text)',
+                  }}
                 />
                 <span className="text-[var(--text)] font-medium">
-                  {incident.riskLevel === 'HIGH' ? 'High threat' : 'Medium threat'}
+                  {isHigh ? 'High' : isMed ? 'Medium' : 'Low'}
                 </span>
                 <span className="text-[var(--muted)] font-mono">({incident.riskScore}/100)</span>
               </div>
             </div>
 
             <div>
-              <span className="text-[var(--muted)] block">Preserved artifacts</span>
+              <span className="text-[var(--muted)] block">Preserved items</span>
               <span className="text-[var(--text)] font-mono">{incident.evidenceItems.length} items</span>
             </div>
           </div>
@@ -156,7 +164,7 @@ export const TracePage: React.FC = () => {
                   Chronological correlation of actors, messages, and payloads.
                 </p>
               </div>
-              <span className="font-mono text-[12px] text-[var(--green)]">
+              <span className="font-mono text-[12px] text-[var(--accent-text)]">
                 Step 0{timeStep} of 0{allNodes.length}
               </span>
             </div>
@@ -167,9 +175,9 @@ export const TracePage: React.FC = () => {
               <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
                 <defs>
                   <linearGradient id="threadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#1F2B25" />
-                    <stop offset="50%" stopColor="#45E08A" />
-                    <stop offset="100%" stopColor="#1F2B25" />
+                    <stop offset="0%" stopColor="var(--hair)" />
+                    <stop offset="50%" stopColor="var(--accent-text)" />
+                    <stop offset="100%" stopColor="var(--hair)" />
                   </linearGradient>
                 </defs>
                 {visibleEdges.map((edge) => {
@@ -190,7 +198,7 @@ export const TracePage: React.FC = () => {
                       stroke="url(#threadGrad)"
                       strokeWidth="1.5"
                       strokeDasharray="4 2"
-                      opacity="0.8"
+                      opacity="0.85"
                     />
                   );
                 })}
@@ -218,9 +226,9 @@ export const TracePage: React.FC = () => {
                       key={node.id}
                       type="button"
                       onClick={() => setSelectedNodeId(node.id)}
-                      className={`w-12 h-12 rounded-[2px] border transition-all cursor-pointer flex flex-col items-center justify-center relative ${
+                      className={`w-12 h-12 rounded-[2px] border transition-colors cursor-pointer flex flex-col items-center justify-center relative ${
                         isSelected
-                          ? 'border-[var(--green)] bg-[#0A1410] shadow-[0_0_12px_rgba(69,224,138,0.2)]'
+                          ? 'border-[var(--accent-text)] bg-[var(--raised)]'
                           : 'border-[var(--hair)] bg-[var(--panel)] hover:border-[var(--muted)]'
                       }`}
                     >
@@ -239,22 +247,24 @@ export const TracePage: React.FC = () => {
               <div className="flex items-center justify-between text-[13px] text-[var(--muted)]">
                 <span className="flex items-center gap-2">
                   <button
+                    type="button"
                     onClick={() => setIsPlayingScrub(!isPlayingScrub)}
-                    className="p-1 text-[var(--text)] hover:text-[var(--green)] transition-colors cursor-pointer"
+                    className="p-1 text-[var(--text)] hover:text-[var(--accent-text)] transition-colors cursor-pointer"
                     title={isPlayingScrub ? 'Pause playback' : 'Play chronological scrub'}
                   >
                     {isPlayingScrub ? <Pause size={14} /> : <Play size={14} />}
                   </button>
                   <button
+                    type="button"
                     onClick={() => setTimeStep(1)}
                     className="p-1 text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer"
                     title="Rewind to start"
                   >
                     <RotateCcw size={13} />
                   </button>
-                  <span>Scrub temporal events</span>
+                  <span>Scrub timeline</span>
                 </span>
-                <span className="font-mono text-[var(--soft)]">{visibleNodes[visibleNodes.length - 1]?.time}</span>
+                <span className="font-mono text-[var(--accent-text)]">{visibleNodes[visibleNodes.length - 1]?.time}</span>
               </div>
 
               <input
@@ -266,7 +276,7 @@ export const TracePage: React.FC = () => {
                   setTimeStep(parseInt(e.target.value, 10));
                   setIsPlayingScrub(false);
                 }}
-                className="w-full h-1 bg-[var(--hair)] rounded-none appearance-none cursor-pointer accent-[var(--green)]"
+                className="w-full h-1 bg-[var(--hair)] rounded-none appearance-none cursor-pointer accent-[var(--accent-text)]"
               />
             </div>
 
@@ -277,7 +287,7 @@ export const TracePage: React.FC = () => {
                   <span className="font-medium text-[14px] text-[var(--text)]">
                     {selectedNode.label}
                   </span>
-                  <span className="font-mono text-[12px] text-[var(--green)]">
+                  <span className="font-mono text-[12px] text-[var(--accent-text)]">
                     {selectedNode.time}
                   </span>
                 </div>
@@ -293,7 +303,7 @@ export const TracePage: React.FC = () => {
         <div className="lg:col-span-3 bg-[var(--panel)] border border-[var(--hair)] p-6 space-y-6">
           <div>
             <div className="text-[13px] text-[var(--muted)]">Analysis confidence</div>
-            <div className="font-display text-3xl font-light text-[var(--green)] mt-1">
+            <div className="font-display text-3xl font-light text-[var(--accent-text)] mt-1">
               {incident.aiAnalysis.confidence}%
             </div>
           </div>
@@ -304,12 +314,12 @@ export const TracePage: React.FC = () => {
 
             <div className="flex items-center justify-between py-1 border-b border-[var(--hair)]">
               <span className="text-[var(--text)]">Handle string similarity</span>
-              <span className="font-mono text-[var(--green)]">94%</span>
+              <span className="font-mono text-[var(--accent-text)]">94%</span>
             </div>
 
             <div className="flex items-center justify-between py-1 border-b border-[var(--hair)]">
               <span className="text-[var(--text)]">Avatar image match</span>
-              <span className="font-mono text-[var(--green)]">89%</span>
+              <span className="font-mono text-[var(--accent-text)]">89%</span>
             </div>
 
             <div className="flex items-center justify-between py-1 border-b border-[var(--hair)]">
@@ -319,7 +329,7 @@ export const TracePage: React.FC = () => {
 
             <div className="flex items-center justify-between py-1 border-b border-[var(--hair)]">
               <span className="text-[var(--text)]">Hash seal integrity</span>
-              <span className="text-[var(--soft)]">Verified</span>
+              <span className="text-[var(--accent-text)]">Verified</span>
             </div>
           </div>
 

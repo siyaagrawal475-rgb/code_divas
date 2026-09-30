@@ -34,7 +34,7 @@ export const ArchivePage: React.FC = () => {
   const [filterFormat, setFilterFormat] = useState<'ALL' | 'IMAGES' | 'DOCS' | 'VIDEO'>('ALL');
   const [copiedHash, setCopiedHash] = useState(false);
 
-  // Default featured item to newest/first item
+  // Default featured item to selected or first item
   const featuredItem = selectedEvidence || evidenceList[0] || null;
 
   const filteredEvidence = evidenceList.filter((item) => {
@@ -46,8 +46,8 @@ export const ArchivePage: React.FC = () => {
 
     const matchesFormat =
       filterFormat === 'ALL' ||
-      (filterFormat === 'IMAGES' && (item.previewType === 'image' || item.type.toLowerCase().includes('png') || item.type.toLowerCase().includes('jpg') || item.type.toLowerCase().includes('photo'))) ||
-      (filterFormat === 'DOCS' && (item.previewType === 'document' || item.previewType === 'code' || item.type.toLowerCase().includes('pdf') || item.type.toLowerCase().includes('html') || item.type.toLowerCase().includes('txt'))) ||
+      (filterFormat === 'IMAGES' && (item.previewType === 'image' || item.type.toLowerCase().includes('png') || item.type.toLowerCase().includes('jpg') || item.type.toLowerCase().includes('photo') || item.type.toLowerCase().includes('raw'))) ||
+      (filterFormat === 'DOCS' && (item.previewType === 'document' || item.previewType === 'code' || item.type.toLowerCase().includes('pdf') || item.type.toLowerCase().includes('html') || item.type.toLowerCase().includes('txt') || item.type.toLowerCase().includes('json') || item.type.toLowerCase().includes('har'))) ||
       (filterFormat === 'VIDEO' && (item.previewType === 'video' || item.type.toLowerCase().includes('mp4')));
 
     return matchesSearch && matchesFormat;
@@ -62,18 +62,23 @@ export const ArchivePage: React.FC = () => {
   const getItemIcon = (previewType?: string) => {
     switch (previewType) {
       case 'image':
-        return <ImageIcon size={16} className="text-[var(--green)]" />;
+        return <ImageIcon size={16} className="text-[var(--accent-text)]" />;
       case 'video':
-        return <Film size={16} className="text-[var(--green)]" />;
+        return <Film size={16} className="text-[var(--accent-text)]" />;
       case 'code':
-        return <FileCode size={16} className="text-[var(--green)]" />;
+        return <FileCode size={16} className="text-[var(--accent-text)]" />;
       default:
-        return <FileText size={16} className="text-[var(--green)]" />;
+        return <FileText size={16} className="text-[var(--accent-text)]" />;
     }
   };
 
+  const formatHashShort = (hash: string) => {
+    if (hash.length <= 12) return hash;
+    return `${hash.substring(0, 8)}…${hash.substring(hash.length - 4)}`;
+  };
+
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       {/* Top summary header with filter bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[var(--hair)]">
         <div>
@@ -91,7 +96,7 @@ export const ArchivePage: React.FC = () => {
               placeholder="Search filename or hash..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-6 pr-3 py-1 bg-transparent border-b border-[var(--hair)] font-mono text-[13px] text-[var(--text)] placeholder:text-[var(--muted)] focus:outline-none focus:border-b-[var(--green)] w-48 sm:w-60"
+              className="pl-6 pr-3 py-1 bg-transparent border-b border-[var(--hair)] font-mono text-[13px] text-[var(--text)] placeholder:text-[var(--muted)] focus:outline-none focus:border-b-[var(--accent-text)] w-48 sm:w-60"
             />
           </div>
 
@@ -102,7 +107,7 @@ export const ArchivePage: React.FC = () => {
                 onClick={() => setFilterFormat(fmt)}
                 className={`px-2 py-0.5 text-[12px] transition-colors cursor-pointer ${
                   filterFormat === fmt
-                    ? 'text-[var(--green)] font-medium'
+                    ? 'text-[var(--accent-text)] font-medium'
                     : 'text-[var(--muted)] hover:text-[var(--text)]'
                 }`}
               >
@@ -117,26 +122,20 @@ export const ArchivePage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* LEFT COLUMN: Featured Item Artifact Card */}
         {featuredItem && (
-          <div className="lg:col-span-5 bg-[var(--panel)] border border-[var(--hair)] p-6 space-y-6 relative">
-            {/* Corner Crop Marks */}
-            <div className="absolute top-2 left-2 text-[var(--muted)] text-[10px] font-mono select-none">+</div>
-            <div className="absolute top-2 right-2 text-[var(--muted)] text-[10px] font-mono select-none">+</div>
-            <div className="absolute bottom-2 left-2 text-[var(--muted)] text-[10px] font-mono select-none">+</div>
-            <div className="absolute bottom-2 right-2 text-[var(--muted)] text-[10px] font-mono select-none">+</div>
-
+          <div className="lg:col-span-5 bg-[var(--panel)] border border-[var(--hair)] p-6 space-y-6">
             {/* Header info */}
             <div className="flex items-center justify-between border-b border-[var(--hair)] pb-3">
-              <span className="font-mono text-[13px] text-[var(--green)] font-medium">
+              <span className="font-mono text-[13px] text-[var(--accent-text)] font-medium">
                 EV-{featuredItem.evidenceNumber}
               </span>
-              <div className="flex items-center gap-1.5 text-[12px] text-[var(--soft)] font-medium">
-                <ShieldCheck size={14} className="text-[var(--green)]" />
+              <div className="flex items-center gap-1.5 text-[12px] text-[var(--accent-text)] font-medium">
+                <ShieldCheck size={14} />
                 <span>Time locked</span>
               </div>
             </div>
 
             {/* Media Visual Area */}
-            <div className="w-full h-48 bg-[#040605] border border-[var(--hair)] flex flex-col items-center justify-center relative overflow-hidden p-4">
+            <div className="w-full h-48 bg-[var(--bg)] border border-[var(--hair)] flex flex-col items-center justify-center relative overflow-hidden p-4">
               {featuredItem.previewDataUrl ? (
                 <img
                   src={featuredItem.previewDataUrl}
@@ -166,7 +165,7 @@ export const ArchivePage: React.FC = () => {
                   <span className="text-[var(--text)] font-mono">{featuredItem.size}</span>
                 </div>
                 <div>
-                  <span className="text-[var(--muted)] block">Preserved time</span>
+                  <span className="text-[var(--muted)] block">Preserved</span>
                   <span className="text-[var(--text)] font-mono">{featuredItem.timestamp}</span>
                 </div>
               </div>
@@ -175,35 +174,36 @@ export const ArchivePage: React.FC = () => {
               <div>
                 <div className="flex items-center justify-between text-[13px] text-[var(--muted)] mb-1">
                   <span>SHA-256 hash</span>
-                  <span className="text-[11px] text-[var(--green)]">NIST FIPS 180-4</span>
+                  <span className="text-[11px] text-[var(--accent-text)]">NIST FIPS 180-4</span>
                 </div>
                 <div className="p-2.5 bg-[var(--bg)] border border-[var(--hair)] flex items-center justify-between gap-2">
-                  <code className="font-mono text-[11px] text-[var(--soft)] break-all leading-relaxed">
+                  <code className="font-mono text-[11px] text-[var(--accent-text)] break-all leading-relaxed">
                     {featuredItem.sha256}
                   </code>
                   <button
+                    type="button"
                     onClick={() => handleCopyFeaturedHash(featuredItem.sha256)}
-                    className="p-1 text-[var(--muted)] hover:text-[var(--green)] transition-colors cursor-pointer shrink-0"
-                    title="Copy full hash"
+                    className="p-1 text-[var(--muted)] hover:text-[var(--accent-text)] transition-colors cursor-pointer shrink-0"
+                    title="Copy hash"
                   >
-                    {copiedHash ? <Check size={14} className="text-[var(--green)]" /> : <Copy size={14} />}
+                    {copiedHash ? <Check size={14} className="text-[var(--accent-text)]" /> : <Copy size={14} />}
                   </button>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex items-center gap-3 pt-2">
+              {/* Action Buttons: 1 primary button, 1 secondary link */}
+              <div className="flex items-center justify-between pt-2">
                 <button
                   type="button"
                   onClick={() => setDrawerItem(featuredItem)}
-                  className="app-btn-secondary w-full text-center"
+                  className="app-link"
                 >
                   View full metadata
                 </button>
                 <button
                   type="button"
                   onClick={() => navigate(`/trace/${incident.id}`)}
-                  className="app-btn w-full text-center"
+                  className="app-btn"
                 >
                   Trace graph
                 </button>
@@ -237,13 +237,13 @@ export const ArchivePage: React.FC = () => {
                   >
                     {/* Selected 2px green left bar */}
                     {isSelected && (
-                      <span className="absolute left-0 top-0 bottom-0 w-[2px] bg-[var(--green)]" />
+                      <span className="absolute left-0 top-0 bottom-0 w-[2px] bg-[var(--accent-text)]" />
                     )}
 
                     {/* The Time-Lock Moment: Expanding subtle green ring on newly uploaded item */}
                     {isRecent && (
                       <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                        <span className="absolute -inset-2 rounded-full border border-[var(--green)] opacity-75 animate-ping" />
+                        <span className="absolute -inset-2 rounded-full border border-[var(--accent)] opacity-75 animate-ping" />
                       </div>
                     )}
 
@@ -254,10 +254,10 @@ export const ArchivePage: React.FC = () => {
                       </div>
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-[12px] text-[var(--green)] font-medium">
+                          <span className="font-mono text-[12px] text-[var(--accent-text)] font-medium">
                             EV-{item.evidenceNumber}
                           </span>
-                          <span className="text-[14px] font-medium text-[var(--text)] truncate group-hover:text-[var(--soft)] transition-colors">
+                          <span className="text-[14px] font-medium text-[var(--text)] truncate group-hover:text-[var(--accent-text)] transition-colors">
                             {item.name}
                           </span>
                         </div>
@@ -270,8 +270,8 @@ export const ArchivePage: React.FC = () => {
                     {/* Right: Timestamp & Hash */}
                     <div className="flex sm:flex-col items-start sm:items-end justify-between sm:justify-center gap-1 font-mono text-[12px] text-[var(--muted)] shrink-0">
                       <div className="text-[var(--text)]">{item.timestamp}</div>
-                      <div className="text-[11px] text-[var(--soft)]">
-                        {item.sha256.substring(0, 12)}...
+                      <div className="text-[11px] text-[var(--accent-text)]">
+                        {formatHashShort(item.sha256)}
                       </div>
                     </div>
                   </div>
@@ -280,7 +280,7 @@ export const ArchivePage: React.FC = () => {
 
               {filteredEvidence.length === 0 && (
                 <div className="py-12 text-center text-[var(--muted)] text-[14px]">
-                  No evidence items found matching your filter.
+                  No evidence items found matching your filter. Drop a screenshot or file to start the record.
                 </div>
               )}
             </div>

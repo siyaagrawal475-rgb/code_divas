@@ -26,33 +26,34 @@ export const ChroniclePage: React.FC = () => {
       <div className="space-y-8">
         <div className="flex items-center justify-between">
           <span className="text-[14px] text-[var(--muted)]">
-            Summary of active preserved records
+            Summary of preserved records
           </span>
           <button
-            className="btn"
+            type="button"
+            className="app-btn"
             onClick={() => navigate('/incident/new')}
           >
-            Create new incident
+            Preserve incident
           </button>
         </div>
 
-        {/* Three Plain Figures separated by hairlines, NOT in boxes */}
+        {/* Three Plain Figures separated by hairlines */}
         <div className="grid grid-cols-1 sm:grid-cols-3 border-y border-[var(--hair)] py-6 divide-y sm:divide-y-0 sm:divide-x divide-[var(--hair)]">
           <div className="sm:pr-8 py-3 sm:py-0">
             <div className="font-display text-4xl sm:text-5xl font-light text-[var(--text)] tabular-nums leading-none">
               {activeCasesCount}
             </div>
             <div className="text-[13px] text-[var(--muted)] mt-2">
-              Active cases
+              Recorded cases
             </div>
           </div>
 
           <div className="sm:px-8 py-3 sm:py-0">
-            <div className="font-display text-4xl sm:text-5xl font-light text-[var(--green)] tabular-nums leading-none">
+            <div className="font-display text-4xl sm:text-5xl font-light text-[var(--accent-text)] tabular-nums leading-none">
               {totalEvidenceCount}
             </div>
             <div className="text-[13px] text-[var(--muted)] mt-2">
-              Evidence items
+              Preserved items
             </div>
           </div>
 
@@ -61,7 +62,7 @@ export const ChroniclePage: React.FC = () => {
               {reportsCount}
             </div>
             <div className="text-[13px] text-[var(--muted)] mt-2">
-              Reports generated
+              Attested reports
             </div>
           </div>
         </div>
@@ -70,7 +71,7 @@ export const ChroniclePage: React.FC = () => {
       {/* The Case Ledger: Ruled Table */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-xl font-light text-[var(--text)]">
+          <h2 className="heading-2">
             Recent incidents
           </h2>
           <span className="text-[13px] text-[var(--muted)] font-mono">
@@ -82,18 +83,19 @@ export const ChroniclePage: React.FC = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-[var(--hair)] text-[13px] text-[var(--muted)] font-normal">
-                <th className="py-3 pr-4 font-normal">Case ID</th>
-                <th className="py-3 px-4 font-normal">Type</th>
+                <th className="py-3 pr-4 font-normal">Case</th>
+                <th className="py-3 px-4 font-normal">Classification</th>
                 <th className="py-3 px-4 font-normal">Platform</th>
-                <th className="py-3 px-4 font-normal">Found</th>
-                <th className="py-3 px-4 font-normal">Risk</th>
-                <th className="py-3 pl-4 font-normal text-right">Action</th>
+                <th className="py-3 px-4 font-normal">Recorded</th>
+                <th className="py-3 px-4 font-normal">Severity</th>
+                <th className="py-3 pl-4 font-normal text-right">Evidence</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--hair)] text-[14px]">
               {incidents.map((incident) => {
                 const isNew = recentCreatedIncidentId === incident.id;
                 const isHigh = incident.riskLevel === 'HIGH';
+                const isMed = incident.riskLevel === 'MEDIUM';
 
                 return (
                   <tr
@@ -103,15 +105,15 @@ export const ChroniclePage: React.FC = () => {
                     role="button"
                     onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleRowClick(incident.id)}
                     className={`group cursor-pointer hover:bg-[var(--panel)] transition-colors relative ${
-                      isNew ? 'bg-[#0E3B27]/20' : ''
+                      isNew ? 'bg-[var(--raised)]' : ''
                     }`}
                   >
-                    {/* One-time green left-edge flash if newly created */}
+                    {/* Case ID with subtle indicator */}
                     <td className="py-4 pr-4 font-mono text-[13px] text-[var(--text)] relative">
                       {isNew && (
-                        <span className="absolute left-0 top-0 bottom-0 w-[2px] bg-[var(--green)] animate-pulse" />
+                        <span className="absolute left-0 top-0 bottom-0 w-[2px] bg-[var(--accent-text)]" />
                       )}
-                      <span className="group-hover:text-[var(--soft)] transition-colors">
+                      <span className="group-hover:text-[var(--accent-text)] transition-colors">
                         {incident.id}
                       </span>
                     </td>
@@ -133,26 +135,37 @@ export const ChroniclePage: React.FC = () => {
 
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        {/* Square risk marker: high red, medium amber */}
+                        {/* 2px square risk marker */}
                         <span
-                          className={`w-2 h-2 rounded-[1px] ${
-                            isHigh ? 'bg-[#FF5C67]' : 'bg-[#F5B942]'
-                          }`}
+                          className="w-2 h-2 rounded-[1px] shrink-0"
+                          style={{
+                            backgroundColor: isHigh
+                              ? 'var(--danger)'
+                              : isMed
+                              ? 'var(--warn)'
+                              : 'var(--accent-text)',
+                          }}
                         />
                         <span className="text-[13px] text-[var(--text)]">
-                          {isHigh ? 'High' : 'Medium'}
+                          {isHigh ? 'High' : isMed ? 'Medium' : 'Low'}
                         </span>
                       </div>
                     </td>
 
-                    <td className="py-4 pl-4 text-right">
-                      <span className="text-[13px] text-[var(--muted)] group-hover:text-[var(--soft)] transition-colors">
-                        View trace
-                      </span>
+                    <td className="py-4 pl-4 text-right font-mono text-[13px] text-[var(--muted)] tabular-nums">
+                      {incident.evidenceItems.length} items
                     </td>
                   </tr>
                 );
               })}
+
+              {incidents.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="py-12 text-center text-[var(--muted)] text-[14px]">
+                    No incidents recorded yet. Drop a screenshot or file to start the record.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

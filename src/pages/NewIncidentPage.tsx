@@ -20,7 +20,7 @@ export const NewIncidentPage: React.FC = () => {
   const [selectedType, setSelectedType] = useState<IncidentType>('Impersonation');
   const [selectedPlatform, setSelectedPlatform] = useState<Platform>('Instagram');
   const [accountHandle, setAccountHandle] = useState<string>('@fake_profile_clone');
-  const [contentUrl, setContentUrl] = useState<string>('https://instagram.com/fake_profile_clone');
+  const [contentUrl, setContentUrl] = useState<string>('https://instagram.com/fake_profile_clone_981');
   const [discoveryDateTime, setDiscoveryDateTime] = useState<string>(() => {
     const now = new Date();
     const pad = (n: number) => (n < 10 ? '0' + n : n);
@@ -130,7 +130,7 @@ export const NewIncidentPage: React.FC = () => {
 
   const handleSubmit = async () => {
     setIsProcessing(true);
-    await new Promise((r) => setTimeout(r, 1500));
+    await new Promise((r) => setTimeout(r, 1200));
 
     await createIncident({
       type: selectedType,
@@ -171,12 +171,12 @@ export const NewIncidentPage: React.FC = () => {
               cy="32"
               r={radius}
               fill="none"
-              stroke="var(--green)"
+              stroke="var(--accent-text)"
               strokeWidth={strokeWidth}
               strokeDasharray={circumference}
               strokeDashoffset={dashOffset}
               strokeLinecap="round"
-              style={{ transition: 'stroke-dashoffset .4s ease' }}
+              style={{ transition: 'stroke-dashoffset 400ms ease' }}
             />
           </svg>
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: '"JetBrains Mono", monospace', fontSize: '13px', color: 'var(--text)' }}>
@@ -198,17 +198,17 @@ export const NewIncidentPage: React.FC = () => {
                   alignItems: 'center',
                   gap: '12px',
                   paddingLeft: isCurrent ? '10px' : '12px',
-                  borderLeft: isCurrent ? '2px solid var(--green)' : 'none',
-                  color: isCurrent ? 'var(--text)' : isDone ? 'var(--soft)' : 'var(--muted)',
+                  borderLeft: isCurrent ? '2px solid var(--accent-text)' : 'none',
+                  color: isCurrent ? 'var(--text)' : isDone ? 'var(--accent-text)' : 'var(--muted)',
                   fontSize: '15px',
                   fontWeight: isCurrent ? 500 : 400,
-                  transition: 'color .18s',
+                  transition: 'color 160ms',
                 }}
               >
                 {isDone ? (
-                  <span style={{ color: 'var(--green)', fontSize: '14px', lineHeight: 1 }}>✓</span>
+                  <span style={{ color: 'var(--accent-text)', fontSize: '14px', lineHeight: 1 }}>✓</span>
                 ) : (
-                  <span style={{ color: isCurrent ? 'var(--green)' : 'var(--muted)', fontSize: '13px', fontFamily: '"JetBrains Mono", monospace' }}>
+                  <span style={{ color: isCurrent ? 'var(--accent-text)' : 'var(--muted)', fontSize: '13px', fontFamily: '"JetBrains Mono", monospace' }}>
                     0{s.num}
                   </span>
                 )}
@@ -259,21 +259,21 @@ export const NewIncidentPage: React.FC = () => {
                           alignItems: 'center',
                           gap: '16px',
                           padding: '0 16px',
-                          background: isSelected ? 'var(--panel)' : 'transparent',
+                          backgroundColor: isSelected ? 'var(--panel)' : 'transparent',
                           border: 'none',
                           borderBottom: '1px solid var(--hair)',
-                          borderLeft: isSelected ? '2px solid var(--green)' : 'none',
+                          borderLeft: isSelected ? '2px solid var(--accent-text)' : 'none',
                           color: 'var(--text)',
                           cursor: 'pointer',
                           textAlign: 'left',
-                          transition: 'background .18s',
+                          transition: 'background-color 160ms',
                         }}
                       >
-                        <span style={{ color: isSelected ? 'var(--green)' : 'var(--muted)', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                        <span style={{ color: isSelected ? 'var(--accent-text)' : 'var(--muted)', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
                           {opt.icon}
                         </span>
                         <div>
-                          <div style={{ fontWeight: 500, fontSize: '15px', color: isSelected ? 'var(--text)' : 'var(--text)' }}>
+                          <div style={{ fontWeight: 500, fontSize: '15px', color: 'var(--text)' }}>
                             {opt.type}
                           </div>
                           <div style={{ fontSize: '13px', color: 'var(--muted)', marginTop: '2px' }}>
@@ -312,18 +312,18 @@ export const NewIncidentPage: React.FC = () => {
                           alignItems: 'center',
                           justifyContent: 'space-between',
                           padding: '0 16px',
-                          background: isSelected ? 'var(--panel)' : 'transparent',
+                          backgroundColor: isSelected ? 'var(--panel)' : 'transparent',
                           border: 'none',
                           borderBottom: '1px solid var(--hair)',
-                          borderLeft: isSelected ? '2px solid var(--green)' : 'none',
+                          borderLeft: isSelected ? '2px solid var(--accent-text)' : 'none',
                           color: 'var(--text)',
                           cursor: 'pointer',
                           fontSize: '15px',
-                          transition: 'background .18s',
+                          transition: 'background-color 160ms',
                         }}
                       >
                         <span>{plat}</span>
-                        {isSelected && <span style={{ color: 'var(--green)' }}>✓</span>}
+                        {isSelected && <span style={{ color: 'var(--accent-text)' }}>✓</span>}
                       </button>
                     );
                   })}

@@ -19,7 +19,7 @@ export const LiveClock: React.FC<{ className?: string }> = ({ className = '' }) 
 
   return (
     <span
-      className={`font-mono font-medium text-[13px] text-[#9AFFC4] tabular-nums ${className}`}
+      className={`font-mono font-medium text-[13px] text-[var(--accent-text)] tabular-nums ${className}`}
     >
       {timeStr}
     </span>
