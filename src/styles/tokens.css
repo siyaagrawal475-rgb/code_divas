@@ -60,40 +60,40 @@
 }
 
 [data-theme="light"] {
-  /* Warm off-white paper & ink palette */
-  --bg: #F5F6F3;
-  --panel: #FFFFFF;
-  --raised: #ECEEEA;
-  --surface-hover: #E3E7E1;
-  --hair: #D6DDD6;
-  --hair-bright: #B5C2B6;
+  /* Soothing matte paper / slate-sand tone (anti-glare, low luminance) */
+  --bg: #E1E5E1;
+  --panel: #E9ECE8;
+  --raised: #DDE2DC;
+  --surface-hover: #D2D8D0;
+  --hair: #BFC8BE;
+  --hair-bright: #9EAEA0;
 
-  --text: #111513;
-  --text-secondary: #2B3630;
-  --muted: #5A695F;
-  --muted-dark: #8C9C91;
+  --text: #111713;
+  --text-secondary: #223027;
+  --muted: #4F6154;
+  --muted-dark: #7A8D7F;
 
-  /* Deep Emerald Accent for WCAG AA compliance on light background */
-  --accent: #1F8F5F;
-  --accent-soft: #27A56E;
+  /* Deep Emerald Accent for WCAG AA compliance on soft matte background */
+  --accent: #177C51;
+  --accent-soft: #1E9663;
   --accent-bright: #0F5E3B;
-  --accent-deep: #166B46;
+  --accent-deep: #13603E;
   --accent-ink: #FFFFFF;
-  --accent-glow: rgba(31, 143, 95, 0.14);
-  --accent-subtle: rgba(31, 143, 95, 0.06);
+  --accent-glow: rgba(23, 124, 81, 0.16);
+  --accent-subtle: rgba(23, 124, 81, 0.08);
 
-  --gold: #9B7722;
-  --gold-glow: rgba(155, 119, 34, 0.12);
-  --warn: #B8771A;
-  --warn-bg: rgba(184, 119, 26, 0.08);
-  --danger: #C52A36;
-  --danger-bg: rgba(197, 42, 54, 0.08);
+  --gold: #8C6A18;
+  --gold-glow: rgba(140, 106, 24, 0.14);
+  --warn: #A8650E;
+  --warn-bg: rgba(168, 101, 14, 0.1);
+  --danger: #B8222F;
+  --danger-bg: rgba(184, 34, 47, 0.1);
 
-  --grain-opacity: 0.025;
+  --grain-opacity: 0.03;
   --grain-blend: multiply;
 
-  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.06);
-  --spill-glow: 0 0 16px rgba(31, 143, 95, 0.08);
-  --card-glow-hover: 0 0 18px rgba(31, 143, 95, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --spill-glow: 0 0 16px rgba(23, 124, 81, 0.1);
+  --card-glow-hover: 0 0 18px rgba(23, 124, 81, 0.12), 0 4px 12px rgba(0, 0, 0, 0.07);
 }
