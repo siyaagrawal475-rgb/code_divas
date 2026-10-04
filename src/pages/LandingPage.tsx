@@ -99,12 +99,12 @@ export const LandingPage: React.FC = () => {
 
       {/* HERO STAGE */}
       <section className="relative z-20 flex-1 flex flex-col justify-center py-12 lg:py-20 w-full overflow-hidden">
-        {/* Massive slow-rotating Sigil scaled up and positioned to the right */}
+        {/* Massive 900px slow-rotating Sigil positioned to the right */}
         <div
-          className="absolute -right-52 sm:-right-60 md:-right-68 lg:-right-72 xl:-right-60 top-1/2 -translate-y-1/2 pointer-events-none opacity-30 sm:opacity-55 lg:opacity-85 select-none"
+          className="absolute -right-56 sm:-right-68 md:-right-76 lg:-right-80 xl:-right-68 top-1/2 -translate-y-1/2 pointer-events-none opacity-30 sm:opacity-55 lg:opacity-85 select-none"
           aria-hidden="true"
         >
-          <TimeSigil size={840} speed="slow" intensity="normal" showClock={true} />
+          <TimeSigil size={900} speed="slow" intensity="normal" showClock={true} />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 w-full">
