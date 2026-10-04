@@ -4,51 +4,68 @@ import { TimeSigil } from './TimeSigil';
 import { LiveClock } from './LiveClock';
 import { Toast } from './Toast';
 import { ThemeToggle } from './ThemeToggle';
+import { QuickExit } from './QuickExit';
+import { Stepper } from './Stepper';
 import { useIncidents } from '../context/IncidentContext';
+import {
+  FolderLock,
+  PlusCircle,
+  Archive,
+  Network,
+  FileCheck,
+  Settings,
+  Shield,
+} from 'lucide-react';
 
 export const AppLayout: React.FC = () => {
   const location = useLocation();
   const { activeIncidentId, incidents } = useIncidents();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  const activeId = activeIncidentId || incidents[0]?.id || 'HT-002';
+  const activeId = activeIncidentId || incidents[0]?.id || 'CV-002';
 
   // Extract page title & subtitle based on current route
   const getHeaderInfo = () => {
     const path = location.pathname;
     if (path === '/chronicle') {
       return {
-        title: 'Chronicle',
-        subtitle: 'Your incidents, preserved in time.',
+        title: 'Chronicle Dashboard',
+        subtitle: 'Summary of preserved cases and cryptographic records.',
+        step: 1,
       };
     }
     if (path === '/incident/new') {
       return {
-        title: 'New incident',
-        subtitle: 'Preserve evidence before it is lost or altered.',
+        title: 'New Incident Intake',
+        subtitle: 'Guided preservation wizard. You can stop and resume at any moment.',
+        step: 2,
       };
     }
     if (path === '/archive') {
       return {
-        title: 'Time archive',
-        subtitle: 'Evidence preserved exactly as submitted.',
+        title: 'Time Archive Vault',
+        subtitle: `Case ${activeId} · Local evidence sealed with NIST SHA-256 signatures.`,
+        step: 3,
       };
     }
     if (path.startsWith('/trace')) {
       return {
-        title: 'Trace',
-        subtitle: `Case ${activeId} · Reconstruct what happened.`,
+        title: 'Correlation Trace',
+        subtitle: `Case ${activeId} · Interactive timeline and heuristic telemetry.`,
+        step: 5,
       };
     }
     if (path.startsWith('/report')) {
       return {
-        title: 'Report',
-        subtitle: `Case ${activeId} · The incident, in order.`,
+        title: 'Attestation Report',
+        subtitle: `Case ${activeId} · Section 63 (BSA 2023) certified complaint package.`,
+        step: 6,
       };
     }
     return {
-      title: 'HERTRACE',
+      title: 'CHRONOVAULT',
       subtitle: 'Digital evidence preservation.',
+      step: 1,
     };
   };
 
@@ -58,61 +75,50 @@ export const AppLayout: React.FC = () => {
     {
       name: 'Chronicle',
       path: '/chronicle',
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 7v5l3 3" />
-        </svg>
-      ),
+      icon: <FolderLock size={20} strokeWidth={1.5} />,
     },
     {
-      name: 'Cases',
-      path: `/trace/${activeId}`,
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="6" cy="6" r="3" />
-          <circle cx="18" cy="18" r="3" />
-          <path d="M8.5 8.5l7 7" />
-          <circle cx="18" cy="6" r="2" />
-        </svg>
-      ),
+      name: 'New Incident',
+      path: '/incident/new',
+      icon: <PlusCircle size={20} strokeWidth={1.5} />,
     },
     {
-      name: 'Evidence archive',
+      name: 'Time Archive',
       path: '/archive',
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M4 4h16v4H4z" />
-          <path d="M4 8v12h16V8" />
-          <line x1="10" y1="12" x2="14" y2="12" />
-        </svg>
-      ),
+      icon: <Archive size={20} strokeWidth={1.5} />,
     },
     {
-      name: 'Reports',
+      name: 'Correlation Trace',
+      path: `/trace/${activeId}`,
+      icon: <Network size={20} strokeWidth={1.5} />,
+    },
+    {
+      name: 'Attestation Report',
       path: `/report/${activeId}`,
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-          <polyline points="14 2 14 8 20 8" />
-          <line x1="16" y1="13" x2="8" y2="13" />
-          <line x1="16" y1="17" x2="8" y2="17" />
-        </svg>
-      ),
+      icon: <FileCheck size={20} strokeWidth={1.5} />,
     },
   ];
 
   return (
-    <div className="app">
-      {/* 72px Left Rail */}
-      <aside className="rail">
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '32px', width: '100%' }}>
-          <Link to="/" className="rail-logo" title="HERTRACE Home">
-            <TimeSigil size={32} showClock={false} />
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] flex flex-col md:flex-row">
+      {/* 72px LEFT RAIL (Desktop) / Bottom Nav (Mobile) */}
+      <aside
+        className="w-full md:w-[72px] md:h-screen md:sticky md:top-0 bg-[var(--panel)] border-b md:border-b-0 md:border-r border-[var(--hair)] flex md:flex-col justify-between items-center px-4 py-3 md:py-6 z-40 shrink-0"
+        aria-label="Sidebar Navigation"
+      >
+        <div className="flex md:flex-col items-center gap-6 md:gap-8 w-full">
+          {/* Logo Mark */}
+          <Link
+            to="/"
+            className="flex items-center justify-center p-1 rounded-[var(--radius-xs)] text-[var(--accent)] hover:scale-105 transition-transform"
+            title="CHRONOVAULT Home"
+            aria-label="CHRONOVAULT Home"
+          >
+            <TimeSigil size={32} speed="slow" showClock={false} />
           </Link>
 
-          {/* Icon-only Navigation with Tooltips */}
-          <nav className="rail-nav">
+          {/* Navigation Items */}
+          <nav className="flex md:flex-col items-center gap-2 md:gap-3 w-full justify-around md:justify-start">
             {navItems.map((item) => {
               const isActive =
                 location.pathname === item.path ||
@@ -120,14 +126,20 @@ export const AppLayout: React.FC = () => {
                 (item.path.startsWith('/report') && location.pathname.startsWith('/report'));
 
               return (
-                <div key={item.name} className="rail-item-wrapper" style={{ position: 'relative', width: '100%' }}>
+                <div key={item.name} className="relative group flex items-center justify-center">
                   <NavLink
                     to={item.path}
-                    className={`rail-item ${isActive ? 'active' : ''}`}
+                    className={`flex items-center justify-center w-11 h-11 min-h-[44px] min-w-[44px] rounded-[var(--radius-sm)] transition-all cursor-pointer ${
+                      isActive
+                        ? 'bg-[var(--raised)] text-[var(--accent)] border border-[var(--accent)]/40 shadow-[0_0_12px_var(--accent-glow)]'
+                        : 'text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--raised)]'
+                    }`}
+                    aria-label={item.name}
                   >
                     {item.icon}
                   </NavLink>
-                  <div className="rail-tooltip">
+                  {/* Tooltip on Desktop */}
+                  <div className="hidden md:block absolute left-[56px] px-2.5 py-1 bg-[var(--raised)] border border-[var(--hair)] rounded-[var(--radius-xs)] text-[12px] font-medium text-[var(--text)] whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 shadow-lg">
                     {item.name}
                   </div>
                 </div>
@@ -136,82 +148,119 @@ export const AppLayout: React.FC = () => {
           </nav>
         </div>
 
-        {/* Bottom Actions: Theme Toggle + Settings */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', width: '100%' }}>
-          <div className="rail-item-wrapper" style={{ position: 'relative' }}>
-            <ThemeToggle />
-          </div>
-
-          <div className="rail-item-wrapper" style={{ position: 'relative', width: '100%' }}>
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className="rail-item"
-              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-              aria-label="Settings"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="3" />
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-              </svg>
-            </button>
-            <div className="rail-tooltip">
-              Settings
-            </div>
-          </div>
+        {/* Rail Bottom Actions */}
+        <div className="flex md:flex-col items-center gap-2">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={() => setIsSettingsOpen(true)}
+            className="flex items-center justify-center w-10 h-10 min-h-[44px] min-w-[44px] rounded-[var(--radius-sm)] text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--raised)] transition-colors cursor-pointer"
+            title="System & Security Settings"
+            aria-label="Settings"
+          >
+            <Settings size={18} strokeWidth={1.5} />
+          </button>
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <main className="content">
+      {/* MAIN CONTENT WORKSPACE */}
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
         {/* Topbar */}
-        <header className="topbar">
-          <div className="topbar-left">
-            <h1 className="topbar-title">{headerInfo.title}</h1>
-            <p className="topbar-subtitle">{headerInfo.subtitle}</p>
+        <header className="px-6 sm:px-10 py-5 border-b border-[var(--hair)] bg-[var(--bg)]/80 backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-display text-2xl sm:text-3xl font-light text-[var(--text)]">
+                {headerInfo.title}
+              </span>
+              <span className="font-mono text-[11px] text-[var(--accent)] px-2 py-0.5 rounded-[var(--radius-xs)] border border-[var(--hair)] bg-[var(--panel)]">
+                {activeId}
+              </span>
+            </div>
+            <p className="text-[13px] text-[var(--muted)] mt-0.5">
+              {headerInfo.subtitle}
+            </p>
           </div>
 
-          <div className="topbar-right">
-            <div className="secure">
-              <i />
-              <span>Secure session</span>
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-2 text-[12px] text-[var(--muted)] font-mono">
+              <Shield size={14} className="text-[var(--accent)]" />
+              <span>Isolated Vault</span>
             </div>
-            <LiveClock className="topbar-clock" />
+
+            <QuickExit />
+            <LiveClock className="font-mono text-[13px] text-[var(--accent)] tabular-nums" />
           </div>
         </header>
 
-        {/* View content */}
-        <Outlet />
-      </main>
+        {/* Persistent Case Progress Stepper */}
+        <Stepper currentStep={headerInfo.step} caseId={activeId} />
+
+        {/* Dynamic Route View */}
+        <main className="flex-1 p-6 sm:p-10 max-w-7xl w-full mx-auto pb-24 md:pb-12">
+          <Outlet />
+        </main>
+      </div>
 
       {/* Settings Modal */}
       {isSettingsOpen && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 60, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-          <div style={{ width: '100%', maxWidth: '440px', backgroundColor: 'var(--panel)', border: '1px solid var(--hair)', borderRadius: '2px', padding: '24px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid var(--hair)', marginBottom: '16px' }}>
-              <h3 style={{ margin: 0, font: "300 20px 'Fraunces', serif", color: 'var(--text)' }}>Settings</h3>
-              <button onClick={() => setIsSettingsOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '13px' }}>
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+        >
+          <div className="w-full max-w-md bg-[var(--panel)] border border-[var(--hair)] rounded-[var(--radius-sm)] p-6 space-y-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[var(--hair)] pb-4">
+              <div className="flex items-center gap-2">
+                <Shield size={18} className="text-[var(--accent)]" />
+                <h3 className="font-display text-lg font-light text-[var(--text)]">
+                  SECURITY & CRYPTO ENGINE
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsSettingsOpen(false)}
+                className="text-[13px] text-[var(--muted)] hover:text-[var(--text)] cursor-pointer p-1"
+              >
                 Close
               </button>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: 'var(--muted)', fontFamily: '"JetBrains Mono", monospace' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--hair)' }}>
-                <span>Cryptographic engine</span>
-                <span style={{ color: 'var(--accent-text)' }}>WebCrypto SHA-256</span>
+
+            <div className="space-y-3 font-mono text-[12px] text-[var(--text-secondary)]">
+              <div className="p-3 bg-[var(--bg)] rounded border border-[var(--hair)] flex justify-between items-center">
+                <span>Hashing Engine</span>
+                <span className="text-[var(--accent)] font-semibold">WebCrypto SHA-256</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--hair)' }}>
-                <span>Local storage isolation</span>
-                <span style={{ color: 'var(--accent-text)' }}>Active</span>
+              <div className="p-3 bg-[var(--bg)] rounded border border-[var(--hair)] flex justify-between items-center">
+                <span>Client Isolation</span>
+                <span className="text-[var(--accent)] font-semibold">100% In-Browser</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Clock synchronization</span>
-                <span style={{ color: 'var(--accent-text)' }}>UTC</span>
+              <div className="p-3 bg-[var(--bg)] rounded border border-[var(--hair)] flex justify-between items-center">
+                <span>Clock Sync</span>
+                <span className="text-[var(--accent)] font-semibold">UTC (Atomic Timestamp)</span>
+              </div>
+              <div className="p-3 bg-[var(--bg)] rounded border border-[var(--hair)] flex justify-between items-center">
+                <span>Statutory Compliance</span>
+                <span className="text-[var(--accent)] font-semibold">Section 63 (BSA 2023)</span>
               </div>
             </div>
+
+            <p className="text-[12px] text-[var(--muted)] leading-relaxed">
+              CHRONOVAULT operates purely client-side without storing user media on external servers.
+              All certificates and hash trees are compiled strictly on this local machine.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setIsSettingsOpen(false)}
+              className="w-full py-2.5 bg-[var(--raised)] border border-[var(--hair)] hover:border-[var(--muted)] rounded-[var(--radius-sm)] text-[13px] text-[var(--text)] font-medium cursor-pointer"
+            >
+              Done
+            </button>
           </div>
         </div>
       )}
 
-      {/* Global Toast Notifications */}
+      {/* Global Toast */}
       <Toast />
     </div>
   );

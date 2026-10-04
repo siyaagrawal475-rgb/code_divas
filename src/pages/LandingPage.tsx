@@ -1,274 +1,353 @@
-// Screen 1: Entry / Landing
-// Memorable element: The Eye of Agamotto Time Sigil with real-time clock synchronization.
-
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { TimeSigil } from '../components/TimeSigil';
+import { DustParticles } from '../components/DustParticles';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { QuickExit } from '../components/QuickExit';
+import { LiveClock } from '../components/LiveClock';
+import {
+  ShieldCheck,
+  Lock,
+  FileCheck,
+  Search,
+  Upload,
+  CheckCircle2,
+  FolderTree,
+  Network,
+  FileSpreadsheet,
+  ArrowRight,
+  AlertOctagon,
+  Sparkles,
+} from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
-  const stageRef = useRef<HTMLDivElement>(null);
-  const ticksRef = useRef<SVGGElement>(null);
-  const glyphsRef = useRef<SVGGElement>(null);
-  const dialRef = useRef<SVGGElement>(null);
-  const hHRef = useRef<SVGLineElement>(null);
-  const hMRef = useRef<SVGLineElement>(null);
-  const hSRef = useRef<SVGLineElement>(null);
-  const clockRef = useRef<HTMLSpanElement>(null);
+  const stepsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    try {
-      if (sessionStorage.getItem('ht-seen') && stageRef.current) {
-        stageRef.current.classList.add('seen');
-      }
-      sessionStorage.setItem('ht-seen', '1');
-    } catch {
-      // ignore storage error
-    }
+  const scrollToSteps = (e: React.MouseEvent) => {
+    e.preventDefault();
+    stepsRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-    // Generate 180 ticks
-    let t = '';
-    for (let i = 0; i < 180; i++) {
-      const L = i % 5 === 0 ? 14 : 6;
-      t += `<line x1="300" y1="9" x2="300" y2="${9 + L}" stroke-opacity="${i % 5 ? 0.5 : 0.85}" transform="rotate(${i * 2} 300 300)"/>`;
-    }
-    if (ticksRef.current) {
-      ticksRef.current.innerHTML = t;
-    }
-
-    // Generate 28 glyphs
-    const G = [
-      '<path d="M0-7V7M-4 0H4"/>',
-      '<path d="M0-7L6 5H-6Z"/>',
-      '<circle r="3.5"/><path d="M0-7v-3"/>',
-      '<path d="M-5-6V6M5-6V6M-5 0H5"/>',
-      '<path d="M-6 4A6 6 0 0 1 6 4M0-7v6"/>',
-      '<path d="M-6-6L6 6M6-6L-6 6"/>',
-      '<circle r="1.6" fill="var(--accent-text)"/><path d="M-6 0H-3M3 0H6M0-6V-3M0 3V6"/>',
-    ];
-    let g = '';
-    for (let i = 0; i < 28; i++) {
-      g += `<g transform="rotate(${i * (360 / 28)} 300 300) translate(300 38)">${G[(i * 3 + (i >> 2)) % 7]}</g>`;
-    }
-    if (glyphsRef.current) {
-      glyphsRef.current.innerHTML = g;
-    }
-
-    // Generate 60 dial ticks
-    let d = '';
-    for (let i = 0; i < 60; i++) {
-      d += `<line x1="300" y1="190" x2="300" y2="${i % 5 ? 194 : 200}" stroke-opacity="${i % 5 ? 0.35 : 0.8}" transform="rotate(${i * 6} 300 300)"/>`;
-    }
-    if (dialRef.current) {
-      dialRef.current.innerHTML = d;
-    }
-
-    function pad(n: number) {
-      return n < 10 ? '0' + n : n.toString();
-    }
-
-    function tick() {
-      const n = new Date();
-      const h = n.getUTCHours();
-      const m = n.getUTCMinutes();
-      const s = n.getUTCSeconds();
-      const sec = h * 3600 + m * 60 + s;
-      if (hHRef.current) hHRef.current.style.transform = 'rotate(' + sec / 120 + 'deg)';
-      if (hMRef.current) hMRef.current.style.transform = 'rotate(' + sec / 10 + 'deg)';
-      if (hSRef.current) hSRef.current.style.transform = 'rotate(' + sec * 6 + 'deg)';
-      if (clockRef.current) clockRef.current.textContent = pad(h) + ':' + pad(m) + ':' + pad(s) + ' UTC';
-    }
-
-    [hHRef.current, hMRef.current, hSRef.current].forEach((el) => {
-      if (el) el.style.transform = 'rotate(0deg)';
-    });
-
-    const timeout1 = setTimeout(() => {
-      tick();
-      const timeout2 = setTimeout(() => {
-        [hHRef.current, hMRef.current, hSRef.current].forEach((el) => {
-          if (el) el.classList.add('live');
-        });
-      }, 1600);
-      return () => clearTimeout(timeout2);
-    }, 250);
-
-    const interval = setInterval(tick, 1000);
-
-    return () => {
-      clearTimeout(timeout1);
-      clearInterval(interval);
-    };
-  }, []);
+  const stepsList = [
+    {
+      num: '01',
+      title: 'Discover',
+      desc: 'Catalog malicious account handles, cloned media, and URLs the moment you encounter them.',
+      icon: <Search size={18} className="text-[var(--accent)]" />,
+    },
+    {
+      num: '02',
+      title: 'Preserve',
+      desc: 'Capture full screenshots, video streams, and network logs directly before posts are deleted.',
+      icon: <Upload size={18} className="text-[var(--accent)]" />,
+    },
+    {
+      num: '03',
+      title: 'Verify',
+      desc: 'Compute NIST FIPS 180-4 SHA-256 cryptographic digests in-browser with zero cloud leakage.',
+      icon: <CheckCircle2 size={18} className="text-[var(--accent)]" />,
+    },
+    {
+      num: '04',
+      title: 'Organise',
+      desc: 'Structure related evidence into tamper-evident incident binders with verifiable UTC timestamps.',
+      icon: <FolderTree size={18} className="text-[var(--accent)]" />,
+    },
+    {
+      num: '05',
+      title: 'Understand',
+      desc: 'Inspect interactive correlation graphs and heuristic assessments with transparent confidence scores.',
+      icon: <Network size={18} className="text-[var(--accent)]" />,
+    },
+    {
+      num: '06',
+      title: 'Report',
+      desc: 'Generate Section 63 (BSA 2023) certified complaint dossiers ready for cybercrime.gov.in.',
+      icon: <FileSpreadsheet size={18} className="text-[var(--accent)]" />,
+    },
+  ];
 
   return (
-    <div className="entry-page">
-      <div className="stage" id="stage" ref={stageRef}>
-        <div className="crop">
-          <span className="a" />
-          <span className="b" />
-          <span className="c" />
-          <span className="d" />
-        </div>
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--accent-subtle)] selection:text-[var(--accent-bright)] relative flex flex-col">
+      {/* Ambient dust particles */}
+      <DustParticles count={32} />
 
-        <header>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span className="secure">
-              <i />
-              Secure session
+      {/* TOPBAR HEADER */}
+      <header className="relative z-30 flex items-center justify-between px-6 sm:px-12 py-5 border-b border-[var(--hair)] bg-[var(--bg)]/80 backdrop-blur-md">
+        <div className="flex items-center gap-3">
+          <TimeSigil size={32} speed="slow" showClock={false} />
+          <div className="flex flex-col">
+            <span className="font-display font-light text-[15px] tracking-[0.22em] text-[var(--text)]">
+              CHRONOVAULT
             </span>
-            <ThemeToggle />
+            <span className="text-[10px] font-mono text-[var(--muted)] tracking-wider uppercase">
+              Forensic Vault
+            </span>
           </div>
-        </header>
-
-        <div className="sigil" aria-hidden="true">
-          <svg viewBox="0 0 600 600" fill="none">
-            <defs>
-              <radialGradient id="gem-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="var(--accent-text)" />
-                <stop offset="100%" stopColor="var(--accent)" />
-              </radialGradient>
-            </defs>
-
-            <g className="layer" style={{ '--d': '.45s' } as React.CSSProperties}>
-              <g id="ticks" ref={ticksRef} stroke="var(--gold)" />
-              <circle cx="300" cy="300" r="291" stroke="var(--gold)" strokeOpacity="0.5" />
-            </g>
-
-            <g className="layer" style={{ '--d': '.6s' } as React.CSSProperties}>
-              <g className="spin" style={{ '--t': '140s' } as React.CSSProperties}>
-                <circle cx="300" cy="300" r="276" stroke="var(--gold)" strokeOpacity="0.3" />
-                <circle cx="300" cy="300" r="248" stroke="var(--accent-text)" strokeOpacity="0.35" />
-                <g id="glyphs" ref={glyphsRef} stroke="var(--accent-text)" strokeOpacity="0.85" strokeLinecap="round" />
-              </g>
-            </g>
-
-            <g className="layer" style={{ '--d': '.75s' } as React.CSSProperties}>
-              <g className="spin rev" style={{ '--t': '80s' } as React.CSSProperties}>
-                <circle
-                  cx="300"
-                  cy="300"
-                  r="222"
-                  stroke="var(--accent)"
-                  strokeWidth="2.5"
-                  strokeOpacity="0.75"
-                  strokeDasharray="210 70"
-                  pathLength="1400"
-                />
-                <circle
-                  cx="300"
-                  cy="300"
-                  r="204"
-                  stroke="var(--accent-text)"
-                  strokeOpacity="0.4"
-                  strokeDasharray="2 9"
-                />
-              </g>
-            </g>
-
-            <g className="layer" style={{ '--d': '.9s' } as React.CSSProperties}>
-              <g className="spin" style={{ '--t': '200s' } as React.CSSProperties}>
-                <path d="M300 138 L440 381 H160 Z" stroke="var(--accent-text)" strokeOpacity="0.4" />
-                <path d="M300 462 L160 219 H440 Z" stroke="var(--gold)" strokeOpacity="0.35" />
-              </g>
-            </g>
-
-            <g className="layer" style={{ '--d': '1s' } as React.CSSProperties}>
-              <circle cx="300" cy="300" r="112" stroke="var(--accent-text)" strokeOpacity="0.5" />
-              <g id="dial" ref={dialRef} stroke="var(--accent-text)" strokeOpacity="0.6" />
-              <line
-                id="h-h"
-                ref={hHRef}
-                className="hand"
-                x1="300"
-                y1="300"
-                x2="300"
-                y2="236"
-                stroke="var(--text)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-              <line
-                id="h-m"
-                ref={hMRef}
-                className="hand"
-                x1="300"
-                y1="300"
-                x2="300"
-                y2="208"
-                stroke="var(--accent-text)"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
-              <line
-                id="h-s"
-                ref={hSRef}
-                className="hand"
-                x1="300"
-                y1="322"
-                x2="300"
-                y2="196"
-                stroke="var(--gold)"
-                strokeWidth="1"
-              />
-            </g>
-
-            <g className="layer" style={{ '--d': '.15s' } as React.CSSProperties}>
-              <g className="gem">
-                <polygon points="300,300 300,268 327.7,284" fill="#45E08A" stroke="var(--accent-text)" strokeWidth="0.5" />
-                <polygon points="300,300 327.7,284 327.7,316" fill="#2FB96D" stroke="var(--accent-text)" strokeWidth="0.5" />
-                <polygon points="300,300 327.7,316 300,332" fill="#1F8F52" stroke="var(--accent-text)" strokeWidth="0.5" />
-                <polygon points="300,300 300,332 272.3,316" fill="#45E08A" stroke="var(--accent-text)" strokeWidth="0.5" />
-                <polygon points="300,300 272.3,316 272.3,284" fill="#7CF0B0" stroke="var(--accent-text)" strokeWidth="0.5" />
-                <polygon points="300,300 272.3,284 300,268" fill="#9AFFC4" stroke="var(--accent-text)" strokeWidth="0.5" />
-              </g>
-            </g>
-          </svg>
         </div>
 
-        <main>
-          <div className="i-word">
-            <h1>HERTRACE</h1>
+        <div className="flex items-center gap-4">
+          <div className="hidden sm:flex items-center gap-2 text-[12px] text-[var(--muted)] font-mono">
+            <span className="w-2 h-2 rounded-full bg-[var(--accent)] shadow-[0_0_6px_var(--accent)]" />
+            <span>Local Vault Active</span>
           </div>
-          <div className="i-rest">
-            <p className="quote">“Bound in time, proven beyond doubt.”</p>
-            <p className="lede">
-              Preserve digital evidence of online impersonation, non-consensual
-              imagery and deepfakes. Every artifact is sealed with a
-              cryptographic timestamp the moment you find it.
-            </p>
-            <div className="actions">
-              <Link to="/incident/new" className="btn">
-                Preserve an incident
-              </Link>
-              <Link to="/chronicle" className="link">
-                Open active chronicle
-              </Link>
-            </div>
-            <ul className="facts">
-              <li>
-                <b>Zero platform reliance</b>
-                Preserved locally even if original posts are deleted.
-              </li>
-              <li>
-                <b>Cryptographic seal</b>
-                SHA-256 digests anchored with UTC timestamps.
-              </li>
-              <li>
-                <b>Attestation reports</b>
-                Structured records formatted for legal and trust teams.
-              </li>
-            </ul>
-          </div>
-        </main>
 
-        <footer>
-          <span>Eye of Agamotto Forensic Engine · v0.9.4</span>
-          <em>Time is the ultimate witness.</em>
-          <span id="clock" ref={clockRef}>
-            00:00:00 UTC
-          </span>
-        </footer>
-      </div>
+          <QuickExit />
+          <ThemeToggle />
+        </div>
+      </header>
+
+      {/* HERO STAGE */}
+      <section className="relative z-20 flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-16 lg:py-24 max-w-7xl mx-auto w-full overflow-hidden">
+        {/* Large slow-rotating Sigil on Background Right */}
+        <div
+          className="absolute -right-24 sm:-right-12 top-1/2 -translate-y-1/2 pointer-events-none opacity-30 sm:opacity-50 lg:opacity-75 select-none"
+          aria-hidden="true"
+        >
+          <TimeSigil size={780} speed="slow" showClock={true} />
+        </div>
+
+        <div className="relative z-10 max-w-2xl space-y-8">
+          {/* Spaced Display Title Motif */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[var(--radius-xs)] border border-[var(--hair)] bg-[var(--panel)]/60 text-[11px] font-display text-[var(--accent)]">
+            <Sparkles size={12} />
+            <span>TIME IS INFINITY · EVIDENCE IS IMMUTABLE</span>
+          </div>
+
+          {/* Main Title & Tagline */}
+          <div className="space-y-4">
+            <h1 className="font-display-title text-4xl sm:text-6xl lg:text-7xl font-light text-[var(--text)] leading-[1.05]">
+              CHRONOVAULT
+            </h1>
+            <p className="text-xl sm:text-2xl font-light text-[var(--accent-bright)] font-display tracking-wider">
+              Preserve Every Moment. Protect Every Trace.
+            </p>
+          </div>
+
+          {/* Subtitle / Plain warm reassuring description */}
+          <p className="text-[16px] sm:text-[17px] text-[var(--muted)] leading-relaxed max-w-xl font-body">
+            A private, tamper-evident evidence vault designed for women facing online abuse,
+            impersonation, deepfakes, and non-consensual image sharing. Every artifact is sealed
+            in-browser with NIST FIPS SHA-256 signatures before original posts are deleted.
+          </p>
+
+          {/* CTA Action Buttons */}
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <Link
+              to="/incident/new"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[var(--accent)] text-[var(--accent-ink)] font-semibold text-[15px] rounded-[var(--radius-sm)] shadow-lg shadow-[var(--accent-glow)] hover:opacity-95 transition-all min-h-[44px] cursor-pointer"
+            >
+              <span>Start a case</span>
+              <ArrowRight size={16} />
+            </Link>
+
+            <button
+              type="button"
+              onClick={scrollToSteps}
+              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-transparent text-[var(--text)] border border-[var(--hair)] hover:border-[var(--muted)] hover:bg-[var(--panel)] rounded-[var(--radius-sm)] text-[14px] font-medium transition-all min-h-[44px] cursor-pointer"
+            >
+              <span>How it works</span>
+            </button>
+
+            <Link
+              to="/chronicle"
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-3 text-[14px] text-[var(--muted)] hover:text-[var(--text)] transition-colors min-h-[44px]"
+            >
+              <span>Open active chronicle</span>
+            </Link>
+          </div>
+
+          {/* Reassurance & Security Pillars */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-[var(--hair)]">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-[14px] font-medium text-[var(--text)]">
+                <Lock size={15} className="text-[var(--accent)]" />
+                <span>Zero Cloud Leakage</span>
+              </div>
+              <p className="text-[12px] text-[var(--muted)] leading-relaxed">
+                Files are processed locally in your browser memory. Nothing is uploaded to external servers.
+              </p>
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-[14px] font-medium text-[var(--text)]">
+                <ShieldCheck size={15} className="text-[var(--accent)]" />
+                <span>Tamper-Evident Seal</span>
+              </div>
+              <p className="text-[12px] text-[var(--muted)] leading-relaxed">
+                SHA-256 hashes generated client-side provide mathematically verifiable timestamps.
+              </p>
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-[14px] font-medium text-[var(--text)]">
+                <FileCheck size={15} className="text-[var(--accent)]" />
+                <span>Report-Ready Dossier</span>
+              </div>
+              <p className="text-[12px] text-[var(--muted)] leading-relaxed">
+                Formats formal Section 63 (BSA 2023) electronic evidence bundles for cybercrime.gov.in.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6-STEP STRIP SECTION */}
+      <section
+        ref={stepsRef}
+        className="relative z-20 border-t border-[var(--hair)] bg-[var(--panel)]/30 py-20 px-6 sm:px-12 lg:px-20"
+      >
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="space-y-2 text-center sm:text-left">
+            <div className="text-[11px] font-mono text-[var(--accent)] uppercase tracking-wider">
+              The 6-Phase Forensic Workflow
+            </div>
+            <h2 className="font-display text-2xl sm:text-3xl font-light text-[var(--text)]">
+              FROM CHAOTIC INCIDENT TO TAMPER-EVIDENT VAULT
+            </h2>
+            <p className="text-[14px] text-[var(--muted)] max-w-2xl">
+              A structured, protective intake pipeline designed to minimize friction during high-stress moments.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {stepsList.map((step) => (
+              <div
+                key={step.num}
+                className="temporal-card p-6 space-y-4 relative group"
+              >
+                <div className="flex items-center justify-between border-b border-[var(--hair)] pb-3">
+                  <span className="font-mono text-[12px] text-[var(--accent)] font-medium">
+                    PHASE {step.num}
+                  </span>
+                  <div className="w-8 h-8 rounded-[var(--radius-xs)] bg-[var(--bg)] border border-[var(--hair)] flex items-center justify-center">
+                    {step.icon}
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <h3 className="text-[16px] font-medium text-[var(--text)] group-hover:text-[var(--accent-bright)] transition-colors">
+                    {step.title}
+                  </h3>
+                  <p className="text-[13px] text-[var(--muted)] leading-relaxed">
+                    {step.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TODAY VS WITH CHRONOVAULT COMPARISON */}
+      <section className="relative z-20 border-t border-[var(--hair)] py-20 px-6 sm:px-12 lg:px-20 bg-[var(--bg)]">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="space-y-2 text-center">
+            <div className="text-[11px] font-mono text-[var(--accent)] uppercase tracking-wider">
+              Comparative Analysis
+            </div>
+            <h2 className="font-display text-2xl sm:text-3xl font-light text-[var(--text)]">
+              TODAY VS. WITH CHRONOVAULT
+            </h2>
+            <p className="text-[14px] text-[var(--muted)] max-w-xl mx-auto">
+              How standard ad-hoc screenshotting fails victims — and how cryptographic timestamps change the outcome.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            {/* Without CHRONOVAULT */}
+            <div className="p-8 rounded-[var(--radius-sm)] border border-[var(--danger)]/30 bg-[var(--danger-bg)]/20 space-y-6 flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-[var(--danger)] font-mono text-[13px] font-medium uppercase tracking-wider">
+                  <AlertOctagon size={16} />
+                  <span>Ad-Hoc Response (Without Vault)</span>
+                </div>
+                <div className="font-mono text-[14px] text-[var(--text)] space-y-2">
+                  <div className="p-3 bg-[var(--bg)]/80 rounded border border-[var(--danger)]/20 text-[13px]">
+                    <span className="text-[var(--danger)] font-bold">1. Find</span> → Discover abusive profile or image
+                  </div>
+                  <div className="p-3 bg-[var(--bg)]/80 rounded border border-[var(--danger)]/20 text-[13px]">
+                    <span className="text-[var(--danger)] font-bold">2. Panic</span> → Stress and uncertainty on what to save
+                  </div>
+                  <div className="p-3 bg-[var(--bg)]/80 rounded border border-[var(--danger)]/20 text-[13px]">
+                    <span className="text-[var(--danger)] font-bold">3. Screenshot</span> → Random gallery photos without hash or headers
+                  </div>
+                  <div className="p-3 bg-[var(--bg)]/80 rounded border border-[var(--danger)]/20 text-[13px]">
+                    <span className="text-[var(--danger)] font-bold">4. Post Deleted</span> → Perpetrator removes trace, leaving no proof
+                  </div>
+                  <div className="p-3 bg-[var(--bg)]/80 rounded border border-[var(--danger)]/20 text-[13px]">
+                    <span className="text-[var(--danger)] font-bold">5. Lose Track</span> → Complaint dismissed due to lack of tamper-proof logs
+                  </div>
+                </div>
+              </div>
+              <div className="text-[12px] text-[var(--muted)] pt-3 border-t border-[var(--hair)]">
+                Result: Unsubstantiated screenshots easily contested in official inquiries.
+              </div>
+            </div>
+
+            {/* With CHRONOVAULT */}
+            <div className="p-8 rounded-[var(--radius-sm)] border border-[var(--accent)]/40 bg-[var(--panel)] shadow-[var(--spill-glow)] space-y-6 flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-[var(--accent)] font-mono text-[13px] font-medium uppercase tracking-wider">
+                  <ShieldCheck size={16} />
+                  <span>With CHRONOVAULT Evidence Vault</span>
+                </div>
+                <div className="font-mono text-[14px] text-[var(--text)] space-y-2">
+                  <div className="p-3 bg-[var(--bg)] rounded border border-[var(--hair)] text-[13px]">
+                    <span className="text-[var(--accent)] font-bold">1. Discover</span> → Catalog handle, URL, and time
+                  </div>
+                  <div className="p-3 bg-[var(--bg)] rounded border border-[var(--hair)] text-[13px]">
+                    <span className="text-[var(--accent)] font-bold">2. Preserve</span> → Media & network headers captured locally
+                  </div>
+                  <div className="p-3 bg-[var(--bg)] rounded border border-[var(--hair)] text-[13px]">
+                    <span className="text-[var(--accent)] font-bold">3. Verify</span> → In-browser SHA-256 NIST hash lock
+                  </div>
+                  <div className="p-3 bg-[var(--bg)] rounded border border-[var(--hair)] text-[13px]">
+                    <span className="text-[var(--accent)] font-bold">4. Organise</span> → Interactive correlation timeline & trace graph
+                  </div>
+                  <div className="p-3 bg-[var(--bg)] rounded border border-[var(--hair)] text-[13px]">
+                    <span className="text-[var(--accent)] font-bold">5. Report</span> → Section 63 BSA 2023 certified dossier packet
+                  </div>
+                </div>
+              </div>
+              <div className="text-[12px] text-[var(--accent-bright)] pt-3 border-t border-[var(--hair)] flex items-center justify-between">
+                <span>Result: Tamper-evident proof sealed before content is wiped.</span>
+                <Link to="/incident/new" className="text-[var(--accent)] font-semibold hover:underline">
+                  Start case →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="relative z-30 border-t border-[var(--hair)] py-8 px-6 sm:px-12 lg:px-20 bg-[var(--bg)] text-[13px] text-[var(--muted)]">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div className="space-y-1">
+            <div className="font-medium text-[var(--text)]">
+              CHRONOVAULT · Code Divas Forensic Engineering
+            </div>
+            <div className="text-[12px] text-[var(--muted)]">
+              Prepares your complaint. Filing is done on{' '}
+              <a
+                href="https://cybercrime.gov.in"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[var(--accent)] hover:underline"
+              >
+                cybercrime.gov.in
+              </a>
+              .
+            </div>
+          </div>
+
+          <div className="flex items-center gap-6 font-mono text-[12px]">
+            <span className="text-[var(--text-secondary)]">UTC Synchronized</span>
+            <LiveClock className="text-[var(--accent)]" />
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

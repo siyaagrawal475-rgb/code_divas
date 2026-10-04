@@ -1,8 +1,11 @@
-# HERTRACE — Digital Evidence Preservation & Incident Reconstruction
+# CHRONOVAULT — Digital Evidence Vault & Incident Reconstruction
 
-A full-stack, end-to-end working prototype of **HERTRACE**, a digital evidence preservation and incident reconstruction platform for victims of online impersonation, deepfakes, and unauthorized media dissemination.
+> **"Preserve Every Moment. Protect Every Trace."**  
+> Developed by **Team Code Divas** for victims of online abuse, impersonation, deepfakes, and non-consensual media distribution.
 
-Built with a serious, high-integrity security aesthetic (Linear / Vercel / 1Password admin style). The core theme is **TIME**: *"Time preserves the truth."*
+CHRONOVAULT is a private, client-side digital evidence vault that turns a chaotic incident into a tamper-evident, report-ready case file across 6 structured phases: **Discover > Preserve > Verify > Organise > Understand > Report**.
+
+It prepares and certifies the formal evidence dossier under **Section 63 of Bharatiya Sakshya Adhiniyam, 2023 (BSA 2023)**; official filing is completed on [cybercrime.gov.in](https://cybercrime.gov.in).
 
 ---
 
@@ -13,78 +16,50 @@ Built with a serious, high-integrity security aesthetic (Linear / Vercel / 1Pass
 npm install
 ```
 
-### 2. Start the fullstack development servers (Frontend + Backend)
+### 2. Start the development server
 ```bash
 npm run dev
 ```
-- **Frontend App**: [http://localhost:3000](http://localhost:3000)
-- **Backend Vault API**: [http://localhost:3001/api/health](http://localhost:3001/api/health)
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## 🛠 Tech Stack
+## 💎 The Time Stone Theme & Design System
 
-- **Frontend**: React 19 + TypeScript + Vite + Tailwind CSS v4 + React Router v7
-- **Backend API**: Node.js + Express 5 + TypeScript (native Node 24 type execution)
-- **Database**: SQLite (Node 24 native `DatabaseSync` in WAL mode)
-- **File & Media Storage**: Secure disk vault (`server/uploads/`) with multipart upload pipeline via `multer`
-- **Cryptography Engine**: NIST FIPS 180-4 SHA-256 cryptographic digests calculated on both client and backend vault
-- **Attestation & Sealing**: Eye of Agamotto cryptographic attestation generator linking case IDs, temporal timestamps, and verified evidence hashes
-- **Forensic Intelligence Engine**: Probabilistic heuristic analysis, dynamic dependency graph reconstruction, and formal report compiler
-- **Typography & Icons**: Inter, JetBrains Mono, `lucide-react` (16/18px, stroke width 1.5)
+The visual language is an original, forensic-grade interpretation of the **Time Stone / Eye of Agamotto** sacred geometry:
 
----
-
-## 🔒 Design System & Aesthetic Principles
-
-- **Flat surfaces with 1px borders**: No glassmorphism, no neon glows, no gradient text, no blurred blobs.
-- **Green Accent Discipline**: Green (`#45E08A`) covers at most 10% of any screen, reserved strictly for verified states, active navigation indicators, primary actions, and timeline nodes.
-- **Strict Spacing & Radius Scale**:
-  - Spacing: 4 / 8 / 12 / 16 / 24 / 32 / 48 px
-  - Radius: `6px` for inputs/buttons, `10px` for cards.
-- **Design Tokens**:
-  - Background: `#080A09`
-  - Surface: `#101512`
-  - Border: `#202A24`
-  - Text: `#E8F0EB`
-  - Muted Text: `#8B9890`
-  - Accent: `#45E08A`
-  - Ok / Valid: `#63D6A0`
-  - Warning: `#F5B942`
-  - Danger: `#FF5C67`
-- **Hedged AI Language**: All automated forensic intelligence uses responsible, probabilistic terminology (*"possible"*, *"heuristic indicators suggest"*).
+- **Original Sacred Geometry Artwork**:
+  - Concentric rings, 8-point & 9-point star polygons, outer chronometric bezel ticks, and rune-like glyphs rendered in pure inline SVG `<TimeSigil />`.
+  - Counter-rotating rings with configurable speed, size, and intensity.
+  - Fast spin-up during cryptographic SHA-256 calculation that settles with a soft green pulse and temporal-echo ghost trail.
+  - Lens-flare radial light center and subtle ambient drifting dust particles (<40 particles canvas).
+- **Temporal Green Palette (5–10% Screen Accent)**:
+  - Base: Near-black (`#0A0C0B` to `#121513`) with subtle 3% grain noise texture.
+  - Emerald Temporal Green: `#2FE08F` / `#3DDC84`, `#1F8F5F` for deep fills, `#9AFFC4` for bright indicators. Green is reserved strictly for active states, key verification data, and edge light spills.
+  - Light Theme: Warm off-white paper (`#F5F6F3`) with dark green hairlines and ink text (`#111513`), WCAG AA compliant.
+- **Typography**:
+  - **Display / Section Labels**: `Manrope` (weights 200–300, uppercase, `0.18–0.28em` tracking).
+  - **Body / UI**: `Inter` / `Manrope` (weights 400–500 at 15–16px, high contrast).
+  - **Hashes, Timestamps & IDs**: `JetBrains Mono` with tabular numbers.
+- **Microcopy & Responsible AI**:
+  - Plain, warm, non-technical microcopy (*"tamper-evident"*, *"supports your complaint"*).
+  - Automated analysis always uses hedged, probabilistic wording (*"possible manipulation"*, e.g. 78% confidence) with the clear disclaimer: *"Supporting analysis only, not a verdict."*
 
 ---
 
-## 🧭 Routes and Demo Flow
+## 🧭 The 6 Core Screens
 
-| Route | Name | Key Functionality |
+| Route | Phase | Key Capabilities |
 |---|---|---|
-| `/` | **Entry / Landing** | Centered Time Stone-inspired concentric ring motif (rotates on hover), 1.5s intro sequence, quick route launch. |
-| `/chronicle` | **Chronicle Dashboard** | Stat telemetry (Active cases, Evidence items, Reports), dense incident table with risk badges, filter and search. |
-| `/incident/new` | **Intake Wizard** | 4-step calm intake flow: What happened -> Where found -> Details -> Drag & drop evidence upload with client-side SHA-256 calculation. |
-| `/archive` | **Time Archive (Hero)** | Evidence grid with procedural SVG forensic visualizers, truncated SHA-256, signature green ring expansion animation on newly added files, and 360px slide-in metadata detail drawer. |
-| `/trace/:id` | **Trace Reconstruction** | 3-column workspace: Key-value case telemetry, interactive SVG dependency graph with hover/click highlights, and hedged AI analysis checklist. |
-| `/report/:id` | **Time Trail & Report** | Vertical chronological reconstruction trail ending in the Time Stone-inspired ring node, and an off-white formal incident report preview with staged 4-step PDF generation and download. |
+| `/` | **1. Entry / Landing** | Slow-rotating Eye of Agamotto `<TimeSigil />`, CHRONOVAULT wordmark, 6-phase workflow strip, Today vs. With CHRONOVAULT comparative analysis, and persistent Quick Exit. |
+| `/chronicle` | **2. Chronicle** | Case ledger of compact cards (`CV-002`, `CV-001`, etc.), summary telemetry with watch bezel ticks, search and filter chips, and calm empty state. |
+| `/incident/new` | **3. Guided Intake** | 4-step intake stepper (Classification, Platform, Identifiers, Evidence), autosave indicator, and *"You can stop and come back"* reassurance line. |
+| `/archive` | **4. Time Archive** | Drag-and-drop vault, real in-browser Web Crypto SHA-256 hashing, truncated hashes with copy buttons, "Re-verify" instant check, and client-side isolation guarantee. |
+| `/trace/:id` | **5. Correlation Trace** | Interactive node-link graph (account, endpoint URL, image, hash seal), time scrub slider with step-by-step playback, and `<RiskMeter />` with rule-based heuristic factors. |
+| `/report/:id` | **6. Attestation Report** | Chronological Time Trail next to a live preview of the formal report sheet with a faint watermark sigil, Section 63 BSA 2023 certificate, cybercrime.gov.in checklist, and download packet. |
 
 ---
 
-## 🧪 End-to-End Walkthrough
+## 🔒 Client-Side Cryptographic Vault
 
-1. **Entry (`/`)**: Click **"Create incident"** or explore with **"Open evidence archive"**.
-2. **Create Incident (`/incident/new`)**:
-   - Step 1: Choose *Deepfake or manipulation* or *Impersonation*.
-   - Step 2: Choose target platform (*Instagram*, *WhatsApp*, etc.).
-   - Step 3: Enter target account and details.
-   - Step 4: Drop any image/video/log file to calculate its SHA-256 hash in real time.
-   - Click **"Preserve incident"** to simulate cryptographic anchoring.
-3. **Archive (`/archive`)**: Notice the new evidence item highlight with the signature green expanding ring animation settling into a verified locked state. Click the card to open the slide-in drawer.
-4. **Trace (`/trace/:id`)**: Explore the evidence dependency graph, hover over nodes to light up connections, and inspect the AI analysis panel.
-5. **Report (`/report/:id`)**: View the chronological time trail, click **"Generate PDF"** to watch the staged verification process, and download the sealed report package.
-6. **Chronicle (`/chronicle`)**: View the new case actively tracked in the immutable incident list.
-
----
-
-## ⚖️ Security & Privacy Model
-
-HERTRACE is architected as an isolated client-side vault. Files dropped into the interface are hashed locally inside the browser using NIST FIPS 180-4 SHA-256 algorithms. No user media or credentials ever leave the device.
+CHRONOVAULT operates purely client-side without storing user media on remote servers. Files dropped into the vault are hashed in browser memory using the native Web Crypto API (`window.crypto.subtle.digest('SHA-256')`). Zero files or credentials ever leave your machine.

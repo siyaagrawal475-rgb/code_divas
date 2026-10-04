@@ -1,9 +1,8 @@
-// Screen 5: Trace
-// Memorable element: The evidence graph with time scrub slider.
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useIncidents } from '../context/IncidentContext';
+import { RiskMeter } from '../components/RiskMeter';
+import { Button } from '../components/Button';
 import {
   Play,
   Pause,
@@ -12,11 +11,14 @@ import {
   Globe,
   Image as ImageIcon,
   FileCheck,
+  ArrowRight,
+  ExternalLink,
 } from 'lucide-react';
 
 interface ExtendedGraphNode {
   id: string;
   label: string;
+  subLabel?: string;
   type: string;
   time: string;
   detail: string;
@@ -40,13 +42,41 @@ export const TracePage: React.FC = () => {
   }, [incident, id, setActiveIncidentId]);
 
   const allNodes: ExtendedGraphNode[] = [
-    { id: 'node-account', label: 'Impersonator account', type: 'source', time: '22:21 UTC', detail: 'Fake profile registered with similar display name.' },
-    { id: 'node-url', label: 'Direct message link', type: 'event', time: '22:27 UTC', detail: 'Phishing domain sent via direct message.' },
-    { id: 'node-media', label: 'Modified profile image', type: 'media', time: '22:31 UTC', detail: 'Cropped portrait extracted from victim archive.' },
-    { id: 'node-evidence', label: 'Cryptographic hash seal', type: 'evidence', time: '22:35 UTC', detail: 'NIST SHA-256 evidence payload generated.' },
+    {
+      id: 'node-account',
+      label: incident?.accountHandle || '@fake_profile_clone',
+      subLabel: 'Cloned Identity Profile',
+      type: 'account',
+      time: '22:21 UTC',
+      detail: 'Malicious profile registered with identical avatar photography and altered alphanumeric suffix.',
+    },
+    {
+      id: 'node-url',
+      label: incident?.contentUrl ? (incident.contentUrl.length > 30 ? incident.contentUrl.substring(0, 28) + '...' : incident.contentUrl) : 'instagram.com/fake_profile_clone...',
+      subLabel: 'Dissemination Endpoint',
+      type: 'url',
+      time: '22:27 UTC',
+      detail: 'Publicly indexed URL distributing impersonated biographical claims and unsolicited direct messages.',
+    },
+    {
+      id: 'node-media',
+      label: 'Stolen Photography Artifact',
+      subLabel: 'Original Creative Image',
+      type: 'image',
+      time: '22:31 UTC',
+      detail: 'High keypoint match to victim photography cropped and reposted without authorization.',
+    },
+    {
+      id: 'node-evidence',
+      label: 'NIST SHA-256 Vault Seal',
+      subLabel: 'Cryptographic Anchor',
+      type: 'evidence',
+      time: '22:35 UTC',
+      detail: 'Client-side SHA-256 evidence payload sealed to protect against subsequent post deletion.',
+    },
   ];
 
-  const allEdges = incident?.graphEdges || [
+  const allEdges = [
     { id: 'e1', from: 'node-account', to: 'node-url' },
     { id: 'e2', from: 'node-url', to: 'node-media' },
     { id: 'e3', from: 'node-media', to: 'node-evidence' },
@@ -64,7 +94,7 @@ export const TracePage: React.FC = () => {
           }
           return prev + 1;
         });
-      }, 1200);
+      }, 1400);
     }
     return () => clearInterval(interval);
   }, [isPlayingScrub, allNodes.length]);
@@ -79,104 +109,97 @@ export const TracePage: React.FC = () => {
 
   const getNodeIcon = (type: string) => {
     switch (type) {
-      case 'source':
-        return <User size={16} className="text-[var(--accent-text)]" />;
-      case 'event':
-        return <Globe size={16} className="text-[var(--accent-text)]" />;
-      case 'media':
-        return <ImageIcon size={16} className="text-[var(--accent-text)]" />;
+      case 'account':
+        return <User size={18} className="text-[var(--accent)]" />;
+      case 'url':
+        return <Globe size={18} className="text-[var(--accent)]" />;
+      case 'image':
+        return <ImageIcon size={18} className="text-[var(--accent)]" />;
       default:
-        return <FileCheck size={16} className="text-[var(--accent-text)]" />;
+        return <FileCheck size={18} className="text-[var(--accent)]" />;
     }
   };
 
-  const isHigh = incident.riskLevel === 'HIGH';
-  const isMed = incident.riskLevel === 'MEDIUM';
-
   return (
     <div className="space-y-8">
-      {/* 3-Column Layout: Left (Details) | Center (Graph + Scrubber) | Right (Analysis) */}
+      {/* 3-Column Layout: Left (Case Telemetry) | Center (Graph + Scrubber) | Right (Heuristic Risk Meter) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* COLUMN 1: Key facts (3 cols on lg) */}
-        <div className="lg:col-span-3 bg-[var(--panel)] border border-[var(--hair)] p-6 space-y-6">
+        <div className="lg:col-span-3 bg-[var(--panel)] border border-[var(--hair)] rounded-[var(--radius-sm)] p-6 space-y-6">
           <div>
-            <div className="text-[13px] text-[var(--muted)]">Case reference</div>
-            <div className="font-mono text-xl font-medium text-[var(--text)] mt-1">
+            <div className="text-[11px] font-mono text-[var(--accent)] uppercase tracking-wider">
+              Case Reference
+            </div>
+            <div className="font-mono text-2xl font-light text-[var(--text)] mt-1">
               {incident.id}
             </div>
           </div>
 
           <div className="space-y-3.5 border-t border-[var(--hair)] pt-4 text-[13px]">
             <div>
-              <span className="text-[var(--muted)] block">Classification</span>
+              <span className="text-[var(--muted)] text-[11px] font-mono uppercase block">Classification</span>
               <span className="text-[var(--text)] font-medium">{incident.type}</span>
             </div>
 
             <div>
-              <span className="text-[var(--muted)] block">Target handle</span>
-              <span className="text-[var(--text)] font-mono">{incident.accountHandle}</span>
+              <span className="text-[var(--muted)] text-[11px] font-mono uppercase block">Suspect handle</span>
+              <span className="text-[var(--accent-bright)] font-mono">{incident.accountHandle}</span>
             </div>
 
             <div>
-              <span className="text-[var(--muted)] block">Platform</span>
+              <span className="text-[var(--muted)] text-[11px] font-mono uppercase block">Platform</span>
               <span className="text-[var(--text)]">{incident.platform}</span>
             </div>
 
             <div>
-              <span className="text-[var(--muted)] block">First recorded</span>
-              <span className="text-[var(--text)] font-mono">{incident.createdAt || incident.discoveredAt}</span>
+              <span className="text-[var(--muted)] text-[11px] font-mono uppercase block">Discovered UTC</span>
+              <span className="text-[var(--text)] font-mono text-[12px]">{incident.discoveredAt}</span>
             </div>
 
             <div>
-              <span className="text-[var(--muted)] block">Severity</span>
-              <div className="flex items-center gap-2 mt-1">
-                <span
-                  className="w-2 h-2 rounded-[1px] shrink-0"
-                  style={{
-                    backgroundColor: isHigh
-                      ? 'var(--danger)'
-                      : isMed
-                      ? 'var(--warn)'
-                      : 'var(--accent-text)',
-                  }}
-                />
-                <span className="text-[var(--text)] font-medium">
-                  {isHigh ? 'High' : isMed ? 'Medium' : 'Low'}
-                </span>
-                <span className="text-[var(--muted)] font-mono">({incident.riskScore}/100)</span>
-              </div>
+              <span className="text-[var(--muted)] text-[11px] font-mono uppercase block">Evidence Artifacts</span>
+              <span className="text-[var(--text)] font-mono">{incident.evidenceItems.length} items preserved</span>
             </div>
+          </div>
 
-            <div>
-              <span className="text-[var(--muted)] block">Preserved items</span>
-              <span className="text-[var(--text)] font-mono">{incident.evidenceItems.length} items</span>
-            </div>
+          <div className="pt-2 border-t border-[var(--hair)]">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="w-full"
+              icon={<ExternalLink size={14} />}
+              onClick={() => navigate('/archive')}
+            >
+              Open Vault Binder
+            </Button>
           </div>
         </div>
 
-        {/* COLUMN 2: Evidence Graph & Time Scrubber (6 cols on lg) */}
-        <div className="lg:col-span-6 space-y-6">
-          <div className="bg-[var(--panel)] border border-[var(--hair)] p-6 space-y-6">
+        {/* COLUMN 2: Evidence Graph & Time Scrubber (5 cols on lg) */}
+        <div className="lg:col-span-5 space-y-6">
+          <div className="bg-[var(--panel)] border border-[var(--hair)] rounded-[var(--radius-sm)] p-6 space-y-6">
             <div className="flex items-center justify-between border-b border-[var(--hair)] pb-4">
               <div>
-                <h2 className="heading-2">Evidence sequence</h2>
-                <p className="text-[13px] text-[var(--muted)] mt-1">
-                  Chronological correlation of actors, messages, and payloads.
+                <h2 className="font-display text-lg font-light text-[var(--text)]">
+                  CORRELATION SEQUENCE
+                </h2>
+                <p className="text-[12px] text-[var(--muted)] mt-0.5">
+                  Chronological link-graph of accounts, endpoints, and hash anchors.
                 </p>
               </div>
-              <span className="font-mono text-[12px] text-[var(--accent-text)]">
+              <span className="font-mono text-[11px] text-[var(--accent)] px-2 py-0.5 rounded-[var(--radius-xs)] bg-[var(--raised)] border border-[var(--hair)]">
                 Step 0{timeStep} of 0{allNodes.length}
               </span>
             </div>
 
             {/* SVG Correlation Graph Canvas */}
-            <div className="w-full h-64 bg-[var(--bg)] border border-[var(--hair)] relative flex items-center justify-around px-6">
+            <div className="w-full h-64 bg-[var(--bg)] border border-[var(--hair)] rounded-[var(--radius-xs)] relative flex items-center justify-around px-4">
               {/* Pulsing Connector Threads */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
                 <defs>
                   <linearGradient id="threadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stopColor="var(--hair)" />
-                    <stop offset="50%" stopColor="var(--accent-text)" />
+                    <stop offset="50%" stopColor="var(--accent)" />
                     <stop offset="100%" stopColor="var(--hair)" />
                   </linearGradient>
                 </defs>
@@ -196,15 +219,15 @@ export const TracePage: React.FC = () => {
                       x2={`${x2}%`}
                       y2="50%"
                       stroke="url(#threadGrad)"
-                      strokeWidth="1.5"
-                      strokeDasharray="4 2"
-                      opacity="0.85"
+                      strokeWidth="2"
+                      strokeDasharray="4 3"
+                      opacity="0.9"
                     />
                   );
                 })}
               </svg>
 
-              {/* Node Elements */}
+              {/* Node Buttons */}
               <div className="relative z-10 w-full flex items-center justify-between">
                 {allNodes.map((node, index) => {
                   const isVisible = index < timeStep;
@@ -214,7 +237,7 @@ export const TracePage: React.FC = () => {
                     return (
                       <div
                         key={node.id}
-                        className="w-12 h-12 rounded-[2px] border border-dashed border-[var(--hair)] bg-[var(--bg)] flex items-center justify-center opacity-30"
+                        className="w-12 h-12 rounded-[var(--radius-xs)] border border-dashed border-[var(--hair)] bg-[var(--bg)] flex items-center justify-center opacity-30"
                       >
                         <span className="font-mono text-[11px] text-[var(--muted)]">0{index + 1}</span>
                       </div>
@@ -226,14 +249,14 @@ export const TracePage: React.FC = () => {
                       key={node.id}
                       type="button"
                       onClick={() => setSelectedNodeId(node.id)}
-                      className={`w-12 h-12 rounded-[2px] border transition-colors cursor-pointer flex flex-col items-center justify-center relative ${
+                      className={`w-12 h-12 rounded-[var(--radius-xs)] border transition-all cursor-pointer flex flex-col items-center justify-center relative ${
                         isSelected
-                          ? 'border-[var(--accent-text)] bg-[var(--raised)]'
+                          ? 'border-[var(--accent)] bg-[var(--raised)] shadow-[var(--spill-glow)] scale-105'
                           : 'border-[var(--hair)] bg-[var(--panel)] hover:border-[var(--muted)]'
                       }`}
                     >
                       {getNodeIcon(node.type)}
-                      <span className="font-mono text-[9px] text-[var(--muted)] mt-1">
+                      <span className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
                         0{index + 1}
                       </span>
                     </button>
@@ -249,7 +272,7 @@ export const TracePage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setIsPlayingScrub(!isPlayingScrub)}
-                    className="p-1 text-[var(--text)] hover:text-[var(--accent-text)] transition-colors cursor-pointer"
+                    className="p-1 text-[var(--text)] hover:text-[var(--accent)] transition-colors cursor-pointer"
                     title={isPlayingScrub ? 'Pause playback' : 'Play chronological scrub'}
                   >
                     {isPlayingScrub ? <Pause size={14} /> : <Play size={14} />}
@@ -262,9 +285,11 @@ export const TracePage: React.FC = () => {
                   >
                     <RotateCcw size={13} />
                   </button>
-                  <span>Scrub timeline</span>
+                  <span className="font-mono text-[12px]">Scrub timeline</span>
                 </span>
-                <span className="font-mono text-[var(--accent-text)]">{visibleNodes[visibleNodes.length - 1]?.time}</span>
+                <span className="font-mono text-[12px] text-[var(--accent)]">
+                  {visibleNodes[visibleNodes.length - 1]?.time}
+                </span>
               </div>
 
               <input
@@ -276,22 +301,27 @@ export const TracePage: React.FC = () => {
                   setTimeStep(parseInt(e.target.value, 10));
                   setIsPlayingScrub(false);
                 }}
-                className="w-full h-1 bg-[var(--hair)] rounded-none appearance-none cursor-pointer accent-[var(--accent-text)]"
+                className="w-full h-1.5 bg-[var(--hair)] rounded-full appearance-none cursor-pointer accent-[var(--accent)]"
               />
             </div>
 
             {/* Selected Node Details Box */}
             {selectedNode && (
-              <div className="p-4 bg-[var(--bg)] border border-[var(--hair)] space-y-2">
+              <div className="p-4 bg-[var(--bg)] border border-[var(--hair)] rounded-[var(--radius-xs)] space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-[14px] text-[var(--text)]">
-                    {selectedNode.label}
-                  </span>
-                  <span className="font-mono text-[12px] text-[var(--accent-text)]">
+                  <div>
+                    <span className="font-medium text-[14px] text-[var(--text)]">
+                      {selectedNode.label}
+                    </span>
+                    <span className="block text-[11px] font-mono text-[var(--muted)]">
+                      {selectedNode.subLabel}
+                    </span>
+                  </div>
+                  <span className="font-mono text-[12px] text-[var(--accent)]">
                     {selectedNode.time}
                   </span>
                 </div>
-                <p className="text-[13px] text-[var(--muted)] leading-relaxed">
+                <p className="text-[13px] text-[var(--muted)] leading-relaxed pt-1 border-t border-[var(--hair)]">
                   {selectedNode.detail}
                 </p>
               </div>
@@ -299,18 +329,20 @@ export const TracePage: React.FC = () => {
           </div>
         </div>
 
-        {/* COLUMN 3: Forensic Analysis & Telemetry (3 cols on lg) */}
-        <div className="lg:col-span-3 bg-[var(--panel)] border border-[var(--hair)] p-6 space-y-6">
-          <div>
-            <div className="text-[13px] text-[var(--muted)]">Analysis confidence</div>
-            <div className="font-display text-3xl font-light text-[var(--accent-text)] mt-1">
-              {incident.aiAnalysis.confidence}%
-            </div>
-          </div>
+        {/* COLUMN 3: Heuristic Telemetry & Action (4 cols on lg) */}
+        <div className="lg:col-span-4 space-y-6">
+          <RiskMeter
+            score={incident.riskScore}
+            level={incident.riskLevel}
+            confidence={incident.aiAnalysis.confidence}
+            headline={incident.aiAnalysis.headline}
+            summary={incident.aiAnalysis.summary}
+            factors={incident.aiAnalysis.indicators}
+          />
 
-          {/* Plain Checklist */}
+          {/* Telemetry checks */}
           <div className="space-y-3 border-t border-[var(--hair)] pt-4 text-[13px]">
-            <div className="text-[var(--muted)]">Telemetry checks</div>
+            <div className="text-[var(--muted)] font-mono text-[11px] uppercase tracking-wider">Telemetry checks</div>
 
             <div className="flex items-center justify-between py-1 border-b border-[var(--hair)]">
               <span className="text-[var(--text)]">Handle string similarity</span>
@@ -333,30 +365,23 @@ export const TracePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Hedged Summary */}
-          <div className="space-y-2 border-t border-[var(--hair)] pt-4">
-            <div className="text-[13px] text-[var(--muted)]">Investigator summary</div>
-            <p className="text-[13px] text-[var(--text)] leading-relaxed">
-              {incident.aiAnalysis.summary}
-            </p>
-          </div>
-
           {/* Action to Report */}
-          <div className="pt-2 space-y-2">
-            <button
-              type="button"
+          <div className="pt-2 space-y-3">
+            <Button
+              variant="secondary"
+              className="w-full"
               onClick={() => reanalyzeIncident(incident.id)}
-              className="app-btn-secondary w-full text-center"
             >
-              Re-run forensic telemetry
-            </button>
-            <button
-              type="button"
+              Re-run Forensic Telemetry
+            </Button>
+            <Button
+              variant="primary"
+              className="w-full"
+              icon={<ArrowRight size={16} />}
               onClick={() => navigate(`/report/${incident.id}`)}
-              className="app-btn w-full text-center"
             >
-              Generate report
-            </button>
+              Review & Generate Dossier
+            </Button>
           </div>
         </div>
       </div>
