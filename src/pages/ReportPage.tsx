@@ -13,13 +13,13 @@ import {
 
 export const ReportPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { incidents, showToast } = useIncidents();
+  const { incidents, showToast, sealIncident } = useIncidents();
 
   const incident = incidents.find((inc) => inc.id === id) || incidents[0];
 
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generationStage, setGenerationStage] = useState<number>(0);
-  const [isSealed, setIsSealed] = useState<boolean>(false);
+  const [isSealed, setIsSealed] = useState<boolean>(Boolean(incident?.sealed));
 
   const stages = [
     'Collecting evidence payloads and temporal coordinates',
@@ -35,6 +35,12 @@ export const ReportPage: React.FC = () => {
     for (let i = 1; i <= 4; i++) {
       setGenerationStage(i);
       await new Promise((r) => setTimeout(r, 400));
+    }
+
+    try {
+      await sealIncident(incident.id);
+    } catch {
+      // fallback handled
     }
 
     setIsGenerating(false);

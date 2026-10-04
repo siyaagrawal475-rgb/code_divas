@@ -1,6 +1,6 @@
 # HERTRACE — Digital Evidence Preservation & Incident Reconstruction
 
-A frontend-only, clickable prototype of **HERTRACE**, a digital evidence preservation and incident reconstruction platform for victims of online impersonation, deepfakes, and unauthorized media dissemination.
+A full-stack, end-to-end working prototype of **HERTRACE**, a digital evidence preservation and incident reconstruction platform for victims of online impersonation, deepfakes, and unauthorized media dissemination.
 
 Built with a serious, high-integrity security aesthetic (Linear / Vercel / 1Password admin style). The core theme is **TIME**: *"Time preserves the truth."*
 
@@ -13,22 +13,25 @@ Built with a serious, high-integrity security aesthetic (Linear / Vercel / 1Pass
 npm install
 ```
 
-### 2. Start the development server
+### 2. Start the fullstack development servers (Frontend + Backend)
 ```bash
 npm run dev
 ```
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+- **Frontend App**: [http://localhost:3000](http://localhost:3000)
+- **Backend Vault API**: [http://localhost:3001/api/health](http://localhost:3001/api/health)
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Framework**: React 19 + TypeScript + Vite
-- **Styling**: Tailwind CSS v4 with custom design tokens
-- **Routing**: React Router v7
-- **Icons**: `lucide-react` (16/18px, stroke width 1.5 exclusively; no emojis anywhere)
-- **Typography**: Inter (UI copy) + JetBrains Mono (cryptographic hashes, timestamps, case IDs)
-- **Cryptography**: Native Web Crypto API (`window.crypto.subtle.digest('SHA-256')`) for real client-side hashing without network leakage
+- **Frontend**: React 19 + TypeScript + Vite + Tailwind CSS v4 + React Router v7
+- **Backend API**: Node.js + Express 5 + TypeScript (native Node 24 type execution)
+- **Database**: SQLite (Node 24 native `DatabaseSync` in WAL mode)
+- **File & Media Storage**: Secure disk vault (`server/uploads/`) with multipart upload pipeline via `multer`
+- **Cryptography Engine**: NIST FIPS 180-4 SHA-256 cryptographic digests calculated on both client and backend vault
+- **Attestation & Sealing**: Eye of Agamotto cryptographic attestation generator linking case IDs, temporal timestamps, and verified evidence hashes
+- **Forensic Intelligence Engine**: Probabilistic heuristic analysis, dynamic dependency graph reconstruction, and formal report compiler
+- **Typography & Icons**: Inter, JetBrains Mono, `lucide-react` (16/18px, stroke width 1.5)
 
 ---
 

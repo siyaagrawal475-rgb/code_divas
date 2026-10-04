@@ -17,7 +17,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   breadcrumbs,
   actions,
 }) => {
-  const { incidents, activeIncidentId, setActiveIncidentId } = useIncidents();
+  const { incidents, activeIncidentId, setActiveIncidentId, isBackendConnected } = useIncidents();
   const navigate = useNavigate();
 
   return (
@@ -85,10 +85,10 @@ export const TopBar: React.FC<TopBarProps> = ({
         {actions}
 
         {/* Eye of Agamotto Active Attestation Pill */}
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] bg-[#0A1410] border border-[#0E3B27] text-xs text-[#E8F0EB] font-mono clip-tag-tr">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#45E08A] gem-glow-sm animate-pulse" />
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] bg-[#0A1410] border border-[#0E3B27] text-xs text-[#E8F0EB] font-mono clip-tag-tr" title={isBackendConnected ? "Connected to HERTRACE SQLite & Cryptographic Vault on port 3001" : "Running local cryptographic vault"}>
+          <span className={`w-1.5 h-1.5 rounded-full ${isBackendConnected ? 'bg-[#45E08A]' : 'bg-[#F5B942]'} gem-glow-sm animate-pulse`} />
           <span className="text-[10px] font-semibold text-[#45E08A] tracking-wider uppercase">
-            BOUND IN TIME
+            {isBackendConnected ? 'VAULT ENGINE ACTIVE' : 'BOUND IN TIME'}
           </span>
         </div>
       </div>

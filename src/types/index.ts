@@ -32,6 +32,8 @@ export interface EvidenceItem {
   source: string; // e.g. "Direct upload", "Browser capture", "API export"
   previewType: 'image' | 'video' | 'document' | 'audio' | 'code';
   previewDataUrl?: string;
+  filePath?: string;
+  fileUrl?: string;
   relatedEvents?: string[];
   isNewUpload?: boolean;
 }
@@ -88,6 +90,9 @@ export interface Incident {
   relativeTime: string;
   riskLevel: RiskLevel;
   riskScore: number;
+  sealed?: boolean;
+  sealedAt?: string;
+  sealHash?: string;
   evidenceItems: EvidenceItem[];
   graphNodes: GraphNodeData[];
   graphEdges: GraphEdgeData[];

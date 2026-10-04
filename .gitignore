@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# HERTRACE Vault storage
+server/data/*.db*
+server/uploads/*
+!server/uploads/.gitkeep

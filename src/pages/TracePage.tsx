@@ -25,7 +25,7 @@ interface ExtendedGraphNode {
 export const TracePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { incidents, setActiveIncidentId } = useIncidents();
+  const { incidents, setActiveIncidentId, reanalyzeIncident } = useIncidents();
 
   const incident = incidents.find((inc) => inc.id === id) || incidents[0];
 
@@ -342,7 +342,14 @@ export const TracePage: React.FC = () => {
           </div>
 
           {/* Action to Report */}
-          <div className="pt-2">
+          <div className="pt-2 space-y-2">
+            <button
+              type="button"
+              onClick={() => reanalyzeIncident(incident.id)}
+              className="app-btn-secondary w-full text-center"
+            >
+              Re-run forensic telemetry
+            </button>
             <button
               type="button"
               onClick={() => navigate(`/report/${incident.id}`)}

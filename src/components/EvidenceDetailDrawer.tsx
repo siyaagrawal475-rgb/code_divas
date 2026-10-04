@@ -50,9 +50,11 @@ export const EvidenceDetailDrawer: React.FC<EvidenceDetailDrawerProps> = ({ item
         {/* Visual Media or Icon */}
         <div className="p-6 space-y-6 flex-1">
           <div className="w-full h-44 bg-[var(--bg)] border border-[var(--hair)] flex items-center justify-center p-3 relative overflow-hidden">
-            {item.previewDataUrl ? (
+            {item.previewType === 'video' && item.fileUrl ? (
+              <video src={item.fileUrl} controls className="w-full h-full object-contain" />
+            ) : item.fileUrl || item.previewDataUrl ? (
               <img
-                src={item.previewDataUrl}
+                src={item.fileUrl || item.previewDataUrl}
                 alt={item.name}
                 className="w-full h-full object-contain"
               />
@@ -110,11 +112,22 @@ export const EvidenceDetailDrawer: React.FC<EvidenceDetailDrawerProps> = ({ item
         </div>
 
         {/* Bottom footer */}
-        <div className="p-6 border-t border-[var(--hair)] bg-[var(--bg)]">
+        <div className="p-6 border-t border-[var(--hair)] bg-[var(--bg)] flex flex-col gap-2">
+          {item.fileUrl && (
+            <a
+              href={item.fileUrl}
+              download={item.name}
+              target="_blank"
+              rel="noreferrer"
+              className="app-btn-primary w-full text-center flex items-center justify-center gap-2 py-2"
+            >
+              <span>Download Preserved File</span>
+            </a>
+          )}
           <button
             type="button"
             onClick={onClose}
-            className="app-btn-secondary w-full text-center"
+            className="app-btn-secondary w-full text-center py-2"
           >
             Close details
           </button>

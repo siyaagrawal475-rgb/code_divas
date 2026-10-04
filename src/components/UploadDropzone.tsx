@@ -9,6 +9,7 @@ export interface UploadedFileItem {
   dataUrl?: string;
   buffer?: ArrayBuffer;
   hash?: string;
+  rawFile?: File;
 }
 
 interface UploadDropzoneProps {
@@ -58,6 +59,7 @@ export const UploadDropzone: React.FC<UploadDropzoneProps> = ({
         buffer,
         dataUrl,
         hash,
+        rawFile: f,
       });
     }
 
