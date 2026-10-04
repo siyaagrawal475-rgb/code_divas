@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { TimeSigil } from '../components/TimeSigil';
 import { DustParticles } from '../components/DustParticles';
 import { ThemeToggle } from '../components/ThemeToggle';
-import { QuickExit } from '../components/QuickExit';
 import { LiveClock } from '../components/LiveClock';
 import {
   ShieldCheck,
@@ -92,7 +91,6 @@ export const LandingPage: React.FC = () => {
             <span>Local Vault Active</span>
           </div>
 
-          <QuickExit />
           <ThemeToggle />
         </div>
       </header>

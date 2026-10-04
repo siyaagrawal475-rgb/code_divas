@@ -4,7 +4,6 @@ import { TimeSigil } from './TimeSigil';
 import { LiveClock } from './LiveClock';
 import { Toast } from './Toast';
 import { ThemeToggle } from './ThemeToggle';
-import { QuickExit } from './QuickExit';
 import { Stepper } from './Stepper';
 import { useIncidents } from '../context/IncidentContext';
 import {
@@ -187,7 +186,6 @@ export const AppLayout: React.FC = () => {
               <span>Isolated Vault</span>
             </div>
 
-            <QuickExit />
             <LiveClock className="font-mono text-[13px] text-[var(--accent)] tabular-nums" />
           </div>
         </header>
