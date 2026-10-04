@@ -98,95 +98,111 @@ export const LandingPage: React.FC = () => {
       </header>
 
       {/* HERO STAGE */}
-      <section className="relative z-20 flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-16 lg:py-24 max-w-7xl mx-auto w-full overflow-hidden">
-        {/* Massive slow-rotating Sigil bleeding off the right screen edge */}
-        <div
-          className="absolute -right-48 sm:-right-64 md:-right-80 lg:-right-96 top-1/2 -translate-y-1/2 pointer-events-none opacity-25 sm:opacity-40 lg:opacity-70 select-none overflow-visible"
-          aria-hidden="true"
-        >
-          <TimeSigil size={900} speed="slow" showClock={true} />
-        </div>
+      <section className="relative z-20 flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-16 py-12 lg:py-20 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          {/* LEFT COLUMN: Narrative & Actions (7 cols) */}
+          <div className="lg:col-span-7 space-y-8">
+            {/* Spaced Display Title Motif */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[var(--radius-xs)] border border-[var(--hair)] bg-[var(--panel)]/60 text-[11px] font-display text-[var(--accent)]">
+              <Sparkles size={12} />
+              <span>TIME IS INFINITY · EVIDENCE IS IMMUTABLE</span>
+            </div>
 
-        <div className="relative z-10 max-w-2xl space-y-8">
-          {/* Spaced Display Title Motif */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[var(--radius-xs)] border border-[var(--hair)] bg-[var(--panel)]/60 text-[11px] font-display text-[var(--accent)]">
-            <Sparkles size={12} />
-            <span>TIME IS INFINITY · EVIDENCE IS IMMUTABLE</span>
-          </div>
+            {/* Main Title & Tagline */}
+            <div className="space-y-4">
+              <h1 className="font-display-title text-4xl sm:text-5xl lg:text-6xl font-light text-[var(--text)] leading-[1.08]">
+                CHRONOVAULT
+              </h1>
+              <p className="text-lg sm:text-xl font-light text-[var(--accent-bright)] font-display tracking-wider">
+                Preserve Every Moment. Protect Every Trace.
+              </p>
+            </div>
 
-          {/* Main Title & Tagline */}
-          <div className="space-y-4">
-            <h1 className="font-display-title text-4xl sm:text-6xl lg:text-7xl font-light text-[var(--text)] leading-[1.05]">
-              CHRONOVAULT
-            </h1>
-            <p className="text-xl sm:text-2xl font-light text-[var(--accent-bright)] font-display tracking-wider">
-              Preserve Every Moment. Protect Every Trace.
+            {/* Subtitle / Plain warm reassuring description */}
+            <p className="text-[15px] sm:text-[16px] text-[var(--muted)] leading-relaxed max-w-xl font-body">
+              A private, tamper-evident evidence vault designed for women facing online abuse,
+              impersonation, deepfakes, and non-consensual image sharing. Every artifact is sealed
+              in-browser with NIST FIPS SHA-256 signatures before original posts are deleted.
             </p>
-          </div>
 
-          {/* Subtitle / Plain warm reassuring description */}
-          <p className="text-[16px] sm:text-[17px] text-[var(--muted)] leading-relaxed max-w-xl font-body">
-            A private, tamper-evident evidence vault designed for women facing online abuse,
-            impersonation, deepfakes, and non-consensual image sharing. Every artifact is sealed
-            in-browser with NIST FIPS SHA-256 signatures before original posts are deleted.
-          </p>
+            {/* CTA Action Buttons */}
+            <div className="flex flex-wrap items-center gap-4 pt-1">
+              <Link
+                to="/incident/new"
+                className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[var(--accent)] text-[var(--accent-ink)] font-semibold text-[15px] rounded-[var(--radius-sm)] shadow-lg shadow-[var(--accent-glow)] hover:opacity-95 transition-all min-h-[44px] cursor-pointer"
+              >
+                <span>Start a case</span>
+                <ArrowRight size={16} />
+              </Link>
 
-          {/* CTA Action Buttons */}
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <Link
-              to="/incident/new"
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[var(--accent)] text-[var(--accent-ink)] font-semibold text-[15px] rounded-[var(--radius-sm)] shadow-lg shadow-[var(--accent-glow)] hover:opacity-95 transition-all min-h-[44px] cursor-pointer"
-            >
-              <span>Start a case</span>
-              <ArrowRight size={16} />
-            </Link>
+              <button
+                type="button"
+                onClick={scrollToSteps}
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-transparent text-[var(--text)] border border-[var(--hair)] hover:border-[var(--muted)] hover:bg-[var(--panel)] rounded-[var(--radius-sm)] text-[14px] font-medium transition-all min-h-[44px] cursor-pointer"
+              >
+                <span>How it works</span>
+              </button>
 
-            <button
-              type="button"
-              onClick={scrollToSteps}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-transparent text-[var(--text)] border border-[var(--hair)] hover:border-[var(--muted)] hover:bg-[var(--panel)] rounded-[var(--radius-sm)] text-[14px] font-medium transition-all min-h-[44px] cursor-pointer"
-            >
-              <span>How it works</span>
-            </button>
-
-            <Link
-              to="/chronicle"
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-3 text-[14px] text-[var(--muted)] hover:text-[var(--text)] transition-colors min-h-[44px]"
-            >
-              <span>Open active chronicle</span>
-            </Link>
-          </div>
-
-          {/* Reassurance & Security Pillars */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-[var(--hair)]">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 text-[14px] font-medium text-[var(--text)]">
-                <Lock size={15} className="text-[var(--accent)]" />
-                <span>Zero Cloud Leakage</span>
-              </div>
-              <p className="text-[12px] text-[var(--muted)] leading-relaxed">
-                Files are processed locally in your browser memory. Nothing is uploaded to external servers.
-              </p>
+              <Link
+                to="/chronicle"
+                className="inline-flex items-center justify-center gap-1.5 px-3 py-3 text-[14px] text-[var(--muted)] hover:text-[var(--text)] transition-colors min-h-[44px]"
+              >
+                <span>Open active chronicle</span>
+              </Link>
             </div>
 
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 text-[14px] font-medium text-[var(--text)]">
-                <ShieldCheck size={15} className="text-[var(--accent)]" />
-                <span>Tamper-Evident Seal</span>
+            {/* Reassurance & Security Pillars */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-[var(--hair)]">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-[14px] font-medium text-[var(--text)]">
+                  <Lock size={15} className="text-[var(--accent)]" />
+                  <span>Zero Cloud Leakage</span>
+                </div>
+                <p className="text-[12px] text-[var(--muted)] leading-relaxed">
+                  Files are processed locally in your browser memory. Nothing is uploaded to external servers.
+                </p>
               </div>
-              <p className="text-[12px] text-[var(--muted)] leading-relaxed">
-                SHA-256 hashes generated client-side provide mathematically verifiable timestamps.
-              </p>
-            </div>
 
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 text-[14px] font-medium text-[var(--text)]">
-                <FileCheck size={15} className="text-[var(--accent)]" />
-                <span>Report-Ready Dossier</span>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-[14px] font-medium text-[var(--text)]">
+                  <ShieldCheck size={15} className="text-[var(--accent)]" />
+                  <span>Tamper-Evident Seal</span>
+                </div>
+                <p className="text-[12px] text-[var(--muted)] leading-relaxed">
+                  SHA-256 hashes generated client-side provide mathematically verifiable timestamps.
+                </p>
               </div>
-              <p className="text-[12px] text-[var(--muted)] leading-relaxed">
-                Formats formal Section 63 (BSA 2023) electronic evidence bundles for cybercrime.gov.in.
-              </p>
+
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-[14px] font-medium text-[var(--text)]">
+                  <FileCheck size={15} className="text-[var(--accent)]" />
+                  <span>Report-Ready Dossier</span>
+                </div>
+                <p className="text-[12px] text-[var(--muted)] leading-relaxed">
+                  Formats formal Section 63 (BSA 2023) electronic evidence bundles for cybercrime.gov.in.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: Sacred Geometry Focal Chamber (5 cols) */}
+          <div className="lg:col-span-5 relative flex items-center justify-center py-4 lg:py-0 select-none">
+            <div className="relative flex items-center justify-center w-full max-w-[460px] aspect-square">
+              {/* Soft radial emerald ambient backdrop */}
+              <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(47,224,143,0.18)_0%,transparent_70%)] pointer-events-none" />
+
+              {/* TimeSigil Sacred Geometry Mandala */}
+              <TimeSigil size={440} speed="slow" intensity="normal" showClock={true} />
+
+              {/* Floating HUD telemetry badges */}
+              <div className="absolute top-2 right-2 px-3 py-1.5 rounded-[var(--radius-sm)] border border-[var(--hair)] bg-[var(--panel)]/80 backdrop-blur-md text-[11px] font-mono text-[var(--text-secondary)] shadow-sm">
+                <span className="text-[var(--accent)] font-semibold">UTC</span> <LiveClock />
+              </div>
+
+              <div className="absolute bottom-2 left-2 px-3 py-1.5 rounded-[var(--radius-sm)] border border-[var(--hair)] bg-[var(--panel)]/80 backdrop-blur-md text-[11px] font-mono text-[var(--text-secondary)] shadow-sm flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse shadow-[0_0_8px_var(--accent)]" />
+                <span>NIST FIPS 180-4</span>
+              </div>
             </div>
           </div>
         </div>
