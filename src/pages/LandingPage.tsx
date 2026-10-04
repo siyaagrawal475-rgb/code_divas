@@ -120,9 +120,10 @@ export const LandingPage: React.FC = () => {
               <h1 className="font-display-title text-4xl sm:text-6xl lg:text-7xl font-light text-[var(--text)] leading-[1.05]">
                 CHRONOVAULT
               </h1>
-              <p className="text-xl sm:text-2xl font-light text-[var(--accent-bright)] font-display tracking-wider">
-                Preserve Every Moment. Protect Every Trace.
-              </p>
+              <div className="text-xl sm:text-2xl lg:text-3xl font-light font-display tracking-wider flex flex-col space-y-1">
+                <span className="text-[var(--accent-bright)]">Preserve Every Moment.</span>
+                <span className="text-[var(--text-secondary)]">Protect Every Trace.</span>
+              </div>
             </div>
 
             {/* Subtitle / Plain warm reassuring description */}
