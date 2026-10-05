@@ -143,42 +143,42 @@ The visual language is an original, forensic-grade interpretation of the **Time 
 ### 1. `01_landing_entry.png` — Landing & Entry Portal with Time Sigil Motif
 *Full Dark Mode: Centered Time Stone-inspired concentric motif with intro sequence, sacred geometry, and instant case intake routing.*
 
-![Landing & Entry Portal with Time Sigil Motif](screenshots/01_landing_entry.png)
+![Landing & Entry Portal with Time Sigil Motif](screenshots/dark_01_landing_entry.png)
 
 ---
 
 ### 2. `02_chronicle_dashboard.png` — Chronicle Case Ledger & Telemetry
 *Full Dark Mode: Real-time case telemetry, risk scoring breakdown, active incident tracker, watch bezel ticks, and dense audit table.*
 
-![Chronicle Case Ledger & Telemetry](screenshots/02_chronicle_dashboard.png)
+![Chronicle Case Ledger & Telemetry](screenshots/dark_02_chronicle_dashboard.png)
 
 ---
 
 ### 3. `03_intake_wizard.png` — 4-Step Intake Stepper & Evidence Dropzone
 *Full Dark Mode: 4-step guided intake with client-side SHA-256 calculation, reassurance microcopy, and drag-and-drop evidence vault.*
 
-![4-Step Intake Stepper & Evidence Dropzone](screenshots/03_intake_wizard.png)
+![4-Step Intake Stepper & Evidence Dropzone](screenshots/dark_03_intake_wizard.png)
 
 ---
 
 ### 4. Time Archive Evidence Vault (`/archive`)
 *Forensic card grid with procedural SVG visualizers, truncated digests, and slide-in artifact inspection drawer.*
 
-![CHRONOVAULT Time Archive](screenshots/04_evidence_archive.png)
+![CHRONOVAULT Time Archive](screenshots/dark_04_evidence_archive.png)
 
 ---
 
 ### 5. Trace Reconstruction Workspace (`/trace/:id`)
 *Interactive dependency graph, chronological scrub timeline, and hedged AI telemetry evaluation panel.*
 
-![CHRONOVAULT Trace Reconstruction](screenshots/05_trace_reconstruction.png)
+![CHRONOVAULT Trace Reconstruction](screenshots/dark_05_trace_reconstruction.png)
 
 ---
 
 ### 6. Time Trail & Forensic Attestation Report (`/report/:id`)
 *Chronological trail ending in the Eye of Agamotto seal, formal incident packet preview, and sealed export generator.*
 
-![CHRONOVAULT Forensic Report](screenshots/06_forensic_report.png)
+![CHRONOVAULT Forensic Report](screenshots/dark_06_forensic_report.png)
 
 ---
 
