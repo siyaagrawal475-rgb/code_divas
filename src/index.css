@@ -1,48 +1,5 @@
 @import "tailwindcss";
-
-:root {
-  --bg: #080A09;
-  --panel: #0D1210;
-  --raised: #121A16;
-  --hair: #1F2B25;
-  --text: #E8F0EB;
-  --muted: #8B9890;
-  --accent: #45E08A;
-  --accent-text: #9AFFC4;
-  --accent-ink: #04130B;
-  --gold: #C9A24B;
-  --warn: #F5B942;
-  --danger: #FF5C67;
-  --grain-blend: screen;
-  --grain-opacity: 0.06;
-
-  /* Aliases */
-  --green: var(--accent);
-  --soft: var(--accent-text);
-  --deep: #0E3B27;
-}
-
-[data-theme="light"] {
-  --bg: #F2F5F2;
-  --panel: #FFFFFF;
-  --raised: #E9EEEA;
-  --hair: #D3DBD5;
-  --text: #0E1A13;
-  --muted: #56645C;
-  --accent: #45E08A;
-  --accent-text: #0B7A42;
-  --accent-ink: #04130B;
-  --gold: #8A6A1E;
-  --warn: #B7791F;
-  --danger: #C2303B;
-  --grain-blend: multiply;
-  --grain-opacity: 0.05;
-
-  /* Aliases */
-  --green: var(--accent);
-  --soft: var(--accent-text);
-  --deep: #0E3B27;
-}
+@import "./styles/tokens.css";
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -54,25 +11,169 @@ html, body {
   padding: 0;
   background-color: var(--bg);
   color: var(--text);
-  font: 400 15px/1.6 "Hanken Grotesk", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Typography helper classes */
-.font-display {
-  font-family: 'Fraunces', serif;
+/* Subtle persistent grain texture overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 9999;
 }
 
-.font-ui {
-  font-family: 'Hanken Grotesk', system-ui, sans-serif;
+/* Typography Classes */
+.font-display {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 200;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.font-display-medium {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.font-display-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 200;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.font-body {
+  font-family: 'Inter', sans-serif;
 }
 
 .font-mono {
   font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
 }
 
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
+/* Watch Bezel Tick Utilities */
+.bezel-divider {
+  position: relative;
+  border-top: 1px solid var(--hair);
+}
+
+.bezel-divider::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 6px;
+  height: 5px;
+  border-left: 1px solid var(--accent);
+  border-right: 1px solid var(--accent);
+  opacity: 0.5;
+}
+
+.bezel-divider::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: 0;
+  width: 6px;
+  height: 5px;
+  border-left: 1px solid var(--accent);
+  border-right: 1px solid var(--accent);
+  opacity: 0.5;
+}
+
+/* Temporal Card Spill Glow */
+.temporal-card {
+  background-color: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--motion-fast), box-shadow var(--motion-fast), transform var(--motion-fast);
+}
+
+.temporal-card:hover {
+  border-color: var(--hair-bright);
+  box-shadow: var(--card-glow-hover);
+}
+
+.temporal-card-active {
+  border-color: var(--accent);
+  box-shadow: var(--spill-glow);
+}
+
+/* Temporal Echo Keyframes */
+@keyframes temporal-ghost {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes lock-in-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(47, 224, 143, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(47, 224, 143, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(47, 224, 143, 0);
+  }
+}
+
+.animate-ghost-trail {
+  animation: temporal-ghost 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-lock-pulse {
+  animation: lock-in-pulse 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+/* Accessible focus visible ring */
+:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--hair);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -2,7 +2,7 @@ import type { Incident } from '../types';
 
 export const INITIAL_INCIDENTS: Incident[] = [
   {
-    id: 'HT-002',
+    id: 'CV-002',
     title: 'Impersonation on Instagram',
     type: 'Impersonation',
     platform: 'Instagram',
@@ -18,7 +18,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-001',
         evidenceNumber: '001',
-        incidentId: 'HT-002',
+        incidentId: 'CV-002',
         name: 'profile_page_capture.png',
         type: 'PNG image',
         size: '2.4 MB',
@@ -34,7 +34,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-002',
         evidenceNumber: '002',
-        incidentId: 'HT-002',
+        incidentId: 'CV-002',
         name: 'dm_thread_export.pdf',
         type: 'PDF document',
         size: '318 KB',
@@ -50,7 +50,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-003',
         evidenceNumber: '003',
-        incidentId: 'HT-002',
+        incidentId: 'CV-002',
         name: 'screenrecord_2026-09-30_2221.mp4',
         type: 'MP4 video',
         size: '14.7 MB',
@@ -66,7 +66,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-004',
         evidenceNumber: '004',
-        incidentId: 'HT-002',
+        incidentId: 'CV-002',
         name: 'IMG_4471.PNG',
         type: 'PNG image',
         size: '1.2 MB',
@@ -82,7 +82,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-005',
         evidenceNumber: '005',
-        incidentId: 'HT-002',
+        incidentId: 'CV-002',
         name: 'follower_outreach_list.txt',
         type: 'TXT log',
         size: '142 KB',
@@ -98,7 +98,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-006',
         evidenceNumber: '006',
-        incidentId: 'HT-002',
+        incidentId: 'CV-002',
         name: 'header_traffic_dump.har',
         type: 'HAR archive',
         size: '3.1 MB',
@@ -114,7 +114,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-007',
         evidenceNumber: '007',
-        incidentId: 'HT-002',
+        incidentId: 'CV-002',
         name: 'incident_metadata_anchor.json',
         type: 'JSON payload',
         size: '84 KB',
@@ -211,7 +211,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
     ],
   },
   {
-    id: 'HT-001',
+    id: 'CV-001',
     title: 'Image misuse on Instagram',
     type: 'Image misuse',
     platform: 'Instagram',
@@ -227,7 +227,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-101',
         evidenceNumber: '001',
-        incidentId: 'HT-001',
+        incidentId: 'CV-001',
         name: 'ad_creative_capture.png',
         type: 'PNG image',
         size: '3.2 MB',
@@ -243,7 +243,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-102',
         evidenceNumber: '002',
-        incidentId: 'HT-001',
+        incidentId: 'CV-001',
         name: 'original_raw_portrait.cr3',
         type: 'Raw photo',
         size: '28.4 MB',
@@ -259,7 +259,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-103',
         evidenceNumber: '003',
-        incidentId: 'HT-001',
+        incidentId: 'CV-001',
         name: 'ad_metadata_dump.json',
         type: 'JSON payload',
         size: '88 KB',
@@ -275,7 +275,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-104',
         evidenceNumber: '004',
-        incidentId: 'HT-001',
+        incidentId: 'CV-001',
         name: 'takedown_notice.pdf',
         type: 'PDF document',
         size: '512 KB',
@@ -347,7 +347,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
     ],
   },
   {
-    id: 'HT-003',
+    id: 'CV-003',
     title: 'Deepfake video on X',
     type: 'Deepfake or manipulation',
     platform: 'X',
@@ -363,7 +363,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-201',
         evidenceNumber: '001',
-        incidentId: 'HT-003',
+        incidentId: 'CV-003',
         name: 'synthetic_clip_extract.mp4',
         type: 'MP4 video',
         size: '18.2 MB',
@@ -379,7 +379,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-202',
         evidenceNumber: '002',
-        incidentId: 'HT-003',
+        incidentId: 'CV-003',
         name: 'spectrogram_audio_analysis.png',
         type: 'PNG image',
         size: '1.4 MB',
@@ -441,7 +441,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
     ],
   },
   {
-    id: 'HT-004',
+    id: 'CV-004',
     title: 'Fake link or scam on WhatsApp',
     type: 'Fake link or scam',
     platform: 'WhatsApp',
@@ -457,7 +457,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-301',
         evidenceNumber: '001',
-        incidentId: 'HT-004',
+        incidentId: 'CV-004',
         name: 'phishing_message_capture.png',
         type: 'PNG image',
         size: '1.1 MB',
@@ -473,7 +473,7 @@ export const INITIAL_INCIDENTS: Incident[] = [
       {
         id: 'ev-302',
         evidenceNumber: '002',
-        incidentId: 'HT-004',
+        incidentId: 'CV-004',
         name: 'domain_whois_record.json',
         type: 'JSON payload',
         size: '42 KB',

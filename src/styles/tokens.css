@@ -1,0 +1,99 @@
+/* ==========================================================================
+   CHRONOVAULT DESIGN TOKENS
+   Theme: The Time Stone / Eye of Agamotto (Temporal Forensic Engine)
+   ========================================================================== */
+
+:root {
+  /* Color Palette - Dark (Default) */
+  --bg: #0A0C0B;
+  --panel: #111513;
+  --raised: #181E1A;
+  --surface-hover: #1E2621;
+  --hair: #232E27;
+  --hair-bright: #324339;
+  
+  --text: #EDF3EE;
+  --text-secondary: #C2CEC6;
+  --muted: #829288;
+  --muted-dark: #4D5C52;
+  
+  /* Temporal Emerald Green (5-10% screen accent) */
+  --accent: #2FE08F;
+  --accent-soft: #3DDC84;
+  --accent-bright: #9AFFC4;
+  --accent-deep: #1F8F5F;
+  --accent-ink: #04130A;
+  --accent-glow: rgba(47, 224, 143, 0.16);
+  --accent-subtle: rgba(47, 224, 143, 0.08);
+
+  /* Status Colors */
+  --gold: #D4AF37;
+  --gold-glow: rgba(212, 175, 55, 0.15);
+  --warn: #E5A93C;
+  --warn-bg: rgba(229, 169, 60, 0.1);
+  --danger: #F25D69;
+  --danger-bg: rgba(242, 93, 105, 0.1);
+
+  /* Geometry & Radii (Strict 6px & 12px) */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Grain / Overlay */
+  --grain-opacity: 0.035;
+  --grain-blend: screen;
+
+  /* Motion Timings */
+  --motion-fast: 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-normal: 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-slow: 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --spin-outer: 120s;
+  --spin-inner: 75s;
+  --spin-fast: 3s;
+
+  /* Shadows & Light Spill */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --spill-glow: 0 0 24px rgba(47, 224, 143, 0.12), inset 0 0 12px rgba(47, 224, 143, 0.03);
+  --card-glow-hover: 0 0 20px rgba(47, 224, 143, 0.14), 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] {
+  /* Soothing matte paper / slate-sand tone (anti-glare, low luminance) */
+  --bg: #E1E5E1;
+  --panel: #E9ECE8;
+  --raised: #DDE2DC;
+  --surface-hover: #D2D8D0;
+  --hair: #BFC8BE;
+  --hair-bright: #9EAEA0;
+
+  --text: #111713;
+  --text-secondary: #223027;
+  --muted: #4F6154;
+  --muted-dark: #7A8D7F;
+
+  /* Deep Emerald Accent for WCAG AA compliance on soft matte background */
+  --accent: #177C51;
+  --accent-soft: #1E9663;
+  --accent-bright: #0F5E3B;
+  --accent-deep: #13603E;
+  --accent-ink: #FFFFFF;
+  --accent-glow: rgba(23, 124, 81, 0.16);
+  --accent-subtle: rgba(23, 124, 81, 0.08);
+
+  --gold: #8C6A18;
+  --gold-glow: rgba(140, 106, 24, 0.14);
+  --warn: #A8650E;
+  --warn-bg: rgba(168, 101, 14, 0.1);
+  --danger: #B8222F;
+  --danger-bg: rgba(184, 34, 47, 0.1);
+
+  --grain-opacity: 0.03;
+  --grain-blend: multiply;
+
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --spill-glow: 0 0 16px rgba(23, 124, 81, 0.1);
+  --card-glow-hover: 0 0 18px rgba(23, 124, 81, 0.12), 0 4px 12px rgba(0, 0, 0, 0.07);
+}

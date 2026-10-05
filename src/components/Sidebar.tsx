@@ -69,10 +69,10 @@ export const Sidebar: React.FC = () => {
               </div>
               <div>
                 <span className="font-display font-semibold tracking-[0.14em] text-sm text-[#E8F0EB] block leading-none">
-                  HERTRACE
+                  CHRONOVAULT
                 </span>
                 <span className="text-[9px] font-mono tracking-widest text-[#7F8D85] block mt-0.5">
-                  RELIC v1.0
+                  VAULT v1.0
                 </span>
               </div>
             </NavLink>

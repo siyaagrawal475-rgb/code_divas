@@ -1,6 +1,8 @@
-# HERTRACE — Digital Evidence Preservation & Incident Reconstruction
+# CHRONOVAULT / HERTRACE — Digital Evidence Vault & Incident Reconstruction
 
-> *"Time preserves the truth."*
+> **"Preserve Every Moment. Protect Every Trace."**  
+> *"Time preserves the truth."*  
+> Developed by **Team Code Divas** for victims of online abuse, impersonation, deepfakes, and non-consensual media distribution.
 
 [![React](https://img.shields.io/badge/React-19-blue.svg)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
@@ -9,10 +11,11 @@
 [![Node.js](https://img.shields.io/badge/Node.js-24-green.svg)](https://nodejs.org/)
 [![SQLite](https://img.shields.io/badge/SQLite-WAL_Mode-003B57.svg)](https://sqlite.org/)
 [![NIST FIPS 180-4](https://img.shields.io/badge/Standard-NIST_FIPS_180--4_SHA--256-45E08A.svg)](https://csrc.nist.gov/publications/detail/fips/180-4/final)
+[![BSA 2023](https://img.shields.io/badge/Legal_Compliance-Section_63_BSA_2023-F5B942.svg)](https://www.indiacode.nic.in/)
 
-**HERTRACE** is an end-to-end, high-integrity digital evidence preservation and incident reconstruction platform designed to support victims of online impersonation, deepfakes, unauthorized media dissemination, and coordinated cyber harassment. 
+**CHRONOVAULT (HERTRACE)** is an end-to-end, high-integrity digital evidence preservation and incident reconstruction platform designed to support victims of online impersonation, deepfakes, unauthorized media dissemination, and coordinated cyber harassment.
 
-Engineered with a serious, high-integrity security aesthetic (inspired by Linear, Vercel, and 1Password admin consoles), HERTRACE bridges the gap between traumatic cyber incidents and legally actionable, cryptographically anchored digital evidence.
+Structured across 6 comprehensive phases—**Discover > Preserve > Verify > Organise > Understand > Report**—the platform bridges the gap between traumatic cyber incidents and legally actionable, cryptographically anchored digital evidence certified under **Section 63 of Bharatiya Sakshya Adhiniyam, 2023 (BSA 2023)** for formal submission on [cybercrime.gov.in](https://cybercrime.gov.in) and law enforcement cyber cells.
 
 ---
 
@@ -30,12 +33,12 @@ When an attack occurs, victims face three acute challenges:
 
 ## 💡 Proposed Solution
 
-**HERTRACE** reimagines digital evidence preservation as an immutable, time-anchored vault:
+**CHRONOVAULT** reimagines digital evidence preservation as an immutable, time-anchored vault:
 
 - **Local-First Cryptographic Anchoring**: Leverages the native Web Crypto API and backend NIST FIPS 180-4 SHA-256 engines to calculate cryptographic fingerprints for media files, network headers, and logs upon discovery.
 - **Incident Reconstruction & Dependency Mapping**: Synthesizes isolated screenshots, URLs, and communication threads into an interactive, time-scrubbable dependency graph demonstrating origin, delivery method, and impact.
 - **Hedged AI Forensic Telemetry**: Employs probabilistic heuristic intelligence (evaluating handle character substitutions, facial warp markers, perceptual image matches, and account velocity) adhering to strict forensic hedging language (*"possible"*, *"heuristic indicators suggest"*).
-- **Attested "Eye of Agamotto" Time Trail**: Structures an immutable chronological timeline concluding with a digital attestation seal, yielding an exportable, court-ready forensic report packet.
+- **Attested "Eye of Agamotto" Time Trail**: Structures an immutable chronological timeline concluding with a digital attestation seal, yielding an exportable, court-ready forensic report packet adhering to Section 63 BSA 2023.
 
 ---
 
@@ -64,6 +67,7 @@ When an attack occurs, victims face three acute challenges:
 - **📜 Time Trail & Sealed Forensic Report (`/report/:id`)**:
   - Vertical chronological reconstruction trail culminating in the signature Time Ring seal node.
   - Formal multi-step PDF / Plaintext attestation generation simulating full cryptographic compilation.
+  - Certified Section 63 BSA 2023 evidence dossier and cybercrime.gov.in complaint checklist.
   - Downloadable sealed evidence packet (`HERTRACE_<ID>_EvidencePacket.txt`) containing case metadata, timeline chronology, and NIST FIPS 180-4 verification keys.
 
 - **⚙️ High-Performance Full-Stack Architecture**:
@@ -71,6 +75,41 @@ When an attack occurs, victims face three acute challenges:
   - Embedded SQLite database running in WAL mode with auto-seeding for zero-setup demo readiness.
   - Multipart file storage pipeline serving verified uploads via dedicated `/uploads/` endpoints.
   - Real-time frontend status indicator badge displaying live backend vault connectivity in the header navigation.
+
+---
+
+## 🧭 The 6 Core Workflow Phases
+
+| Route | Phase | Key Capabilities |
+|---|---|---|
+| `/` | **1. Entry / Landing** | Slow-rotating Eye of Agamotto `<TimeSigil />`, CHRONOVAULT wordmark, 6-phase workflow strip, Today vs. With CHRONOVAULT comparative analysis, and persistent Quick Exit. |
+| `/chronicle` | **2. Chronicle** | Case ledger of compact records, summary telemetry with watch bezel ticks, search and filter chips, and calm empty state. |
+| `/incident/new` | **3. Guided Intake** | 4-step intake stepper (Classification, Platform, Identifiers, Evidence), autosave indicator, and reassurance microcopy. |
+| `/archive` | **4. Time Archive** | Drag-and-drop vault, real in-browser Web Crypto SHA-256 hashing, truncated hashes with copy buttons, "Re-verify" instant check, and client-side isolation guarantee. |
+| `/trace/:id` | **5. Correlation Trace** | Interactive node-link graph (account, endpoint URL, image, hash seal), time scrub slider with step-by-step playback, and rule-based heuristic factors. |
+| `/report/:id` | **6. Attestation Report** | Chronological Time Trail next to a live preview of the formal report sheet with a faint watermark sigil, Section 63 BSA 2023 certificate, cybercrime.gov.in checklist, and download packet. |
+
+---
+
+## 💎 The Time Stone Theme & Design System
+
+The visual language is an original, forensic-grade interpretation of the **Time Stone / Eye of Agamotto** sacred geometry:
+
+- **Original Sacred Geometry Artwork**:
+  - Concentric rings, 8-point & 9-point star polygons, outer chronometric bezel ticks, and rune-like glyphs rendered in pure inline SVG `<TimeSigil />`.
+  - Counter-rotating rings with configurable speed, size, and intensity.
+  - Fast spin-up during cryptographic SHA-256 calculation that settles with a soft green pulse and temporal-echo ghost trail.
+- **Temporal Green Palette (5–10% Screen Accent)**:
+  - Base: Near-black (`#080A09` to `#101512`) with flat surfaces and 1px borders (`#202A24`).
+  - Emerald Temporal Green: `#45E08A` / `#63D6A0`, `#202A24` for borders. Green covers at most 10% of any screen, strictly reserved for active states, key verification data, and edge light spills.
+- **Strict Spacing & Radius Scale**:
+  - Spacing: 4 / 8 / 12 / 16 / 24 / 32 / 48 px.
+  - Radius: `6px` for inputs/buttons, `10px` for cards.
+- **Typography**:
+  - Display / Headings: `Inter` / `Manrope`.
+  - Cryptographic hashes, timestamps & Case IDs: `JetBrains Mono` with tabular numbers.
+- **Responsible AI Microcopy**:
+  - Automated analysis always uses hedged, probabilistic wording (*"possible manipulation"*, e.g. 78% confidence) with the clear disclaimer: *"Automated telemetry is probabilistic and structured to assist incident triage."*
 
 ---
 
@@ -92,9 +131,10 @@ When an attack occurs, victims face three acute challenges:
 - **Multer**: Streaming multipart form-data parser handling file storage in `server/uploads/`.
 - **Concurrently**: Single-command orchestrator for synchronized full-stack development.
 
-### Security & Forensics
+### Security, Cryptography & Compliance
 - **NIST FIPS 180-4 SHA-256**: Dual-layer cryptographic hashing on both the browser (Web Crypto API) and backend disk vault.
 - **Attestation Sealing Algorithm**: Cryptographic signature generation linking Case ID + UTC timestamp + all artifact digests into a master verification seal.
+- **Section 63 BSA 2023**: Electronic evidence attestation framework designed for Indian Cyber Crime reporting portals.
 
 ---
 
@@ -103,42 +143,42 @@ When an attack occurs, victims face three acute challenges:
 ### 1. Landing & Entry Portal (`/`)
 *Centered Time Stone-inspired concentric motif with intro sequence and instant case intake routing.*
 
-![HERTRACE Landing Entry](screenshots/01_landing_entry.png)
+![CHRONOVAULT Landing Entry](screenshots/01_landing_entry.png)
 
 ---
 
 ### 2. Chronicle Dashboard (`/chronicle`)
 *Real-time case telemetry, risk scoring breakdown, active incident tracker, and dense audit table.*
 
-![HERTRACE Chronicle Dashboard](screenshots/02_chronicle_dashboard.png)
+![CHRONOVAULT Chronicle Dashboard](screenshots/02_chronicle_dashboard.png)
 
 ---
 
 ### 3. Calm Incident Intake Wizard (`/incident/new`)
 *4-step guided intake with client-side SHA-256 calculation and drag-and-drop evidence dropzone.*
 
-![HERTRACE Incident Intake Wizard](screenshots/03_intake_wizard.png)
+![CHRONOVAULT Incident Intake Wizard](screenshots/03_intake_wizard.png)
 
 ---
 
 ### 4. Time Archive Evidence Vault (`/archive`)
 *Forensic card grid with procedural SVG visualizers, truncated digests, and slide-in artifact inspection drawer.*
 
-![HERTRACE Time Archive](screenshots/04_evidence_archive.png)
+![CHRONOVAULT Time Archive](screenshots/04_evidence_archive.png)
 
 ---
 
 ### 5. Trace Reconstruction Workspace (`/trace/:id`)
 *Interactive dependency graph, chronological scrub timeline, and hedged AI telemetry evaluation panel.*
 
-![HERTRACE Trace Reconstruction](screenshots/05_trace_reconstruction.png)
+![CHRONOVAULT Trace Reconstruction](screenshots/05_trace_reconstruction.png)
 
 ---
 
 ### 6. Time Trail & Forensic Attestation Report (`/report/:id`)
 *Chronological trail ending in the Eye of Agamotto seal, formal incident packet preview, and sealed export generator.*
 
-![HERTRACE Forensic Report](screenshots/06_forensic_report.png)
+![CHRONOVAULT Forensic Report](screenshots/06_forensic_report.png)
 
 ---
 
@@ -265,7 +305,7 @@ This concurrently launches:
 
 ## 👥 Team Members
 
-HERTRACE was conceived, architected, and built by:
+CHRONOVAULT was conceived, architected, and built by:
 
 - **Siya Agrawal**
 - **Divyani Papalkar**
@@ -294,6 +334,6 @@ HERTRACE was conceived, architected, and built by:
 ---
 
 <p align="center">
-  <b>HERTRACE</b> — Digital Evidence Preservation & Incident Reconstruction<br>
-  <i>"Time preserves the truth."</i>
+  <b>CHRONOVAULT</b> — Digital Evidence Vault & Incident Reconstruction<br>
+  <i>"Preserve Every Moment. Protect Every Trace."</i>
 </p>

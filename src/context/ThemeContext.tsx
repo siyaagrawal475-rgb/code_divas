@@ -13,7 +13,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('ht-theme') as Theme | null;
+      const stored = (localStorage.getItem('cv-theme') || localStorage.getItem('ht-theme')) as Theme | null;
       if (stored === 'dark' || stored === 'light') return stored;
       if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
     }
@@ -24,7 +24,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setThemeState(newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
     try {
-      localStorage.setItem('ht-theme', newTheme);
+      localStorage.setItem('cv-theme', newTheme);
     } catch {
       // ignore
     }
@@ -42,7 +42,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
     const handleChange = (e: MediaQueryListEvent) => {
-      const stored = localStorage.getItem('ht-theme');
+      const stored = localStorage.getItem('cv-theme') || localStorage.getItem('ht-theme');
       if (!stored) {
         setThemeState(e.matches ? 'light' : 'dark');
         document.documentElement.setAttribute('data-theme', e.matches ? 'light' : 'dark');

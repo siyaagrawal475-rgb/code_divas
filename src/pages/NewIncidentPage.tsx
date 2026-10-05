@@ -1,13 +1,24 @@
-// Screen 3: New Incident Wizard
-// Memorable element: The single quadrant-filling progress ring.
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIncidents } from '../context/IncidentContext';
 import { TimeSigil } from '../components/TimeSigil';
+import { Button } from '../components/Button';
 import { UploadDropzone } from '../components/UploadDropzone';
 import type { UploadedFileItem } from '../components/UploadDropzone';
 import type { IncidentType, Platform } from '../types';
+import {
+  UserX,
+  Sparkles,
+  Image as ImageIcon,
+  MessageSquareWarning,
+  Link2,
+  HelpCircle,
+  CheckCircle2,
+  ArrowRight,
+  ArrowLeft,
+  ShieldCheck,
+  Save,
+} from 'lucide-react';
 
 export const NewIncidentPage: React.FC = () => {
   const navigate = useNavigate();
@@ -30,10 +41,10 @@ export const NewIncidentPage: React.FC = () => {
   const [files, setFiles] = useState<UploadedFileItem[]>([]);
 
   const steps = [
-    { num: 1, label: 'What happened' },
-    { num: 2, label: 'Where you found it' },
-    { num: 3, label: 'What you know' },
-    { num: 4, label: 'Preserve evidence' },
+    { num: 1, label: 'Incident Classification' },
+    { num: 2, label: 'Platform & Location' },
+    { num: 3, label: 'Identity & Details' },
+    { num: 4, label: 'Evidence & Hashing' },
   ];
 
   const incidentOptions: {
@@ -43,66 +54,33 @@ export const NewIncidentPage: React.FC = () => {
   }[] = [
     {
       type: 'Impersonation',
-      desc: 'Someone is pretending to be you.',
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-      ),
+      desc: 'Cloned account pretending to be you or using your profile information.',
+      icon: <UserX size={20} className="text-[var(--accent)]" />,
     },
     {
       type: 'Deepfake or manipulation',
-      desc: 'A fake image, video or audio of you.',
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 12h20M12 2v20" />
-          <circle cx="12" cy="12" r="8" />
-        </svg>
-      ),
+      desc: 'Synthetically generated or edited photo, voice, or video clip.',
+      icon: <Sparkles size={20} className="text-[var(--accent)]" />,
     },
     {
       type: 'Image misuse',
-      desc: 'Your photos shared or edited without your consent.',
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <circle cx="8.5" cy="8.5" r="1.5" />
-          <path d="M21 15l-5-5L5 21" />
-        </svg>
-      ),
+      desc: 'Private photography shared without your consent or in unauthorized contexts.',
+      icon: <ImageIcon size={20} className="text-[var(--accent)]" />,
     },
     {
       type: 'Harassment',
-      desc: 'Threats or targeted abuse.',
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
-      ),
+      desc: 'Coordinated threats, intimidation, or abusive communications.',
+      icon: <MessageSquareWarning size={20} className="text-[var(--accent)]" />,
     },
     {
       type: 'Fake link or scam',
-      desc: 'A fraudulent link or account using your name.',
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-        </svg>
-      ),
+      desc: 'Phishing domain or fraudulent URL distributing your identity.',
+      icon: <Link2 size={20} className="text-[var(--accent)]" />,
     },
     {
       type: 'Other',
-      desc: "Anything that doesn't fit above.",
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="9" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
-      ),
+      desc: 'Any emerging abuse pattern not categorized above.',
+      icon: <HelpCircle size={20} className="text-[var(--accent)]" />,
     },
   ];
 
@@ -142,299 +120,283 @@ export const NewIncidentPage: React.FC = () => {
     });
 
     setIsProcessing(false);
-    navigate('/archive');
+    navigate(`/archive`);
   };
 
-  // 64px Progress Ring Arc Calculations
-  const radius = 26;
-  const strokeWidth = 2.5;
-  const circumference = 2 * Math.PI * radius;
-  const dashOffset = circumference - (currentStep / 4) * circumference;
-
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: '64px', alignItems: 'start' }}>
-      {/* LEFT COLUMN: 280px Progress Indicator & Steps */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-        {/* Small 64px Sigil-style Progress Ring */}
-        <div style={{ position: 'relative', width: '64px', height: '64px' }}>
-          <svg width="64" height="64" viewBox="0 0 64 64" style={{ transform: 'rotate(-90deg)' }}>
-            <circle
-              cx="32"
-              cy="32"
-              r={radius}
-              fill="none"
-              stroke="var(--hair)"
-              strokeWidth={strokeWidth}
-            />
-            <circle
-              cx="32"
-              cy="32"
-              r={radius}
-              fill="none"
-              stroke="var(--accent-text)"
-              strokeWidth={strokeWidth}
-              strokeDasharray={circumference}
-              strokeDashoffset={dashOffset}
-              strokeLinecap="round"
-              style={{ transition: 'stroke-dashoffset 400ms ease' }}
-            />
-          </svg>
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: '"JetBrains Mono", monospace', fontSize: '13px', color: 'var(--text)' }}>
-            0{currentStep}
-          </div>
+    <div className="space-y-8">
+      {/* Reassurance Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-[var(--panel)] border border-[var(--hair)] rounded-[var(--radius-sm)]">
+        <div className="flex items-center gap-2.5 text-[13px] text-[var(--text-secondary)]">
+          <ShieldCheck size={16} className="text-[var(--accent)] shrink-0" />
+          <span>
+            <strong>You can stop and come back anytime.</strong> All data is stored locally in your browser sandbox.
+          </span>
         </div>
-
-        {/* Step Names List */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {steps.map((s) => {
-            const isCurrent = currentStep === s.num;
-            const isDone = currentStep > s.num;
-
-            return (
-              <div
-                key={s.num}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  paddingLeft: isCurrent ? '10px' : '12px',
-                  borderLeft: isCurrent ? '2px solid var(--accent-text)' : 'none',
-                  color: isCurrent ? 'var(--text)' : isDone ? 'var(--accent-text)' : 'var(--muted)',
-                  fontSize: '15px',
-                  fontWeight: isCurrent ? 500 : 400,
-                  transition: 'color 160ms',
-                }}
-              >
-                {isDone ? (
-                  <span style={{ color: 'var(--accent-text)', fontSize: '14px', lineHeight: 1 }}>✓</span>
-                ) : (
-                  <span style={{ color: isCurrent ? 'var(--accent-text)' : 'var(--muted)', fontSize: '13px', fontFamily: '"JetBrains Mono", monospace' }}>
-                    0{s.num}
-                  </span>
-                )}
-                <span>{s.label}</span>
-              </div>
-            );
-          })}
+        <div className="flex items-center gap-1.5 text-[11px] font-mono text-[var(--muted)] shrink-0">
+          <Save size={12} className="text-[var(--accent)]" />
+          <span>Draft Auto-Saved</span>
         </div>
       </div>
 
-      {/* RIGHT COLUMN: Question & Ruled Form (max 640px) */}
-      <div style={{ maxWidth: '640px', width: '100%' }}>
-        {/* Processing Sealing State */}
-        {isProcessing ? (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '64px 0', gap: '24px', textAlign: 'center' }}>
-            <TimeSigil size={64} state="scanning" showClock={false} />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        {/* LEFT COLUMN: Stepper Progress Rail (4 cols on lg) */}
+        <div className="lg:col-span-4 bg-[var(--panel)] border border-[var(--hair)] rounded-[var(--radius-sm)] p-6 space-y-6">
+          <div className="flex items-center gap-3 border-b border-[var(--hair)] pb-4">
+            <TimeSigil size={36} speed="slow" showClock={false} />
             <div>
-              <h2 className="heading-2">Preserving incident</h2>
-              <p className="muted-text" style={{ marginTop: '8px' }}>
-                Computing cryptographic hashes and sealing evidence in local memory...
-              </p>
+              <div className="text-[11px] font-mono text-[var(--accent)] uppercase tracking-wider">
+                Intake Protocol
+              </div>
+              <div className="font-display text-base font-light text-[var(--text)]">
+                STEP 0{currentStep} OF 04
+              </div>
             </div>
           </div>
-        ) : (
-          <div>
-            {/* STEP 1: What happened? */}
-            {currentStep === 1 && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div>
-                  <h1 className="heading-1">What happened?</h1>
-                  <p className="muted-text" style={{ marginTop: '6px' }}>
-                    Choose the closest match. You can add detail later.
-                  </p>
+
+          <div className="space-y-3">
+            {steps.map((s) => {
+              const isCurrent = currentStep === s.num;
+              const isDone = currentStep > s.num;
+
+              return (
+                <div
+                  key={s.num}
+                  className={`flex items-center gap-3 p-3 rounded-[var(--radius-xs)] transition-all ${
+                    isCurrent
+                      ? 'bg-[var(--raised)] border-l-2 border-[var(--accent)] text-[var(--text)] shadow-[0_0_8px_var(--accent-glow)]'
+                      : isDone
+                      ? 'text-[var(--accent)] bg-[var(--bg)]/40'
+                      : 'text-[var(--muted)] opacity-60'
+                  }`}
+                >
+                  <span className="w-5 h-5 rounded-full flex items-center justify-center font-mono text-[11px] font-bold border border-current">
+                    {isDone ? '✓' : `0${s.num}`}
+                  </span>
+                  <span className="text-[13px] font-medium">{s.label}</span>
                 </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', borderTop: '1px solid var(--hair)' }}>
-                  {incidentOptions.map((opt) => {
-                    const isSelected = selectedType === opt.type;
-
-                    return (
-                      <button
-                        key={opt.type}
-                        type="button"
-                        onClick={() => setSelectedType(opt.type)}
-                        style={{
-                          height: '72px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '16px',
-                          padding: '0 16px',
-                          backgroundColor: isSelected ? 'var(--panel)' : 'transparent',
-                          border: 'none',
-                          borderBottom: '1px solid var(--hair)',
-                          borderLeft: isSelected ? '2px solid var(--accent-text)' : 'none',
-                          color: 'var(--text)',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                          transition: 'background-color 160ms',
-                        }}
-                      >
-                        <span style={{ color: isSelected ? 'var(--accent-text)' : 'var(--muted)', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-                          {opt.icon}
-                        </span>
-                        <div>
-                          <div style={{ fontWeight: 500, fontSize: '15px', color: 'var(--text)' }}>
-                            {opt.type}
-                          </div>
-                          <div style={{ fontSize: '13px', color: 'var(--muted)', marginTop: '2px' }}>
-                            {opt.desc}
-                          </div>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* STEP 2: Where did you find it? */}
-            {currentStep === 2 && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div>
-                  <h1 className="heading-1">Where did you find it?</h1>
-                  <p className="muted-text" style={{ marginTop: '6px' }}>
-                    Select the platform where the incident occurred.
-                  </p>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', borderTop: '1px solid var(--hair)' }}>
-                  {platforms.map((plat) => {
-                    const isSelected = selectedPlatform === plat;
-
-                    return (
-                      <button
-                        key={plat}
-                        type="button"
-                        onClick={() => setSelectedPlatform(plat)}
-                        style={{
-                          height: '56px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          padding: '0 16px',
-                          backgroundColor: isSelected ? 'var(--panel)' : 'transparent',
-                          border: 'none',
-                          borderBottom: '1px solid var(--hair)',
-                          borderLeft: isSelected ? '2px solid var(--accent-text)' : 'none',
-                          color: 'var(--text)',
-                          cursor: 'pointer',
-                          fontSize: '15px',
-                          transition: 'background-color 160ms',
-                        }}
-                      >
-                        <span>{plat}</span>
-                        {isSelected && <span style={{ color: 'var(--accent-text)' }}>✓</span>}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* STEP 3: What do you know? */}
-            {currentStep === 3 && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-                <div>
-                  <h1 className="heading-1">What do you know?</h1>
-                  <p className="muted-text" style={{ marginTop: '6px' }}>
-                    Add any specific identifiers you have right now.
-                  </p>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '13px', color: 'var(--muted)', marginBottom: '4px' }}>
-                      Account handle or username
-                    </label>
-                    <input
-                      type="text"
-                      value={accountHandle}
-                      onChange={(e) => setAccountHandle(e.target.value)}
-                      placeholder="@username"
-                      className="input-underline input-underline-mono"
-                    />
-                  </div>
-
-                  <div>
-                    <label style={{ display: 'block', fontSize: '13px', color: 'var(--muted)', marginBottom: '4px' }}>
-                      Content URL (if available)
-                    </label>
-                    <input
-                      type="url"
-                      value={contentUrl}
-                      onChange={(e) => setContentUrl(e.target.value)}
-                      placeholder="https://..."
-                      className="input-underline input-underline-mono"
-                    />
-                  </div>
-
-                  <div>
-                    <label style={{ display: 'block', fontSize: '13px', color: 'var(--muted)', marginBottom: '4px' }}>
-                      When you found it
-                    </label>
-                    <input
-                      type="text"
-                      value={discoveryDateTime}
-                      onChange={(e) => setDiscoveryDateTime(e.target.value)}
-                      className="input-underline input-underline-mono"
-                    />
-                  </div>
-
-                  <div>
-                    <label style={{ display: 'block', fontSize: '13px', color: 'var(--muted)', marginBottom: '4px' }}>
-                      Additional details (optional)
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={details}
-                      onChange={(e) => setDetails(e.target.value)}
-                      placeholder="What occurred, how you noticed it..."
-                      className="input-underline"
-                      style={{ resize: 'none' }}
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* STEP 4: Preserve evidence */}
-            {currentStep === 4 && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div>
-                  <h1 className="heading-1">Preserve evidence</h1>
-                  <p className="muted-text" style={{ marginTop: '6px' }}>
-                    Upload images, videos, logs or documents to create a cryptographic record.
-                  </p>
-                </div>
-
-                <UploadDropzone files={files} onFilesChange={setFiles} />
-              </div>
-            )}
-
-            {/* Actions Bar: Continue and Back */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginTop: '40px' }}>
-              {currentStep < 4 ? (
-                <button type="button" className="app-btn" onClick={handleNext}>
-                  Continue
-                </button>
-              ) : (
-                <button type="button" className="app-btn" onClick={handleSubmit}>
-                  Preserve incident
-                </button>
-              )}
-
-              {currentStep > 1 ? (
-                <button type="button" className="app-link" onClick={handleBack}>
-                  Back
-                </button>
-              ) : (
-                <button type="button" className="app-link" onClick={() => navigate('/chronicle')}>
-                  Cancel
-                </button>
-              )}
-            </div>
+              );
+            })}
           </div>
-        )}
+
+          <div className="pt-4 border-t border-[var(--hair)] text-[12px] text-[var(--muted)] leading-relaxed">
+            Need immediate reporting? You can also file directly on{' '}
+            <a href="https://cybercrime.gov.in" target="_blank" rel="noreferrer" className="text-[var(--accent)] underline">
+              cybercrime.gov.in
+            </a>
+            .
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: Form Questions (8 cols on lg) */}
+        <div className="lg:col-span-8 bg-[var(--panel)] border border-[var(--hair)] rounded-[var(--radius-sm)] p-6 sm:p-8 space-y-8">
+          {isProcessing ? (
+            <div className="py-16 flex flex-col items-center justify-center text-center space-y-6">
+              <TimeSigil size={80} state="scanning" speed="fast" ghostTrail />
+              <div className="space-y-2">
+                <h2 className="font-display text-2xl font-light text-[var(--text)]">
+                  SEALING EVIDENCE VAULT
+                </h2>
+                <p className="font-mono text-[13px] text-[var(--accent)]">
+                  Computing NIST SHA-256 cryptographic digests and locking audit coordinates...
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div>
+              {/* STEP 1: Classification */}
+              {currentStep === 1 && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="font-display text-2xl font-light text-[var(--text)]">
+                      WHAT OCCURRED?
+                    </h2>
+                    <p className="text-[14px] text-[var(--muted)] mt-1">
+                      Choose the closest incident match. You can refine this classification later.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {incidentOptions.map((opt) => {
+                      const isSelected = selectedType === opt.type;
+
+                      return (
+                        <button
+                          key={opt.type}
+                          type="button"
+                          onClick={() => setSelectedType(opt.type)}
+                          className={`p-4 rounded-[var(--radius-sm)] border text-left transition-all cursor-pointer flex flex-col justify-between gap-3 min-h-[96px] ${
+                            isSelected
+                              ? 'bg-[var(--raised)] border-[var(--accent)] shadow-[var(--spill-glow)]'
+                              : 'bg-[var(--bg)] border-[var(--hair)] hover:border-[var(--muted)]'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="p-2 rounded-[var(--radius-xs)] bg-[var(--panel)] border border-[var(--hair)]">
+                              {opt.icon}
+                            </span>
+                            {isSelected && (
+                              <CheckCircle2 size={16} className="text-[var(--accent)]" />
+                            )}
+                          </div>
+                          <div>
+                            <div className="text-[14px] font-semibold text-[var(--text)]">
+                              {opt.type}
+                            </div>
+                            <div className="text-[12px] text-[var(--muted)] mt-1 leading-snug">
+                              {opt.desc}
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* STEP 2: Platform */}
+              {currentStep === 2 && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="font-display text-2xl font-light text-[var(--text)]">
+                      WHERE WAS IT ENCOUNTERED?
+                    </h2>
+                    <p className="text-[14px] text-[var(--muted)] mt-1">
+                      Select the online platform or service where the malicious activity originated.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {platforms.map((plat) => {
+                      const isSelected = selectedPlatform === plat;
+
+                      return (
+                        <button
+                          key={plat}
+                          type="button"
+                          onClick={() => setSelectedPlatform(plat)}
+                          className={`p-4 rounded-[var(--radius-sm)] border text-center transition-all cursor-pointer min-h-[56px] flex items-center justify-center font-medium text-[14px] ${
+                            isSelected
+                              ? 'bg-[var(--raised)] border-[var(--accent)] text-[var(--accent)] shadow-[var(--spill-glow)]'
+                              : 'bg-[var(--bg)] border-[var(--hair)] text-[var(--text)] hover:border-[var(--muted)]'
+                          }`}
+                        >
+                          <span>{plat}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* STEP 3: Identifiers */}
+              {currentStep === 3 && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="font-display text-2xl font-light text-[var(--text)]">
+                      INCIDENT IDENTIFIERS
+                    </h2>
+                    <p className="text-[14px] text-[var(--muted)] mt-1">
+                      Provide handles, links, or timestamps to establish cryptographic provenance.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-[12px] font-mono text-[var(--muted)] uppercase mb-1.5">
+                        Suspect Handle / Username / Phone
+                      </label>
+                      <input
+                        type="text"
+                        value={accountHandle}
+                        onChange={(e) => setAccountHandle(e.target.value)}
+                        placeholder="@username or phone number"
+                        className="w-full p-3 bg-[var(--bg)] border border-[var(--hair)] rounded-[var(--radius-xs)] font-mono text-[14px] text-[var(--text)] focus:outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[12px] font-mono text-[var(--muted)] uppercase mb-1.5">
+                        Post / Profile URL (if active)
+                      </label>
+                      <input
+                        type="url"
+                        value={contentUrl}
+                        onChange={(e) => setContentUrl(e.target.value)}
+                        placeholder="https://platform.com/profile"
+                        className="w-full p-3 bg-[var(--bg)] border border-[var(--hair)] rounded-[var(--radius-xs)] font-mono text-[14px] text-[var(--text)] focus:outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[12px] font-mono text-[var(--muted)] uppercase mb-1.5">
+                        Date & Time Discovered (UTC)
+                      </label>
+                      <input
+                        type="text"
+                        value={discoveryDateTime}
+                        onChange={(e) => setDiscoveryDateTime(e.target.value)}
+                        className="w-full p-3 bg-[var(--bg)] border border-[var(--hair)] rounded-[var(--radius-xs)] font-mono text-[14px] text-[var(--accent-bright)] focus:outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[12px] font-mono text-[var(--muted)] uppercase mb-1.5">
+                        Summary of Occurrence (Optional)
+                      </label>
+                      <textarea
+                        rows={3}
+                        value={details}
+                        onChange={(e) => setDetails(e.target.value)}
+                        placeholder="Describe what occurred, any messages received, or actions taken..."
+                        className="w-full p-3 bg-[var(--bg)] border border-[var(--hair)] rounded-[var(--radius-xs)] text-[14px] text-[var(--text)] focus:outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* STEP 4: Evidence Upload */}
+              {currentStep === 4 && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="font-display text-2xl font-light text-[var(--text)]">
+                      PRESERVE EVIDENCE
+                    </h2>
+                    <p className="text-[14px] text-[var(--muted)] mt-1">
+                      Drop screenshots, recordings, exported chats, or headers. Hashes are computed client-side immediately.
+                    </p>
+                  </div>
+
+                  <UploadDropzone files={files} onFilesChange={setFiles} />
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between pt-8 border-t border-[var(--hair)]">
+                {currentStep > 1 ? (
+                  <Button variant="secondary" icon={<ArrowLeft size={16} />} onClick={handleBack}>
+                    Back
+                  </Button>
+                ) : (
+                  <Button variant="ghost" onClick={() => navigate('/chronicle')}>
+                    Cancel
+                  </Button>
+                )}
+
+                {currentStep < 4 ? (
+                  <Button variant="primary" icon={<ArrowRight size={16} />} onClick={handleNext}>
+                    Continue
+                  </Button>
+                ) : (
+                  <Button variant="primary" icon={<ShieldCheck size={16} />} onClick={handleSubmit}>
+                    Preserve & Seal Case
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
