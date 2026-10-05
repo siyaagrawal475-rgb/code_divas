@@ -1,5 +1,5 @@
-import { db, insertIncident, getAllIncidents } from './db.ts';
-import { INITIAL_INCIDENTS } from '../src/data/mock.ts';
+import { db, insertIncident } from './db';
+import { INITIAL_INCIDENTS } from '../src/data/mock';
 
 export function seedDatabaseIfNeeded(): void {
   const count = (db.prepare(`SELECT COUNT(*) as count FROM incidents`).get() as any)?.count || 0;
@@ -9,7 +9,7 @@ export function seedDatabaseIfNeeded(): void {
       insertIncident({
         ...incident,
         sealed: false,
-        evidenceItems: incident.evidenceItems.map((e) => ({
+        evidenceItems: incident.evidenceItems.map((e: any) => ({
           ...e,
           filePath: undefined,
           fileUrl: undefined,

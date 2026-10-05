@@ -27,3 +27,4 @@ dist-ssr
 server/data/*.db*
 server/uploads/*
 !server/uploads/.gitkeep
+.vercel

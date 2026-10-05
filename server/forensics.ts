@@ -1,4 +1,4 @@
-import type { DbEvidenceItem } from './db.ts';
+import type { DbEvidenceItem } from './db';
 
 export function calculateRisk(type: string, platform: string, evidenceCount: number): { score: number; level: 'HIGH' | 'MEDIUM' | 'LOW' } {
   let baseScore = 70;
@@ -39,7 +39,6 @@ export function calculateRisk(type: string, platform: string, evidenceCount: num
 }
 
 export function generateAiAnalysis(type: string, platform: string, handle: string, evidenceItems: DbEvidenceItem[], riskScore: number) {
-  const hasImages = evidenceItems.some((e) => e.previewType === 'image');
   const hasVideos = evidenceItems.some((e) => e.previewType === 'video');
 
   const indicators = [
@@ -193,8 +192,15 @@ export function generateDependencyGraph(handle: string, url: string, evidenceIte
   return { nodes, edges };
 }
 
-export function generateTimeline(type: string, platform: string, evidenceItems: DbEvidenceItem[], timestampUtc: string) {
-  const events = [
+export function generateTimeline(_type: string, platform: string, evidenceItems: DbEvidenceItem[], _timestampUtc: string) {
+  const events: Array<{
+    id: string;
+    time: string;
+    title: string;
+    description: string;
+    type: string;
+    evidenceRef?: string;
+  }> = [
     {
       id: `t-${Date.now()}-1`,
       time: '00:00 UTC',

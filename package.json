@@ -3,13 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
-    "dev": "concurrently -k -p \"[{name}]\" -n \"backend,frontend\" -c \"cyan,magenta\" \"node --experimental-strip-types server/index.ts\" \"vite\"",
+    "dev": "concurrently -k -p \"[{name}]\" -n \"backend,frontend\" -c \"cyan,magenta\" \"tsx server/index.ts\" \"vite\"",
     "dev:client": "vite",
-    "dev:server": "node --experimental-strip-types server/index.ts",
-    "server": "node --experimental-strip-types server/index.ts",
-    "build": "tsc -b && vite build",
-    "start": "node --experimental-strip-types server/index.ts",
+    "dev:server": "tsx server/index.ts",
+    "server": "tsx server/index.ts",
+    "build": "tsc -b && vite build && esbuild server/app.ts --bundle --platform=node --target=node24 --format=esm --packages=external --outfile=api/index.js",
+    "start": "tsx server/index.ts",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -36,6 +39,7 @@
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.6.1",
+    "esbuild": "^0.28.2",
     "oxlint": "^1.81.0",
     "postcss": "^8.5.28",
     "tailwindcss": "^4.3.3",

@@ -15,26 +15,28 @@ import {
   getStats,
   type DbIncident,
   type DbEvidenceItem,
-} from './db.ts';
+} from './db';
 import {
   calculateBufferSha256,
   generateDeterministicHash,
   generateAttestationSeal,
   formatBytes,
   getFilePreviewType,
-} from './crypto.ts';
+} from './crypto';
 import {
   calculateRisk,
   generateAiAnalysis,
   generateDependencyGraph,
   generateTimeline,
-} from './forensics.ts';
-import { generateReportDocument } from './reports.ts';
+} from './forensics';
+import { generateReportDocument } from './reports';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const UPLOADS_DIR = path.join(__dirname, 'uploads');
+const UPLOADS_DIR = process.env.VERCEL
+  ? path.join('/tmp', 'hertrace', 'uploads')
+  : path.join(__dirname, 'uploads');
 if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 }
@@ -107,7 +109,7 @@ apiRouter.get('/incidents', (req, res) => {
 // Get single incident
 apiRouter.get('/incidents/:id', (req, res) => {
   try {
-    const incident = getIncidentById(req.params.id);
+    const incident = getIncidentById(req.params.id as string);
     if (!incident) {
       return res.status(404).json({ error: `Incident ${req.params.id} not found` });
     }
@@ -246,7 +248,7 @@ apiRouter.post('/incidents', upload.array('files', 15), async (req, res) => {
 // Upload additional evidence to an existing incident
 apiRouter.post('/incidents/:id/evidence', upload.array('files', 10), (req, res) => {
   try {
-    const incident = getIncidentById(req.params.id);
+    const incident = getIncidentById(req.params.id as string);
     if (!incident) {
       return res.status(404).json({ error: `Incident ${req.params.id} not found` });
     }
@@ -293,7 +295,7 @@ apiRouter.post('/incidents/:id/evidence', upload.array('files', 10), (req, res) 
     });
 
     // Re-evaluate analysis and graph with updated evidence
-    const updated = getIncidentById(req.params.id)!;
+    const updated = getIncidentById(req.params.id as string)!;
     const { nodes, edges } = generateDependencyGraph(updated.accountHandle, updated.contentUrl, updated.evidenceItems);
     const analysis = generateAiAnalysis(updated.type, updated.platform, updated.accountHandle, updated.evidenceItems, updated.riskScore);
     const updatedTimeline = [
@@ -312,7 +314,7 @@ apiRouter.post('/incidents/:id/evidence', upload.array('files', 10), (req, res) 
     res.status(201).json({
       message: `Preserved ${addedItems.length} artifact(s)`,
       evidence: addedItems,
-      incident: getIncidentById(req.params.id),
+      incident: getIncidentById(req.params.id as string),
     });
   } catch (err: any) {
     res.status(500).json({ error: err.message || 'Failed to upload evidence' });
@@ -322,7 +324,7 @@ apiRouter.post('/incidents/:id/evidence', upload.array('files', 10), (req, res) 
 // Seal and cryptographically attest incident
 apiRouter.post('/incidents/:id/seal', (req, res) => {
   try {
-    const incident = getIncidentById(req.params.id);
+    const incident = getIncidentById(req.params.id as string);
     if (!incident) {
       return res.status(404).json({ error: `Incident ${req.params.id} not found` });
     }
@@ -362,7 +364,7 @@ apiRouter.post('/incidents/:id/seal', (req, res) => {
 // Re-run AI analysis on an incident
 apiRouter.post('/incidents/:id/reanalyze', (req, res) => {
   try {
-    const incident = getIncidentById(req.params.id);
+    const incident = getIncidentById(req.params.id as string);
     if (!incident) {
       return res.status(404).json({ error: `Incident ${req.params.id} not found` });
     }
@@ -387,7 +389,7 @@ apiRouter.post('/incidents/:id/reanalyze', (req, res) => {
 // Download or view formal forensic report
 apiRouter.get('/incidents/:id/report', (req, res) => {
   try {
-    const incident = getIncidentById(req.params.id);
+    const incident = getIncidentById(req.params.id as string);
     if (!incident) {
       return res.status(404).json({ error: `Incident ${req.params.id} not found` });
     }
@@ -415,12 +417,12 @@ apiRouter.get('/incidents/:id/report', (req, res) => {
 // Delete incident
 apiRouter.delete('/incidents/:id', (req, res) => {
   try {
-    const incident = getIncidentById(req.params.id);
+    const incident = getIncidentById(req.params.id as string);
     if (!incident) {
       return res.status(404).json({ error: `Incident ${req.params.id} not found` });
     }
 
-    deleteIncident(req.params.id);
+    deleteIncident(req.params.id as string);
     res.json({ success: true, message: `Incident ${req.params.id} removed from vault` });
   } catch (err: any) {
     res.status(500).json({ error: err.message || 'Failed to delete incident' });
@@ -428,7 +430,7 @@ apiRouter.delete('/incidents/:id', (req, res) => {
 });
 
 // Get all evidence items across all incidents
-apiRouter.get('/evidence', (req, res) => {
+apiRouter.get('/evidence', (_req, res) => {
   try {
     const evidence = getAllEvidence();
     res.json(evidence);

@@ -1,5 +1,5 @@
-import type { DbIncident } from './db.ts';
-import { generateAttestationSeal } from './crypto.ts';
+import type { DbIncident } from './db';
+import { generateAttestationSeal } from './crypto';
 
 export function generateReportDocument(incident: DbIncident): string {
   const sealStatus = incident.sealed
