@@ -138,26 +138,26 @@ The visual language is an original, forensic-grade interpretation of the **Time 
 
 ---
 
-## 📸 Screenshots / Demo Images
+## 📸 Screenshots / Demo Images (Dark Mode)
 
-### 1. Landing & Entry Portal (`/`)
-*Centered Time Stone-inspired concentric motif with intro sequence and instant case intake routing.*
+### 1. `01_landing_entry.png` — Landing & Entry Portal with Time Sigil Motif
+*Full Dark Mode: Centered Time Stone-inspired concentric motif with intro sequence, sacred geometry, and instant case intake routing.*
 
-![CHRONOVAULT Landing Entry](screenshots/01_landing_entry.png)
-
----
-
-### 2. Chronicle Dashboard (`/chronicle`)
-*Real-time case telemetry, risk scoring breakdown, active incident tracker, and dense audit table.*
-
-![CHRONOVAULT Chronicle Dashboard](screenshots/02_chronicle_dashboard.png)
+![Landing & Entry Portal with Time Sigil Motif](screenshots/01_landing_entry.png)
 
 ---
 
-### 3. Calm Incident Intake Wizard (`/incident/new`)
-*4-step guided intake with client-side SHA-256 calculation and drag-and-drop evidence dropzone.*
+### 2. `02_chronicle_dashboard.png` — Chronicle Case Ledger & Telemetry
+*Full Dark Mode: Real-time case telemetry, risk scoring breakdown, active incident tracker, watch bezel ticks, and dense audit table.*
 
-![CHRONOVAULT Incident Intake Wizard](screenshots/03_intake_wizard.png)
+![Chronicle Case Ledger & Telemetry](screenshots/02_chronicle_dashboard.png)
+
+---
+
+### 3. `03_intake_wizard.png` — 4-Step Intake Stepper & Evidence Dropzone
+*Full Dark Mode: 4-step guided intake with client-side SHA-256 calculation, reassurance microcopy, and drag-and-drop evidence vault.*
+
+![4-Step Intake Stepper & Evidence Dropzone](screenshots/03_intake_wizard.png)
 
 ---
 
